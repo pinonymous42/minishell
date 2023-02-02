@@ -32,10 +32,6 @@ int main(int argc, char *argv[])
 	argVec[2] = "goodbye";
 	argVec[3] = NULL;
 
-	//execve関数の引数
-	/*
-
-	*/
 	execve(argv[1], argVec, envVec);
 	exit(EXIT_SUCCESS);
 }
