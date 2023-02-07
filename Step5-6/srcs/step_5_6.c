@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   step5.c                                            :+:      :+:    :+:   */
+/*   step_5_6.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:17:01 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/06 17:09:33 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:34:45 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "step_5_6.h"
+#include "../includes/step_5_6.h"
 
 void fatal_error(const char *msg) __attribute__((noreturn));
 void err_exit(const char *location, const char *msg, int status) __attribute__((noreturn));
