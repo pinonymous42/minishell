@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   destructer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 17:33:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/09 23:37:16 by yokitaga         ###   ########.fr       */
+/*   Created: 2023/02/07 17:33:46 by yokitaga          #+#    #+#             */
+/*   Updated: 2023/02/09 11:42:02 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/step_5_6.h"
 
-void fatal_error(const char *msg)
+void free_all_token(t_token *token)
 {
-    dprintf(STDERR_FILENO, "Fatal Error: %s\n", msg);
-    exit(EXIT_FAILURE);
+    if (token == NULL)
+        return ;
+    if (token->word != NULL)
+        free(token->word);
+    free_all_token(token->next);
+    free(token);
 }
 
-void	err_exit(const char *location, const char *msg, int status)
+void free_argv(char **argv)
 {
-	dprintf(STDERR_FILENO, "minishell: %s: %s\n", location, msg);
-	exit(status);
-}
+    size_t  i;
 
-void	assert_error(const char *msg)
-{
-	dprintf(STDERR_FILENO, "Assert Error: %s\n", msg);
-	exit(255);
-}
-
-void	todo(const char *msg)
-{
-	dprintf(STDERR_FILENO, "TODO: %s\n", msg);
-	exit(255);
+    if (argv == NULL)
+        return ;
+    i = 0;
+    while (argv[i] != NULL)
+    {
+        free(argv[i]);
+        i++;
+    }
+    free(argv);
 }
