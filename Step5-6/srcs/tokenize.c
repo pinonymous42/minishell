@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:58 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/08 21:16:26 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:10:29 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool    is_blank(char c)
 
 bool    consume_blank(char **rest, char *line)
 {
-    if (is_space(*line) == true)
+    if (is_blank(*line) == true)
     {
         while (*line != '\0' && is_blank(*line) == true)
             line++;
@@ -74,7 +74,7 @@ bool is_operator(const char *s)
     static char *const operators[] = {"||", "&", "&&", ";", ";;", "(", ")", "|", "\n"};
     size_t  i = 0;
 
-    while (i < sizeof(operators) / sizeof(*operators));
+    while (i < sizeof(operators) / sizeof(*operators))
     {
         if (startswith(s, operators[i]))
             return (true);
@@ -200,9 +200,24 @@ t_token *tokenize(char *line)
     return (head.next);
 }
 
+char	**tail_recursive(t_token *token, int nargs, char **argv)
+{
+	if (token == NULL || token->kind == TK_EOF)
+		return (argv);
+	argv = reallocf(argv, (nargs + 2) * sizeof(char *));
+	argv[nargs] = strdup(token->word);
+	if (argv[nargs] == NULL)
+		fatal_error("strdup");
+	argv[nargs + 1] = NULL;
+	return (tail_recursive(token->next, nargs + 1, argv));
+}
 
+char	**token_list_to_argv(t_token *token)
+{
+	char	**argv;
 
-
-
-
-
+	argv = calloc(1, sizeof(char *));
+	if (argv == NULL)
+		fatal_error("calloc");
+	return (tail_recursive(token, 0, argv));
+}
