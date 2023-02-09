@@ -1,7 +1,7 @@
 NAME		= minishell
 CC	 		= cc 
 INCLUDES	= -I includes
-CFLAGS		= -Wall -Wextra -Werror $(INCLUDES)
+CFLAGS		= -Wall -Wextra -Werror -fsanitize=address -g $(INCLUDES)
 LIBS		= -lreadline
 SRCS		= srcs/main.c \
 				srcs/error.c \

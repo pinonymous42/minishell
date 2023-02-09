@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:58 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/09 12:10:29 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/09 23:05:30 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token *new_token(char *word, t_token_kind kind)
 
 bool    is_blank(char c)
 {
-    if (c == 32 || c == 9 || c == 10)
+    if (c == ' ' || c == '\t' || c == '\n')
         return (true);
     else
         return (false);
@@ -107,7 +107,7 @@ DEFINITIONS
 */
 bool is_metacharacter(char c)
 {
-    if (c != 0 && strchr("|&;()<>\t\n", c) != NULL)
+    if (c != 0 && strchr("|&;()<> \t\n", c) != NULL)
         return (true);
     else
         return (false);
@@ -163,7 +163,7 @@ t_token *word(char **rest, char *line)
     const char  *start = line;
     char        *word;
 
-    while (*line != '\0' && is_metacharacter(*line))
+    while (*line != '\0' && is_metacharacter(*line) == false)
         line++;
     word = strndup(start, line - start);
     if (word == NULL)
@@ -184,15 +184,9 @@ t_token *tokenize(char *line)
         if (consume_blank(&line, line) == true)
             continue;
         else if (is_operator(line) == true)
-        {
-            token = operator(&line, line);
-            token = token->next;
-        }
+            token = token->next = operator(&line, line);
         else if (is_word(line) == true)
-        {
-            token = word(&line, line);
-            token = token->next;
-        }
+            token = token->next = word(&line, line);
         else
             assert_error("Unexpected Token");
     }

@@ -6,19 +6,11 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:17:01 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/09 11:56:45 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/09 22:38:05 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/step_5_6.h"
-
-void	validate_access(const char *path, const char *filename)
-{
-	if (path == NULL)
-		err_exit(filename, "command not found", 127);
-	if (access(path, F_OK) < 0)
-		err_exit(filename, "command not found", 127);
-}
 
 char *search_path(const char *filename)
 {
@@ -66,6 +58,14 @@ char *search_path(const char *filename)
     return (NULL);
 }
 
+void	validate_access(const char *path, const char *filename)
+{
+	if (path == NULL)
+		err_exit(filename, "command not found", 127);
+	if (access(path, F_OK) < 0)
+		err_exit(filename, "command not found", 127);
+}
+
 int	exec(char *argv[])
 {
 	extern char	**environ;
@@ -111,8 +111,8 @@ void    interpret(char *line, int *stat_loc)
 
 int main(void)
 {
-    int status;
-    char *line;
+    int     status;
+    char    *line;
     
     rl_outstream = stderr;
     status = 0;
