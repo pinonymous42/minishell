@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:58 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 16:35:30 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:20:10 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,27 +169,31 @@ t_token *word(char **rest, char *line)
 		{
 			// skip quote
 			line++;
-			while (*line != SINGLE_QUOTE)
-			{
-				if (*line == '\0')
-					todo("Unclosed single quote");
+			while (*line && *line != SINGLE_QUOTE)
 				line++;
+			if (*line == '\0')
+			{
+				tokenize_error("Unclosed single quote", &line, line);
+				break ;
 			}
 			// skip quote
-			line++;
+            else
+			    line++;
 		}
         else if (*line == DOUBLE_QUOTE)
 		{
 			// skip quote
 			line++;
-			while (*line != DOUBLE_QUOTE)
-			{
-				if (*line == '\0')
-					todo("Unclosed double quote");
+			while (*line && *line != DOUBLE_QUOTE)
 				line++;
+			if (*line == '\0')
+			{
+				tokenize_error("Unclosed double quote", &line, line);
+				break ;
 			}
 			// skip quote
-			line++;
+            else
+			    line++;
 		}
 		else
 			line++;
@@ -206,6 +210,7 @@ t_token *tokenize(char *line)
     t_token head;
     t_token *token;
 
+    syntax_error = false;
     head.next = NULL;
     token = &head;
     while(*line != '\0')
@@ -217,7 +222,7 @@ t_token *tokenize(char *line)
         else if (is_word(line) == true)
             token = token->next = word(&line, line);
         else
-            assert_error("Unexpected Token");
+            tokenize_error("Unexpected Token", &line, line);
     }
     token->next = new_token(NULL, TK_EOF);
     return (head.next);

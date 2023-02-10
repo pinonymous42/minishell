@@ -6,11 +6,13 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/09 23:37:16 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:23:29 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/step_5_6.h"
+
+bool	syntax_error = false;
 
 void fatal_error(const char *msg)
 {
@@ -34,4 +36,13 @@ void	todo(const char *msg)
 {
 	dprintf(STDERR_FILENO, "TODO: %s\n", msg);
 	exit(255);
+}
+
+void tokenize_error(const char *location, char **rest, char *line)
+{
+	syntax_error = true;
+	dprintf(STDERR_FILENO, "minishell: syntax error near %s\n", location);
+	while (*line)
+		line++;
+	*rest = line;
 }

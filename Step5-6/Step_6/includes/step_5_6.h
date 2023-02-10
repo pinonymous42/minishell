@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:18:59 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 16:31:13 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:23:08 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@
 # define DOUBLE_QUOTE '"'
 
 //error.c
+# define ERROR_TOKENIZE 258
+extern bool	syntax_error;
 void	fatal_error(const char *msg) __attribute__((noreturn));
 void	assert_error(const char *msg) __attribute__((noreturn));
 void	err_exit(const char *location, const char *msg, int status) __attribute__((noreturn));
 void	todo(const char *msg) __attribute__((noreturn));
+void	tokenize_error(const char *location, char **rest, char *line);
 
 //tokenize.c
 typedef struct s_token		t_token;

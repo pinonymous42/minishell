@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:17:01 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 00:33:53 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:22:05 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void    interpret(char *line, int *stat_loc)
 	token = tokenize(line);
     if (token->kind == TK_EOF)
         ;
+    else if (syntax_error)
+        *stat_loc = ERROR_TOKENIZE;
     else
     {
         expand(token);
