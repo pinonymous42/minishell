@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:46:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 22:57:28 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/11 00:19:15 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ t_node *parse(t_token *token)
     while (token != NULL && at_eof(token) == false)
     {
         if (token->kind == TK_WORD)
+        {
             append_token(&node->args, tokendup(token));
+            token = token->next;
+        }
         else
-            todo("Implement parser");
-        token = token->next;
+            parse_error("Unexpected Token", &token, token);
     }
     return(node);
 }

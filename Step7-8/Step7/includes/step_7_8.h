@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:47:37 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 23:41:38 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 23:58:31 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define STEP_7_8_H
 
 # include "step_5_6.h"
+
+# define ERROR_PARSE 258
 
 enum e_node_kind{
     ND_SIMPLE_CMD,
@@ -28,6 +30,10 @@ struct s_node{
 };
 
 void	free_node(t_node *node);
+
+//error.c
+void	parse_error(const char *location, t_token **rest, t_token *tok);
+void	xperror(const char *location);
 
 // parse.c
 t_node	*parse(t_token *tok);

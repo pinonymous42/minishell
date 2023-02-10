@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:18:59 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 23:17:54 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 23:54:37 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 
 //error.c
 # define ERROR_TOKENIZE 258
+
 extern bool	syntax_error;
+
 void	fatal_error(const char *msg) __attribute__((noreturn));
 void	assert_error(const char *msg) __attribute__((noreturn));
 void	err_exit(const char *location, const char *msg, int status) __attribute__((noreturn));
