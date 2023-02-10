@@ -6,11 +6,11 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:58 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 17:20:10 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 23:25:05 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/step_5_6.h"
+#include "../includes/step_7_8.h"
 
 t_token *new_token(char *word, t_token_kind kind)
 {

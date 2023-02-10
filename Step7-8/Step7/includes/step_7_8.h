@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:47:37 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 17:48:33 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 23:41:38 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,25 @@
 
 # include "step_5_6.h"
 
+enum e_node_kind{
+    ND_SIMPLE_CMD,
+};
+typedef enum e_node_kind t_node_kind;
+
+typedef struct s_node   t_node;
+struct s_node{
+    t_token *args;
+    t_node_kind kind;
+    t_node  *next;
+};
+
+void	free_node(t_node *node);
+
+// parse.c
+t_node	*parse(t_token *tok);
+bool	at_eof(t_token *tok);
+t_node	*new_node(t_node_kind kind);
+void	append_token(t_token **tokens, t_token *tok);
+t_token	*tokendup(t_token *tok);
 
 #endif

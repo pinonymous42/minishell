@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:18:59 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 17:23:08 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 23:17:54 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ void free_argv(char **argv);
 //expand.c
 void	append_char(char **s, char c);
 void    quote_removal(t_token *token);
-void    expand(t_token *token);
+void    expand(t_node *node);
 
 #endif

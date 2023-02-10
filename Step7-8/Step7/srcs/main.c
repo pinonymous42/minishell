@@ -6,11 +6,11 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:17:01 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 17:22:05 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 23:38:38 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/step_5_6.h"
+#include "../includes/step_7_8.h"
 
 char *search_path(const char *filename)
 {
@@ -96,6 +96,7 @@ void    interpret(char *line, int *stat_loc)
 {
     t_token	*token;
 	char	**argv;
+    t_node  *node;
 
 	token = tokenize(line);
     if (token->kind == TK_EOF)
@@ -104,10 +105,12 @@ void    interpret(char *line, int *stat_loc)
         *stat_loc = ERROR_TOKENIZE;
     else
     {
-        expand(token);
-        argv = token_list_to_argv(token);
+        node = parse(token);
+        expand(node);
+        argv = token_list_to_argv(node->args);
         *stat_loc = exec(argv);
         free_argv(argv);
+        free_node(node);
     }
 	free_all_token(token);
 }

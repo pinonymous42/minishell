@@ -6,11 +6,11 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 23:57:42 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 16:34:36 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 23:35:07 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/step_5_6.h"
+# include "../includes/step_7_8.h"
 
 void	append_char(char **s, char c)
 {
@@ -77,7 +77,15 @@ void    quote_removal(t_token *token)
     quote_removal(token->next);
 }
 
-void    expand(t_token *token)
+void	expand_quote_removal(t_node *node)
 {
-    quote_removal(token);
+	if (node == NULL)
+		return ;
+	quote_removal(node->args);
+	expand_quote_removal(node->next);
+}
+
+void	expand(t_node *node)
+{
+	expand_quote_removal(node);
 }

@@ -6,11 +6,20 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:46 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/09 11:42:02 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 23:24:24 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/step_5_6.h"
+#include "../includes/step_7_8.h"
+
+void	free_node(t_node *node)
+{
+	if (node == NULL)
+		return ;
+	free_tok(node->args);
+	free_node(node->next);
+	free(node);
+}
 
 void free_all_token(t_token *token)
 {

@@ -6,11 +6,11 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 17:23:29 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/10 23:24:34 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/step_5_6.h"
+#include "../includes/step_7_8.h"
 
 bool	syntax_error = false;
 
