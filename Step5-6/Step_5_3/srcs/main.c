@@ -1,39 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Step4.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 12:03:35 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/06 15:34:09 by yokitaga         ###   ########.fr       */
+/*   Created: 2023/02/06 16:17:01 by yokitaga          #+#    #+#             */
+/*   Updated: 2023/02/10 00:33:53 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "step1_4.h"
-
-void fatal_error(const char *msg) __attribute__((noreturn));
-void err_exit(const char *location, const char *msg, int status) __attribute__((noreturn));
-
-void fatal_error(const char *msg)
-{
-    dprintf(STDERR_FILENO, "Fatal Error: %s\n", msg);
-    exit(EXIT_FAILURE);
-}
-
-void	err_exit(const char *location, const char *msg, int status)
-{
-	dprintf(STDERR_FILENO, "minishell: %s: %s\n", location, msg);
-	exit(status);
-}
-
-void	validate_access(const char *path, const char *filename)
-{
-	if (path == NULL)
-		err_exit(filename, "command not found", 127);
-	if (access(path, F_OK) < 0)
-		err_exit(filename, "command not found", 127);
-}
+#include "../includes/step_5_6.h"
 
 char *search_path(const char *filename)
 {
@@ -81,6 +58,14 @@ char *search_path(const char *filename)
     return (NULL);
 }
 
+void	validate_access(const char *path, const char *filename)
+{
+	if (path == NULL)
+		err_exit(filename, "command not found", 127);
+	if (access(path, F_OK) < 0)
+		err_exit(filename, "command not found", 127);
+}
+
 int	exec(char *argv[])
 {
 	extern char	**environ;
@@ -107,19 +92,28 @@ int	exec(char *argv[])
 		return (WEXITSTATUS(wstatus));
 	}
 }
-int	interpret(char *const line)
+void    interpret(char *line, int *stat_loc)
 {
-	int		status;
-	char	*argv[] = {line, NULL};
+    t_token	*token;
+	char	**argv;
 
-	status = exec(argv);
-	return (status);
+	token = tokenize(line);
+    if (token->kind == TK_EOF)
+        ;
+    else
+    {
+        expand(token);
+        argv = token_list_to_argv(token);
+        *stat_loc = exec(argv);
+        free_argv(argv);
+    }
+	free_all_token(token);
 }
 
 int main(void)
 {
-    int status;
-    char *line;
+    int     status;
+    char    *line;
     
     rl_outstream = stderr;
     status = 0;
@@ -130,10 +124,8 @@ int main(void)
             break;
         if (*line)
             add_history(line);
-        status = interpret(line);
+        interpret(line, &status);
         free(line);
     }
     exit(status);
 }
-
-

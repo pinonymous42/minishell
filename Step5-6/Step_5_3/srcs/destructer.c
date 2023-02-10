@@ -1,25 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   step1_4.h                                          :+:      :+:    :+:   */
+/*   destructer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/05 22:30:37 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/06 15:27:15 by yokitaga         ###   ########.fr       */
+/*   Created: 2023/02/07 17:33:46 by yokitaga          #+#    #+#             */
+/*   Updated: 2023/02/09 11:42:02 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../includes/step_5_6.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <limits.h>
+void free_all_token(t_token *token)
+{
+    if (token == NULL)
+        return ;
+    if (token->word != NULL)
+        free(token->word);
+    free_all_token(token->next);
+    free(token);
+}
 
-# include <string.h>
+void free_argv(char **argv)
+{
+    size_t  i;
 
-#endif
+    if (argv == NULL)
+        return ;
+    i = 0;
+    while (argv[i] != NULL)
+    {
+        free(argv[i]);
+        i++;
+    }
+    free(argv);
+}
