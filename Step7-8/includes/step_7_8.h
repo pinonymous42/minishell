@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:47:37 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 23:58:31 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/13 00:03:50 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,10 @@ bool	at_eof(t_token *tok);
 t_node	*new_node(t_node_kind kind);
 void	append_token(t_token **tokens, t_token *tok);
 t_token	*tokendup(t_token *tok);
+
+//expand.c
+void	append_char(char **s, char c);
+void    quote_removal(t_token *token);
+void    expand(t_node *node);
 
 #endif
