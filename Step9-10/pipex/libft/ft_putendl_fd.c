@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_main.c                                           :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 17:41:54 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/11 17:49:47 by yokitaga         ###   ########.fr       */
+/*   Created: 2022/10/10 19:13:41 by kohmatsu          #+#    #+#             */
+/*   Updated: 2022/10/23 23:04:28 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "libft.h"
 
-int main(int argc, char *argv[], char **envp)
+void	ft_putendl_fd(char *s, int fd)
 {
-    
-    return (0);   
+	ft_putstr_fd(s, fd);
+	if (s != NULL)
+		write(fd, "\n", 1);
 }
+
+// #include <stdio.h>
+// int main(void)
+// {
+// 	int fd = 1;
+// 	char *s = "abc";
+// 	ft_putendl_fd(s, fd);
+// 	return (0);
+// }

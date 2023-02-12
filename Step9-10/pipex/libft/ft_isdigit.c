@@ -1,12 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 17:42:50 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/11 17:42:51 by yokitaga         ###   ########.fr       */
+/*   Created: 2022/10/04 21:24:03 by kohmatsu          #+#    #+#             */
+/*   Updated: 2022/10/18 14:32:37 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
+int	ft_isdigit(int c)
+{
+	return ('0' <= c && c <= '9');
+}
+
+// #include <stdio.h>
+// int main(void)
+// {
+// 	int a = '0';
+// 	printf("%d", ft_isdigit(a));
+// 	return (0);
+// }
