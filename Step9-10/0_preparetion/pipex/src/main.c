@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matsushimakouhei <matsushimakouhei@stud    +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 00:04:47 by matsushimak       #+#    #+#             */
-/*   Updated: 2023/02/12 13:09:51 by matsushimak      ###   ########.fr       */
+/*   Updated: 2023/02/12 23:43:42 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void    dopipes(int i, t_info *info)
             perror("fork");
             exit(1);
         }
-        if (ret == 0)
+        if (ret == 0) //子プロセス
         {
             close(pipefd[0]);
             dup2(pipefd[1], STDOUT);
