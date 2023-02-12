@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:18:59 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 23:54:37 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/13 00:04:31 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,5 @@ char	**token_list_to_argv(t_token *token);
 // destructor.c
 void free_all_token(t_token *token);
 void free_argv(char **argv);
-
-//expand.c
-void	append_char(char **s, char c);
-void    quote_removal(t_token *token);
-void    expand(t_node *node);
 
 #endif

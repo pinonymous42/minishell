@@ -7,6 +7,7 @@ SRCS		= srcs/main.c \
 				srcs/error.c \
 				srcs/tokenize.c \
 				srcs/destructer.c \
+				srcs/parse.c \
 				srcs/expand.c
 
 OBJS		= $(SRCS:%.c=%.o)
