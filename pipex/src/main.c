@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matsushimakouhei <matsushimakouhei@stud    +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 00:04:47 by matsushimak       #+#    #+#             */
-/*   Updated: 2023/02/12 13:09:51 by matsushimak      ###   ########.fr       */
+/*   Updated: 2023/02/13 11:02:58 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
