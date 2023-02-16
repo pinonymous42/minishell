@@ -6,12 +6,22 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:17:01 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/13 11:41:17 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/14 22:59:14 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/step_7_8.h"
+#include "../includes/step_9_10.h"
 
+/*
+メモ：char *search_path(const char *filename)関数は
+松島氏作成のdopipesの中の
+while (access(exe_path, X_OK))
+    {
+        exe_path = make_exepath((info->path)[index], (info->cmd)[info->argc - i - 1][0]);
+        index++;
+    }
+の部分をやってる
+*/
 char *search_path(const char *filename)
 {
     char path[PATH_MAX];
@@ -66,12 +76,13 @@ void	validate_access(const char *path, const char *filename)
 		err_exit(filename, "command not found", 127);
 }
 
-int	exec(char *argv[])
+int	exec_cmd(t_node *node)
 {
 	extern char	**environ;
-	const char	*path = argv[0];
+    char        *path;
 	pid_t		pid;
 	int			wstatus;
+    char        **argv;
 
     pid = fork();
 	if (pid < 0)
@@ -79,7 +90,9 @@ int	exec(char *argv[])
 	else if (pid == 0)
 	{
 		// child process
-		if (strchr(path, '/') == NULL)
+        argv = token_list_to_argv(node->args);
+        path = argv[0];
+        if (strchr(path, '/') == NULL)
 			path = search_path(path);
 		validate_access(path, argv[0]);
 		execve(path, argv, environ);
@@ -93,24 +106,38 @@ int	exec(char *argv[])
 	}
 }
 
+int	exec(t_node *node)
+{
+	int	status;
+	
+    if (open_redir_file(node->redirects) < 0)
+		return (ERROR_OPEN_REDIR);
+	do_redirect(node->redirects);
+	status = exec_cmd(node);
+	reset_redirect(node->redirects);
+	return (status);
+}
+
 void    interpret(char *line, int *stat_loc)
 {
     t_token	*token;
-	char	**argv;
     t_node  *node;
 
 	token = tokenize(line);
-    if (token->kind == TK_EOF)
+    if (at_eof(token) == true)
         ;
     else if (syntax_error)
         *stat_loc = ERROR_TOKENIZE;
     else
     {
         node = parse(token);
-        expand(node);
-        argv = token_list_to_argv(node->args);
-        *stat_loc = exec(argv);
-        free_argv(argv);
+        if (syntax_error)
+			*stat_loc = ERROR_PARSE;
+		else
+		{
+			expand(node);
+			*stat_loc = exec(node);
+		}
         free_node(node);
     }
 	free_all_token(token);
