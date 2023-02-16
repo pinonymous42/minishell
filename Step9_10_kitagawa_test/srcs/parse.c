@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:46:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/16 20:09:59 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:23:19 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,23 @@ t_node	*redirect_in(t_token **rest, t_token *token)
 t_node	*redirect_append(t_token **rest, t_token *token)
 {
 	t_node	*node;
-
+    
 	node = new_node(ND_REDIR_APPEND);
 	node->filename = tokendup(token->next);
 	node->targetfd = STDOUT_FILENO;
 	*rest = token->next->next;
 	return (node);
+}
+
+t_node *redirect_heredoc(t_token **rest, t_token *token)
+{
+    t_node *node;
+
+    node = new_node(ND_REDIR_HEREDOC);
+    node->delimiter = tokendup(token->next);
+    node->targetfd = STDIN_FILENO;
+    *rest = token->next->next;
+    return (node);
 }
 
 void append_command_element(t_node *command, t_token **rest, t_token *token)
@@ -69,6 +80,8 @@ void append_command_element(t_node *command, t_token **rest, t_token *token)
         append_node(&command->redirects, redirect_in(&token, token));
     else if (equal_op(token, ">>") && token->next->kind == TK_WORD)
         append_node(&command->redirects, redirect_append(&token, token));
+    else if (equal_op(token, "<<") && token->next->kind == TK_WORD)
+        append_node(&command->redirects, redirect_heredoc(&token, token));
     else
 		todo("append_command_element");
     *rest = token;

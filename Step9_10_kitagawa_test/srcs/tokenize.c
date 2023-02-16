@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:58 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/15 00:24:22 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/16 22:45:34 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ bool is_word(const char *s)
 */
 t_token *operator(char **rest, char *line)
 {
-    static char *const operators[] = {">", "<", ">>", "<<", "||", "&", "&&", ";", ";;", "(", ")", "|", "\n"};
+    static char *const operators[] = {">>", "<<", ">", "<", "||", "&", "&&", ";", ";;", "(", ")", "|", "\n"};
     size_t  i = 0;
     char    *op;
 

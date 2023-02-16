@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:44:49 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/16 20:02:19 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:19:18 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ enum e_node_kind{
 	ND_REDIR_OUT,
 	ND_REDIR_IN,
 	ND_REDIR_APPEND,
+	ND_REDIR_HEREDOC,
 };
 
 typedef enum e_node_kind t_node_kind;
@@ -71,6 +72,7 @@ struct s_node{
 	//REDIR
 	int		targetfd;
 	t_token	*filename;
+	t_token *delimiter;
 	int		filefd;
 	int		stashed_targetfd;
 };
