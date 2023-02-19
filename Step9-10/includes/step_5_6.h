@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   step_5_6.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:18:59 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/10 23:54:37 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/14 13:14:06 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	tokenize_error(const char *location, char **rest, char *line);
 //tokenize.c
 typedef struct s_token		t_token;
 enum e_token_kind {
-	TK_WORD,
-	TK_RESERVED,
-	TK_OP,
-	TK_EOF,
+	TK_WORD,//単語
+	TK_RESERVED,//予約後
+	TK_OP,//演算子
+	TK_EOF,//終端
 };
 typedef enum e_token_kind	t_token_kind;
 
@@ -50,7 +50,7 @@ struct s_token {
 t_token *new_token(char *word, t_token_kind kind);
 bool    is_blank(char c);
 bool    consume_blank(char **rest, char *line);
-bool 	startswith(const char *s, const char *keyword);
+bool	startswith(const char *s, const char *keyword);
 bool 	is_operator(const char *s);
 bool 	is_metacharacter(char c);
 bool 	is_word(const char *s);
@@ -66,9 +66,9 @@ char	**token_list_to_argv(t_token *token);
 void free_all_token(t_token *token);
 void free_argv(char **argv);
 
-//expand.c
-void	append_char(char **s, char c);
-void    quote_removal(t_token *token);
-void    expand(t_node *node);
+// //expand.c
+// void	append_char(char **s, char c);
+// void    quote_removal(t_token *token);
+// void    expand(t_node *node);
 
 #endif
