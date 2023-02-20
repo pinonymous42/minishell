@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/20 16:27:56 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:39:51 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void tokenize_error(const char *location, char **rest, char *line)
 	*rest = line;
 }
 
+/*
 void	parse_error(const char *location, t_token **rest, t_token *tok)
 {
 	syntax_error = true;
@@ -68,6 +69,7 @@ void	parse_error(const char *location, t_token **rest, t_token *tok)
 		tok = tok->next;
 	*rest = tok;
 }
+*/
 
 void	xperror(const char *location)
 {

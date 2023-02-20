@@ -1,6 +1,6 @@
 NAME = minishell
 SRCDIR = ./srcs/
-SRCS = destructer.c error.c expand.c main.c parse.c pipe.c tokenize.c
+SRCS = destructer.c error.c expand.c main.c pipe.c tokenize.c
 
 CC = gcc
 CFLAGS = -lreadline
@@ -37,4 +37,7 @@ fclean	:	clean
 
 re:	fclean all
 
+test: all
+	./test.sh
+	
 .PHONY:		all clean fclean re

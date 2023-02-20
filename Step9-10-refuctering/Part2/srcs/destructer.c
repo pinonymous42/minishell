@@ -6,12 +6,13 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:46 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/20 16:27:53 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:47:45 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/step_9_10.h"
 
+/*
 void	free_node(t_node *node)
 {
 	if (node == NULL)
@@ -20,6 +21,7 @@ void	free_node(t_node *node)
 	free_node(node->next);
 	free(node);
 }
+*/
 
 void free_all_token(t_token *token)
 {

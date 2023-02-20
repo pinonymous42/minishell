@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:17:01 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/20 18:04:00 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:45:02 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ int count_argv(char **argv)
     }
     return (len);
 }
+
 void    interpret(char *line, int *stat_loc)
 {
     t_token	*token;
 	char	**argv;
-    t_node  *node;
+    //t_node  *node;
     int     argc;
 
 	token = tokenize(line);
@@ -44,13 +45,11 @@ void    interpret(char *line, int *stat_loc)
         *stat_loc = ERROR_TOKENIZE;
     else
     {
-        node = parse(token);
-        expand(node);
-        argv = token_list_to_argv(node->args);
+        expand_quote_removal(token);
+        argv = token_list_to_argv(token);
         argc = count_argv(argv);
         *stat_loc = pipex(argc, argv);
         free_argv(argv);
-        free_node(node);
     }
 	free_all_token(token);
 }

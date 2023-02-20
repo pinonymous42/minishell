@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:52:47 by matsushimak       #+#    #+#             */
-/*   Updated: 2023/02/20 15:29:00 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:40:06 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,33 +43,27 @@
 # define ERROR_PARSE 258
 # define ERROR_OPEN_REDIR 1
 
-typedef struct s_token		t_token;
-enum e_token_kind {
+typedef enum e_token_kind{
 	TK_WORD,
 	TK_RESERVED, 
 	TK_OP,
 	TK_EOF,
-};
+}t_token_kind;
 
-typedef enum e_token_kind	t_token_kind;
+typedef struct s_token t_token;
 
-struct s_token {
+struct s_token{
 	char			*word;
 	t_token_kind	kind;
 	t_token			*next;
 };
 
-enum e_node_kind{
+typedef enum e_node_kind{
     ND_SIMPLE_CMD,
-	ND_REDIR_OUT,
-	ND_REDIR_IN,
-	ND_REDIR_APPEND,
-	ND_REDIR_HEREDOC,
-};
+}t_node_kind;
 
-typedef enum e_node_kind t_node_kind;
+typedef struct s_node t_node;
 
-typedef struct s_node   t_node;
 struct s_node{
     t_node_kind kind;
     t_node  *next;
@@ -103,7 +97,7 @@ typedef struct s_info{
 // destructor.c
 void    free_all_token(t_token *token);
 void    free_argv(char **argv);
-void    free_node(t_node *node);
+//void    free_node(t_node *node);
 
 //error.c
 extern bool	syntax_error;
@@ -113,14 +107,16 @@ void	assert_error(const char *msg) __attribute__((noreturn));
 void	err_exit(const char *location, const char *msg, int status) __attribute__((noreturn));
 void	todo(const char *msg) __attribute__((noreturn));
 void	tokenize_error(const char *location, char **rest, char *line);
-void	parse_error(const char *location, t_token **rest, t_token *tok);
+//void	parse_error(const char *location, t_token **rest, t_token *tok);
 void	xperror(const char *location);
 
 //expand.c
 void	append_char(char **s, char c);
 void    quote_removal(t_token *token);
-void	expand_quote_removal(t_node *node);
-void    expand(t_node *node);
+//void	expand_quote_removal(t_node *node);
+//void  expand(t_node *node);
+void	expand_quote_removal(t_token *token);
+void    expand(t_token *token);
 
 //parse.c
 bool	at_eof(t_token *tok);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 23:57:42 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/21 00:36:42 by yokitaga         ###   ########.fr       */
+/*   Created: 2023/02/21 00:13:12 by yokitaga          #+#    #+#             */
+/*   Updated: 2023/02/21 00:13:31 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,25 +79,11 @@ void    quote_removal(t_token *token)
     quote_removal(token->next);
 }
 
-void	expand_quote_removal(t_token *token)
-{
-	if (token == NULL)
-		return ;
-	quote_removal(token);
-}
-
-/*
-void	expand(t_token *token)
-{
-	expand_quote_removal(token);
-}
-*/
-/*
 void	expand_quote_removal(t_node *node)
 {
 	if (node == NULL)
 		return ;
-	quote_removal(token);
+	quote_removal(node->args);
 	expand_quote_removal(node->next);
 }
 
@@ -105,4 +91,3 @@ void	expand(t_node *node)
 {
 	expand_quote_removal(node);
 }
-*/
