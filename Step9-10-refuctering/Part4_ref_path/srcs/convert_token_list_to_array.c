@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:12:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/22 18:27:21 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/22 19:13:45 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**tail_recursive(t_token *token, int nargs, char **array)
 {
 	if (token == NULL || token->kind == TOKEN_EOF)
 		return (array);
-	array = reallocf(array, (nargs + 2) * sizeof(char *));
+	array = reallocf(array, (nargs + 2) * sizeof(char *)); //修正必要
 	array[nargs] = ft_strdup(token->word);
 	if (array[nargs] == NULL)
 		function_error("strdup");

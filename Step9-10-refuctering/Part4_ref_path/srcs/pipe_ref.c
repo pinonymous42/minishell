@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:43 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/22 18:39:24 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/23 00:07:52 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@ void    safty_free(char **str)
     int i;
 
     i = 0;
-    // printf("%s, %d\n", __FILE__, __LINE__);
     while (str[i])
     {
         free(str[i]);
         i++;
     }
-    // printf("%s, %d\n", __FILE__, __LINE__);
     free(str);
     str = NULL;
 }
@@ -63,32 +61,18 @@ void    make_info_argv(t_info *info, int end, int start, int part)
     int pipe_index;
     char    **tmp;
     int argv_index;
-
-    // while (*(info->cmd))
-    // {
-    //     printf("%s\n", *(info->cmd));
-    //     info->cmd++;
-    // }
-    // exit(1);
+    
     argv_index = 0;
-    // printf("%s, %d\n", __FILE__, __LINE__);
-    // printf("%d, %d\n", end, start);
     if (info->argv && (part == LEFT || part == MID))
         safty_free(info->argv);
-    // printf("%s, %d\n", __FILE__, __LINE__);
-    // if (strchr("<>", info->cmd[0][0]))
     pipe_index = start + 1;
-    // else
-    //     pipe_index = 0;
-    // printf("%d, %d, %d\n", end, start, pipe_index);
     info->argv_count = end - start + count_splitable(info, pipe_index, end);
-    // printf("|%d|\n", info->argv_count);
-    // printf("%s, %d\n", __FILE__, __LINE__);
     info->argv = (char **)malloc(sizeof(char *) * (info->argv_count));
     if (info->argv == NULL)
         function_error("malloc1");
     while (pipe_index < end)
     {
+        /*
         if (ft_strchr(info->cmd[pipe_index], ' '))
         {
             tmp = ft_split(info->cmd[pipe_index], ' ');
@@ -102,13 +86,15 @@ void    make_info_argv(t_info *info, int end, int start, int part)
             }
             safty_free(tmp);
         }
+        
         else
         {
-            info->argv[argv_index] = ft_strdup(info->cmd[pipe_index]);
-            if (!info->argv[argv_index])
-                function_error("strdup");
-            argv_index++;
-        }
+        */
+        info->argv[argv_index] = ft_strdup(info->cmd[pipe_index]);
+        if (!info->argv[argv_index])
+            function_error("strdup");
+        argv_index++;
+        //}
         pipe_index++;
     }
     info->argv[argv_index] = NULL;
@@ -286,7 +272,6 @@ void    check_redirect(t_info *info)
     {
         if (ft_strncmp((info->argv)[i], "<<", 2) == 0)
         {
-            // printf("%s, %d\n", __FILE__, __LINE__);
             do_heredoc(info, i);
             continue;
         }
@@ -302,29 +287,14 @@ void    check_redirect(t_info *info)
         }
         else if (*(info->argv)[i] == '>')
         {
-            // printf("%s, %d\n", __FILE__, __LINE__);
             do_output(info, i);
             continue;
         }
-        // printf("|%d|\n", i);
-        // printf("|%c|\n", *(info->argv)[i]);
-        // int j = 0;
-        // printf("-------------------------\n");
-        // while ((info->argv)[j])
-        // {
-        //     printf("%s\n", (info->argv)[j]);
-        //     j++;
-        // }
-        // exit(1);
         i++;
-    } 
-    // while (*(info->argv))
-    // {
-    //     printf("%s\n", *(info->argv));
-    //     (info->argv)++;
-    // }
-    // exit(1);
+    }
 }
+
+
 
 void    dopipes(int i, t_info *info)
 {
@@ -337,31 +307,29 @@ void    dopipes(int i, t_info *info)
     index = 0;
     if (info->pipe_count == i)//一番左のコマンド
     {
-        // printf("%s, %d\n", __FILE__, __LINE__);
         if (info->pipe_count != 0)
             make_info_argv(info, info->pipe_place[i - 1], -1, LEFT);
         else
             make_info_argv(info, info->argc, -1, LEFT);
-        // printf("%s, %d\n", __FILE__, __LINE__);
-        // while (*(info->argv))
-        // {
-        //     printf("%s\n", *(info->argv));
-        //     info->argv++;
-        // }
-        // exit(1);
         /////////////////////////////////////////////////////////////////////////////////////実行コマンド作成
         check_redirect(info);
-        // printf("%s, %d\n", __FILE__, __LINE__);
         while (access(exe_path, X_OK))
         {
-            exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+            if (ft_strchr(info->argv[0], '/') == NULL)
+                exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+            else
+                exe_path = info->argv[0];
             index++;
         }
+        if (exe_path == NULL)
+            err_exit(info->argv[0], "command not found", 127);
+        if (access(exe_path, F_OK) < 0)
+            err_exit(info->argv[0], "command not found", 127);
         execve(exe_path, info->argv, info->envp);
+        function_error("execve");
     }
     else if (i == 0)//一番右のコマンド
     {
-        // printf("%s, %d\n", __FILE__, __LINE__);
         make_info_argv(info, info->argc, info->pipe_place[0], RIGHT);
         /////////////////////////////////////////////////////////////////////////////////////実行コマンド作成
         check_redirect(info);
@@ -385,10 +353,18 @@ void    dopipes(int i, t_info *info)
             close(pipefd[0]);
             while (access(exe_path, X_OK))
             {
-                exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+                if (ft_strchr(info->argv[0], '/') == NULL)
+                    exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+                else
+                    exe_path = info->argv[0];
                 index++;
             }
+            if (exe_path == NULL)
+                err_exit(info->argv[0], "command not found", 127);
+            if (access(exe_path, F_OK) < 0)
+                err_exit(info->argv[0], "command not found", 127);
             execve(exe_path, info->argv, info->envp);
+            function_error("execve");
         }
     }
     else//それ以外の場所
@@ -416,13 +392,57 @@ void    dopipes(int i, t_info *info)
             close(pipefd[0]);
             while (access(exe_path, X_OK))
             {
-                exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+                if (ft_strchr(info->argv[0], '/') == NULL)
+                    exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+                else
+                    exe_path = info->argv[0];
                 index++;
             }
+            if (exe_path == NULL)
+                err_exit(info->argv[0], "command not found", 127);
+            if (access(exe_path, F_OK) < 0)
+                err_exit(info->argv[0], "command not found", 127);
             execve(exe_path, info->argv, info->envp);
+            function_error("execve");
         }
     }
-   
+}
+
+int    multiple_pipes(t_info *info)
+{
+    pid_t   ret;
+    int     wstatus;
+
+    if ((ret = fork()) == -1)
+    {
+        perror("fork");
+        exit(1);
+    }
+    else if (ret == 0)
+        dopipes(0, info);
+    else
+    {
+        wait(&wstatus);
+        return (WEXITSTATUS(wstatus));
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+int count_pipe(t_info *info)
+{
+    int count;
+    int i;
+
+    i = 0;
+    count = 0;
+    while (info->cmd[i])
+    {
+        if (info->cmd[i][0] == '|' && ft_strlen(info->cmd[i]) == 1)
+            count++;
+        i++;
+    }
+    return (count);
 }
 
 char    **make_path_list(char **envp)
@@ -433,58 +453,6 @@ char    **make_path_list(char **envp)
         envp++;
     pointer_path = ft_strchr(*envp, '=');
     return (ft_split(pointer_path + 1, ':'));
-}
-
-int    multiple_pipes(t_info *info)
-{
-    pid_t   ret;
-    int     wstatus;
-
-    // printf("%s\n", info->argv[0]);
-
-    if ((ret = fork()) == -1)
-    {
-        perror("fork");
-        exit(1);
-    }
-    else if (ret == 0)
-    {
-        // printf("%s, %d\n", __FILE__, __LINE__);
-        dopipes(0, info);
-    }
-    else
-    {
-        wait(&wstatus);
-            return (WEXITSTATUS(wstatus));
-    }
-    // while (*info->argv)
-    //     {
-    //         printf("%s\n", *info->argv);
-    //         info->argv++;
-    //     }
-    // printf("%s\n", info->argv[0]);
-    // printf("%s\n", info->argv[1]);
-    // exit(1);
-}
-
-int count_pipe(t_info *info)
-{
-    int count;
-    int i;
-
-    i = 0;
-    count = 0;
-    // printf("%s, %d\n", __FILE__, __LINE__);
-    while (info->cmd[i])
-    {
-        // printf("%s, %d\n", __FILE__, __LINE__);
-        // printf("%c\n", info->cmd[i][0]);
-        if (info->cmd[i][0] == '|' && ft_strlen(info->cmd[i]) == 1)
-            count++;
-        i++;
-    }
-    // printf("%s, %d\n", __FILE__, __LINE__);
-    return (count);
 }
 
 int *place_pipe(t_info *info)
@@ -506,18 +474,12 @@ int *place_pipe(t_info *info)
         function_error("malloc7");
     i = info->argc - 1;
     j = 0;
-    // ret[j++] = 0;
-    // ret[info->pipe_count + 1] = info->argc - 1;
     while (i >= 0)
     {
         if (*(info->cmd[i]) == '|' && ft_strlen(info->cmd[i]) == 1)
-        // {
             ret[j++] = i;
-            // printf("%d, %d\n", i, j);  
-        // }
         i--;
     }
-    // exit(1);
     return (ret);
 }
 
@@ -527,23 +489,16 @@ void    info_init(t_info *info, int argc, char **argv)
 
     info->input_fd = 0;
     info->output_fd = 0;
-    // cmdcount(&argc, argv);
-    info->argc = argc;//cmdの数
-    // printf("|%d|\n", argc);  
+    info->argc = argc;//cmdの数  
     info->argv = NULL;   
     info->cmd = argv;
     info->pipe_count = count_pipe(info);
     info->path = make_path_list(environ);
     info->envp = environ;
     info->pipe_place = place_pipe(info);
-    // int i = 0;
-    // while (i < info->pipe_count)
-    // {
-    //     printf("%d\n", info->pipe_place[i]);
-    //     i++;
-    // }
-    // exit(1);
 }
+
+/*---------------------------------------------------------------*/
 
 void    finish(t_info *info)
 {
@@ -555,22 +510,10 @@ int pipex(int argc, char **argv)
 {
     t_info  info;
     int     i;
-    int			wstatus;
+    int		wstatus;
     
     info_init(&info, argc, argv);
-    // printf("%d\n", info.pipe_count);
-    // exit(1);
-    // printf("%s, %d\n", __FILE__, __LINE__);
     wstatus = multiple_pipes(&info);
-    // printf("%s, %d\n", __FILE__, __LINE__);
-    // i = 0;
-    // while (info.cmd[i])
-    // {
-    //     printf("%s\n", info.cmd[i]);
-    //     i++;
-    // }
-    // printf("%d\n", info.argc);
-    // exit(1);
     finish(&info);
     return (wstatus);
 }
