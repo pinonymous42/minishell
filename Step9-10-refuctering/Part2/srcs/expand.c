@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 23:57:42 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/21 00:36:42 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/22 00:38:36 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void    quote_removal(t_token *token)
     char *new_word;
     char *p;
     
-    if (token == NULL || (token->kind != TK_WORD && token->kind != TK_OP) || token->word == NULL)
+    if (token == NULL || (token->kind != WORD && token->kind != CONTROL_OP) || token->word == NULL)
         return ;
     p = token->word;
     new_word = NULL;

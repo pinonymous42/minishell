@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_ref.c                                         :+:      :+:    :+:   */
+/*   destructer_ref.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/20 23:51:06 by yokitaga         ###   ########.fr       */
+/*   Created: 2023/02/22 01:40:47 by yokitaga          #+#    #+#             */
+/*   Updated: 2023/02/22 18:19:38 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/step_9_10.h"
+#include "../includes/minishell.h"
 
-int main(void)
+void	free_token(t_token *token)
 {
-    int status;
-    char *line;
+	if (token == NULL)
+		return ;
+	if (token->word)
+		free(token->word);
+	free_token(token->next);
+	free(token);
+}
 
-    rl_outstream = stderr; //ここ必要かあとで検討
-    status = 0;
-    while (1)
-    {
-        line = readline("minishell$ ");
-        if (line == NULL)
-            break;
-        if (*line != '\0')
-            add_history(line);
-        process_line(line, &status);
-        free(line);
-    }
-    exit(status);
+void	free_array(char **array)
+{
+	int	i;
+
+	if (array == NULL)
+		return ;
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }

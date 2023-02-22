@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/21 00:39:51 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/22 00:44:54 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	todo(const char *msg)
 
 void tokenize_error(const char *location, char **rest, char *line)
 {
-	syntax_error = true;
+	//syntax_error = true;
 	perror_prefix();
 	dprintf(STDERR_FILENO, "syntax error near unexpected character `%c' in %s\n", *line, location);
 	while (*line)

@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:52:47 by matsushimak       #+#    #+#             */
-/*   Updated: 2023/02/21 00:40:06 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/22 00:56:28 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@
 # define ERROR_TOKENIZE 258
 # define ERROR_PARSE 258
 # define ERROR_OPEN_REDIR 1
+
+/*
+typedef enum e_token_kind{
+	WORD,
+	//RESERED,
+    METACHAR,
+	CONTROL_OP,
+	TK_EOF,
+}t_token_kind;
+*/
 
 typedef enum e_token_kind{
 	TK_WORD,
@@ -130,10 +140,12 @@ t_token *new_token(char *word, t_token_kind kind);
 bool    is_blank(char c);
 bool    consume_blank(char **rest, char *line);
 bool 	startswith(const char *s, const char *keyword);
-bool 	is_operator(const char *s);
+//bool 	is_operator(const char *s);
 bool 	is_metacharacter(char c);
+bool 	is_control_operator(const char *s);
 bool 	is_word(const char *s);
 t_token *operator(char **rest, char *line);
+t_token *control_operator(char **rest, char *line);
 t_token *word(char **rest, char *line);
 t_token *tokenize(char *line);
 char	**tail_recursive(t_token *token, int nargs, char **argv);

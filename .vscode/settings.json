@@ -2,7 +2,8 @@
     "files.associations": {
         "fcntl.h": "c",
         "step_11.h": "c",
-        "step_9_10.h": "c"
+        "step_9_10.h": "c",
+        "minishell.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

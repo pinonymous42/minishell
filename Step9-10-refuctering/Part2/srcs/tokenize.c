@@ -6,11 +6,25 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:58 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/20 16:50:49 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/22 00:56:53 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/step_9_10.h"
+
+/*
+t_token *create_new_token(char *word, t_token_kind kind)
+{
+    t_token *new_token;
+    
+    new_token = ft_calloc(1, sizeof(*new_token));
+    if (new_token == NULL)
+        fatal_error("ft_calloc");
+    new_token->word = word;
+    new_token->kind = kind;
+    return(new_token);
+}
+*/
 
 t_token *new_token(char *word, t_token_kind kind)
 {
@@ -33,6 +47,15 @@ bool    is_blank(char c)
         return (false);
 }
 
+/*
+void skip_blank(char **rest, char *line)
+{
+    while (*line != '\0' && is_blank(*line) == true)
+        line++;
+    *rest = line;
+}
+*/
+
 bool    consume_blank(char **rest, char *line)
 {
     if (is_blank(*line) == true)
@@ -45,6 +68,8 @@ bool    consume_blank(char **rest, char *line)
     *rest = line;
     return (false);
 }
+
+
 
 bool startswith(const char *s, const char *keyword)
 {
@@ -76,13 +101,65 @@ bool is_metacharacter(char c)
         return (false);
 }
 
-bool is_word(const char *s)
+/*
+t_token *metacharcter(char **rest, char *line)
 {
-    if (*s != '\0' && is_metacharacter(*s) == false)
-        return (true);
-    else
-        return (false);
+    static char *const operators[] = {">>", "<<", "|", "&", ";", "(", ")", "<", ">","\n"};
+    size_t  i = 0;
+    char    *op;
+
+    while (i < sizeof(operators) / sizeof(*operators))
+    {
+        if(startswith(line, operators[i]) == true)
+        {
+            op = strdup(operators[i]);
+            if (op == NULL)
+                fatal_error("strdup");
+            *rest = line + strlen(op);
+            return (create_new_token(op, METACHAR));
+        }
+        i++;
+    }
+    assert_error("Unexpected operator");
 }
+*/
+
+bool is_control_operator(const char *s)
+{
+    static char *const operators[] = {"||", "&", "&&", ";", ";;", "(", ")", "|", "\n"};
+    size_t  i = 0;
+
+    while (i < sizeof(operators) / sizeof(*operators))
+    {
+        if (startswith(s, operators[i]))
+            return (true);
+        i++;
+    }
+    return (false);
+}
+
+/*
+t_token *control_operator(char **rest, char *line)
+{
+    static char *const operators[] = {"||", "&", "&&", ";", ";;", "(", ")", "|", "\n"};
+    size_t  i = 0;
+    char    *op;
+
+    while (i < sizeof(operators) / sizeof(*operators))
+    {
+        if(startswith(line, operators[i]) == true)
+        {
+            op = strdup(operators[i]);
+            if (op == NULL)
+                fatal_error("strdup");
+            *rest = line + strlen(op);
+            return (create_new_token(op, CONTROL_OP));
+        }
+        i++;
+    }
+    assert_error("Unexpected operator");
+}
+*/
 
 t_token *operator(char **rest, char *line)
 {
@@ -106,6 +183,16 @@ t_token *operator(char **rest, char *line)
     }
     assert_error("Unexpected operator");
 }
+
+
+bool is_word(const char *s)
+{
+    if (*s != '\0' && is_metacharacter(*s) == false)
+        return (true);
+    else
+        return (false);
+}
+
 
 t_token *word(char **rest, char *line)
 {
@@ -153,6 +240,48 @@ t_token *word(char **rest, char *line)
     *rest = line;
     return (new_token(word, TK_WORD));
 }
+
+/*
+t_token *tokenize(char *line, bool *syntax_error_flag)
+{
+    t_token *head;
+    t_token *token;
+    t_token *new_token;
+    
+    head->next = NULL;
+    token = head;
+    while (*line != '\0')
+    {
+        if (is_blank(*line) == true)
+            skip_blank(&line, line);
+        else if (is_metacharacter(*line) == true)
+        {
+            new_token = metacharcter(&line, line);
+            token->next = new_token;
+            token = token->next;
+        }
+        else if (is_control_operator(line) == true)
+        {
+            new_token = control_operator(&line, line);
+            token->next = new_token;
+            token = token->next;
+        }
+        else if (is_word(line) == true)
+        {
+            new_token = word(&line, line);
+            token->next = new_token;
+            token = token->next;
+        }
+        else
+        {
+            *syntax_error_flag = true;
+            tokenize_error("Unexpected Token", &line, line);
+        }
+    }
+    token->next = create_new_token(NULL, TK_EOF);
+    return (head->next);
+}
+*/
 
 t_token *tokenize(char *line)
 {
