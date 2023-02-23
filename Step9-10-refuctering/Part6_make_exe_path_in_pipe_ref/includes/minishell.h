@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/22 18:42:02 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:45:15 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_info{
     char    **cmd;//実行コマンド(全部)
     char    **argv;//実行コマンド(部分的)
     int     argv_count;//実行コマンドの数(部分的)
-    char    **path;//search path
+    //char    **path;//search path
     char    **envp;//環境変数
     int     *pipe_place;//pipeの位置インデックス
     // char    *heredoc_str;

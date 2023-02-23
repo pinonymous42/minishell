@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:43 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/23 02:03:54 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:47:04 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,38 @@ char    *make_exepath(char *path, char *command)
     free(tmp);
     return (exe_path);
 }
+
+char	*search_path(const char *filename)
+{
+	char	path[PATH_MAX];
+	char	*value;
+	char	*end;
+	value = getenv("PATH");
+	while (*value)
+	{
+		bzero(path, PATH_MAX);
+		end = strchr(value, ':');
+		if (end)
+			strncpy(path, value, end - value);
+		else
+			strlcpy(path, value, PATH_MAX);
+		strlcat(path, "/", PATH_MAX);
+		strlcat(path, filename, PATH_MAX);
+		if (access(path, X_OK) == 0)
+		{
+			char	*dup;
+			dup = strdup(path);
+			if (dup == NULL)
+				function_error("strdup");
+			return (dup);
+		}
+		if (end == NULL)
+			return (NULL);
+		value = end + 1;
+	}
+	return (NULL);
+}
+
 
 int count_splitable(t_info *info, int start, int end)
 {
@@ -312,6 +344,10 @@ void    dopipes(int i, t_info *info)
             make_info_argv(info, info->argc, -1, LEFT);
         /////////////////////////////////////////////////////////////////////////////////////実行コマンド作成
         check_redirect(info);
+        exe_path = info->argv[0];
+        if (ft_strchr(exe_path, '/') == NULL)
+            exe_path = search_path(exe_path);
+        /*
         while (access(exe_path, X_OK))
         {
             if (ft_strchr(info->argv[0], '/') == NULL)
@@ -320,6 +356,7 @@ void    dopipes(int i, t_info *info)
                 exe_path = info->argv[0];
             index++;
         }
+        */
         if (exe_path == NULL)
             err_exit(info->argv[0], "command not found", 127);
         if (access(exe_path, X_OK) < 0)
@@ -350,6 +387,10 @@ void    dopipes(int i, t_info *info)
             close(pipefd[1]);
             dup2(pipefd[0], STDIN);
             close(pipefd[0]);
+            exe_path = info->argv[0];
+            if (ft_strchr(exe_path, '/') == NULL)
+                exe_path = search_path(exe_path);
+            /*
             while (access(exe_path, X_OK))
             {
                 if (ft_strchr(info->argv[0], '/') == NULL)
@@ -358,6 +399,7 @@ void    dopipes(int i, t_info *info)
                     exe_path = info->argv[0];
                 index++;
             }
+            */
             if (exe_path == NULL)
                 err_exit(info->argv[0], "command not found", 127);
             if (access(exe_path, X_OK) < 0)
@@ -389,6 +431,10 @@ void    dopipes(int i, t_info *info)
             close(pipefd[1]);
             dup2(pipefd[0], STDIN);
             close(pipefd[0]);
+            exe_path = info->argv[0];
+            if (ft_strchr(exe_path, '/') == NULL)
+                exe_path = search_path(exe_path);
+            /*
             while (access(exe_path, X_OK))
             {
                 if (ft_strchr(info->argv[0], '/') == NULL)
@@ -397,6 +443,7 @@ void    dopipes(int i, t_info *info)
                     exe_path = info->argv[0];
                 index++;
             }
+            */
             if (exe_path == NULL)
                 err_exit(info->argv[0], "command not found", 127);
             if (access(exe_path, X_OK) < 0)
@@ -444,7 +491,7 @@ int count_pipe(t_info *info)
     }
     return (count);
 }
-
+/*
 char    **make_path_list(char **envp)
 {
     char    *pointer_path;
@@ -454,6 +501,7 @@ char    **make_path_list(char **envp)
     pointer_path = ft_strchr(*envp, '=');
     return (ft_split(pointer_path + 1, ':'));
 }
+*/
 
 int *place_pipe(t_info *info)
 {
@@ -493,7 +541,7 @@ void    info_init(t_info *info, int argc, char **argv)
     info->argv = NULL;   
     info->cmd = argv;
     info->pipe_count = count_pipe(info);
-    info->path = make_path_list(environ);
+    //info->path = make_path_list(environ);
     info->envp = environ;
     info->pipe_place = place_pipe(info);
 }
@@ -502,7 +550,7 @@ void    info_init(t_info *info, int argc, char **argv)
 
 void    finish(t_info *info)
 {
-    safty_free(info->path);
+    //safty_free(info->path);
     free(info->pipe_place);
 }
 

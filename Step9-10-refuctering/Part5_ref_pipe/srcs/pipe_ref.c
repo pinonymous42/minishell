@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:43 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/23 02:03:54 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:41:59 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void    make_info_argv(t_info *info, int end, int start, int part)
     info->argv[argv_index] = NULL;
 }
 
+/*ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー*/
 void    do_input(t_info *info, int i)
 {
     char    **tmp;
@@ -292,8 +293,7 @@ void    check_redirect(t_info *info)
         i++;
     }
 }
-
-
+/*ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー*/
 
 void    dopipes(int i, t_info *info)
 {
@@ -312,6 +312,8 @@ void    dopipes(int i, t_info *info)
             make_info_argv(info, info->argc, -1, LEFT);
         /////////////////////////////////////////////////////////////////////////////////////実行コマンド作成
         check_redirect(info);
+        exe_path = info->argv[0];
+        
         while (access(exe_path, X_OK))
         {
             if (ft_strchr(info->argv[0], '/') == NULL)
@@ -320,6 +322,7 @@ void    dopipes(int i, t_info *info)
                 exe_path = info->argv[0];
             index++;
         }
+        
         if (exe_path == NULL)
             err_exit(info->argv[0], "command not found", 127);
         if (access(exe_path, X_OK) < 0)
@@ -350,6 +353,7 @@ void    dopipes(int i, t_info *info)
             close(pipefd[1]);
             dup2(pipefd[0], STDIN);
             close(pipefd[0]);
+            exe_path = info->argv[0];
             while (access(exe_path, X_OK))
             {
                 if (ft_strchr(info->argv[0], '/') == NULL)
@@ -389,6 +393,7 @@ void    dopipes(int i, t_info *info)
             close(pipefd[1]);
             dup2(pipefd[0], STDIN);
             close(pipefd[0]);
+            exe_path = info->argv[0];
             while (access(exe_path, X_OK))
             {
                 if (ft_strchr(info->argv[0], '/') == NULL)
