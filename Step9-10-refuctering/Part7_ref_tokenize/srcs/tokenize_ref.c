@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:03:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/23 17:44:09 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:05:38 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,15 @@ bool is_metacharacter(char c)
         return (false);
 }
 
-bool startswith(const char *s, const char *keyword)
-{
-    if (ft_strncmp(s, keyword, ft_strlen(keyword)) == 0)
-        return (true);
-    else
-        return (false);
-}
-
 static bool is_control_operator(const char *s)
 {
-    static char *const operators[] = {"||", "&", "&&", ";", ";;", "(", ")", "|", "\n"};
-    size_t  i = 0;
+    static char *control_operators[9] = {"||", "&", "&&", ";", ";;", "(", ")", "|", "\n"};
+    size_t  i;
 
-    while (i < sizeof(operators) / sizeof(*operators))
+    i = 0;
+    while (i < 9)
     {
-        if (startswith(s, operators[i]))
+        if (ft_strncmp(s, control_operators[i], ft_strlen(control_operators[i])) == 0)
             return (true);
         i++;
     }
