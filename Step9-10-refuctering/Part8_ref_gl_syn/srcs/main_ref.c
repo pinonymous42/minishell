@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/23 18:38:52 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:56:37 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int main(void)
     int status;
     char *line;
 
-    rl_outstream = stderr; //ここ必要かあとで検討
     status = 0;
     while (1)
     {

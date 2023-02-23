@@ -6,13 +6,11 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/23 18:46:01 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:53:30 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-bool	syntax_error = false;
 
 void    function_error(char *function_name)
 {
@@ -20,6 +18,7 @@ void    function_error(char *function_name)
     exit(EXIT_FAILURE);
 }
 
+//exitしない
 void    tokenize_error(char *message, char **rest, char *line, bool *syntax_error)
 {
     syntax_error = true;
