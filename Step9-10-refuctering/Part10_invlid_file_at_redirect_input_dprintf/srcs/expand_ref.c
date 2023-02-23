@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/22 17:20:38 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/24 00:23:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	quote_removal(t_token *tok)
 	{
 		if (*p == SINGLE_QUOTE)
 		{
-			// skip quote
 			p++;
 			while (*p != SINGLE_QUOTE)
 			{
@@ -53,12 +52,10 @@ void	quote_removal(t_token *tok)
 					assert_error("Unclosed single quote");
 				append_char(&new_word, *p++);
 			}
-			// skip quote
 			p++;
 		}
 		else if (*p == DOUBLE_QUOTE)
 		{
-			// skip quote
 			p++;
 			while (*p != DOUBLE_QUOTE)
 			{
@@ -66,7 +63,6 @@ void	quote_removal(t_token *tok)
 					assert_error("Unclosed single quote");
 				append_char(&new_word, *p++);
 			}
-			// skip quote
 			p++;
 		}
 		else

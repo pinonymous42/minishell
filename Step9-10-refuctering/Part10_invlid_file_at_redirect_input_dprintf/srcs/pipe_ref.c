@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:43 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/23 21:40:27 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/24 00:26:49 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,8 @@ void    do_input(t_info *info, int i)
     tmp_index = 0;
     info->input_fd = open(info->argv[i + 1], O_RDONLY);
     if (info->input_fd == -1)
-        function_error("open");
+        err_exit(info->argv[i + 1], "command not found", 1);
+        //function_error("open");
     dup2(info->input_fd, STDIN);
     tmp = (char **)malloc(sizeof(char *) * ((info->argv_count - 2)));
     if (tmp == NULL)
