@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:03:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/23 18:49:38 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/24 13:33:43 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,25 @@ static t_token *handle_contorol_op(char **rest, char *line)
     assert_error("Unexpected operator");
 }
 
+char *ft_strndup(char *str, size_t n)
+{
+    char    *new_str;
+    size_t  len;
+
+    if (str == NULL)
+        return (NULL);
+    len = ft_strlen(str);
+    if (len > n)
+        len = n;
+    new_str = (char *)malloc(sizeof(char) * (len + 1));
+    if (new_str == NULL)
+        function_error("malloc");
+    ft_memcpy(new_str, str, len);
+    new_str[len] = '\0';
+
+    return (new_str);
+}
+
 static t_token *handle_word(char **rest, char *line, bool *syntax_error)
 {
     t_token *token;
@@ -161,7 +180,7 @@ static t_token *handle_word(char **rest, char *line, bool *syntax_error)
             line++;
     }
     end = line;
-    token->word = strndup(start, end - start);
+    token->word = ft_strndup(start, end - start);
     if (token->word == NULL)
 		function_error("strndup");
     *rest = line;

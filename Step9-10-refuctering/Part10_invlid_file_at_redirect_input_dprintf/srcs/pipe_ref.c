@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:43 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/24 00:26:49 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/24 13:45:47 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,20 @@ char	*search_path(const char *filename)
 	value = getenv("PATH");
 	while (*value)
 	{
-		bzero(path, PATH_MAX);
-		end = strchr(value, ':');
+        //bzero(path, PATH_MAX);
+		ft_bzero(path, PATH_MAX);
+		end = ft_strchr(value, ':');
 		if (end)
-			strncpy(path, value, end - value);
+			//strncpy(path, value, end - value);
+            ft_strlcpy(path, value, end - value + 1);
 		else
-			strlcpy(path, value, PATH_MAX);
-		strlcat(path, "/", PATH_MAX);
-		strlcat(path, filename, PATH_MAX);
+			ft_strlcpy(path, value, PATH_MAX);
+		ft_strlcat(path, "/", PATH_MAX);
+		ft_strlcat(path, filename, PATH_MAX);
 		if (access(path, X_OK) == 0)
 		{
 			char	*dup;
-			dup = strdup(path);
+			dup = ft_strdup(path);
 			if (dup == NULL)
 				function_error("strdup");
 			return (dup);

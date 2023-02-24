@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matsushimakouhei <matsushimakouhei@stud    +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 18:00:56 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/02/12 12:20:27 by matsushimak      ###   ########.fr       */
+/*   Updated: 2023/02/24 13:47:52 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcat_ingnl(char *dst, const char *src, size_t dstsize)
 {
 	size_t	d_len;
 	size_t	s_len;
@@ -57,8 +57,8 @@ char	*ft_strjoin_with_free(char *s1, char *s2, int n)
 	if (!ret)
 		return (NULL);
 	*ret = '\0';
-	ft_strlcat(ret, s1, ft_strlen(s1) + 1);
-	ft_strlcat(ret, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
+	ft_strlcat_ingnl(ret, s1, ft_strlen(s1) + 1);
+	ft_strlcat_ingnl(ret, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (n == 1)
 		get_it_freed(&s1);
 	if (n == 2)

@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/23 21:47:52 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/02/24 12:42:46 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <fcntl.h>
+# include <stdarg.h>
 
 # define SINGLE_QUOTE '\''
 # define DOUBLE_QUOTE '"'
