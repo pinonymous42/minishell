@@ -6,11 +6,11 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:17:01 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/18 21:13:55 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/02/25 23:17:58 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/step_9_10.h"
+#include "./includes/step_1_4.h"
 
 // void end(void)__attribute__((destructor));
 // void end(void)
@@ -111,7 +111,7 @@ int count_argv(char **argv)
     }
     return (len);
 }
-void    interpret(char *line, int *stat_loc)
+void    interpret(char *line, int *stat_loc, t_environ *list)
 {
     t_token	*token;
 	char	**argv;
@@ -142,7 +142,7 @@ void    interpret(char *line, int *stat_loc)
         //     node->args = node->args->next;
         // }
         // exit(1);
-        expand(node);
+        expand(node, *stat_loc, list);
         // printf("%s, %d\n", __FILE__, __LINE__);
         // while (node->args != NULL)
         // {
@@ -162,28 +162,44 @@ void    interpret(char *line, int *stat_loc)
         // }
         // exit(1);
         argc = count_argv(argv);
-        *stat_loc = pipex(argc, argv);
+        // printf("%s, %d\n", __FILE__, __LINE__);
+        *stat_loc = pipex(argc, argv, list);
+        // printf("%s, %d\n", __FILE__, __LINE__);
+        // printf("%d\n", *stat_loc);
         free_argv(argv);
+        // printf("%s, %d\n", __FILE__, __LINE__);
         free_node(node);
+        // printf("%s, %d\n", __FILE__, __LINE__);
     }
 	free_all_token(token);
+    // printf("%s, %d\n", __FILE__, __LINE__);
 }
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
     int     status;
     char    *line;
+    t_environ *list;
     
-    rl_outstream = stderr;
+    list = make_environ(envp);
+    // while (list != NULL)
+    // {
+    //     printf("%s=%s\n", list->key, list->value);
+    //     list = list->next;
+    // }
+    // exit(1);
+    // rl_outstream = stderr;
     status = 0;
+    g_signal = 0;
     while (1)
     {
+        set_signal();
         line = readline("minishell$ ");
         if (line == NULL)
             break;
         if (*line)
             add_history(line);
-        interpret(line, &status);
+        interpret(line, &status, list);
         free(line);
         // exit(1);
     }

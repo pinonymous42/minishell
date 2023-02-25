@@ -6,11 +6,11 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:58 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/14 16:06:44 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:28:57 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/step_7_8.h"
+#include "./includes/step_1_4.h"
 
 t_token *new_token(char *word, t_token_kind kind)
 {

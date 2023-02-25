@@ -1,8 +1,9 @@
 NAME = minishell
 SRCDIR = ./
-SRCS = destructer.c error.c expand.c main.c parse.c pipex.c tokenize.c
+SRCS = destructer.c error.c expand.c main.c parse.c pipex.c tokenize.c make_environ.c search_env.c signal.c
 CC = gcc
-CFLAGS = -lreadline
+CFLAGS = -I $(shell brew --prefix readline)/include
+LDFLAGS = -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 RM = rm -rf
 
 # SRCS = $(addprefix $(SRCDIR), $(SRCNAMES))
@@ -23,7 +24,8 @@ $(OBJDIR)%.o : %.c
 $(NAME): $(OBJS)
 	make -C $(LIBDIR)
 	make -C $(GNLDIR)
-	$(CC) $(CFLAGS) -o $@ $^ -L $(LIBDIR) -L $(GNLDIR) -lft -lgnl
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -L $(LIBDIR) -L $(GNLDIR) -lft -lgnl
+	echo > ~/.inputrc set echo-control-characters off
 
 clean	:
 	$(RM) $(OBJDIR)

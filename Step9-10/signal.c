@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   step_9_10.h                                        :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 10:52:47 by matsushimak       #+#    #+#             */
-/*   Updated: 2023/02/18 21:14:00 by kohmatsu         ###   ########.fr       */
+/*   Created: 2023/02/25 11:34:59 by kohmatsu          #+#    #+#             */
+/*   Updated: 2023/02/25 19:52:38 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STEP_9_10_H
-# define STEP_9_10_H
+#include "./includes/step_1_4.h"
 
-# include "step_7_8.h"
-# include "pipex.h"
+int    signal_handler(int sig)
+{
+    if (sig == SIGINT)
+    {
+        // printf("%s, %d\n", __FILE__, __LINE__);
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        write(1, "\n", 1);
+        rl_redisplay();
+    }
+    return (0);
+}
 
-#define RIGHT 1
-#define MID 0
-#define LEFT -1
-int     pipex(int argc, char *argv[]);
-// void    safty_free(char **str);
-#endif
+int set_signal()
+{
+    signal(SIGINT, &signal_handler);
+    signal(SIGQUIT, SIG_IGN);
+}
