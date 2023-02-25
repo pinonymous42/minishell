@@ -6,11 +6,11 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:33:46 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/14 18:57:27 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:29:33 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/step_9_10.h"
+#include "./includes/step_1_4.h"
 
 void	free_node(t_node *node)
 {
