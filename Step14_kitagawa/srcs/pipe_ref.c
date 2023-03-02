@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_ref.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:43 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/28 13:57:25 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/02 15:44:27 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,27 +432,35 @@ void    dopipes(int i, t_info *info)
         /////////////////////////////////////////////////////////////////////////////////////実行コマンド作成
         check_redirect(info);
         exe_path = info->argv[0];
-        if (ft_strchr(exe_path, '/') == NULL)
-            exe_path = search_path(exe_path);
-        /*
-        while (access(exe_path, X_OK))
+        
+        //builtin command
+        if (is_builtin(exe_path) == true)
+            exec_builtin(exe_path, info);
+        else
         {
-            if (ft_strchr(info->argv[0], '/') == NULL)
-                exe_path = make_exepath((info->path)[index], (info->argv)[0]);
-            else
-                exe_path = info->argv[0];
-            index++;
+            if (ft_strchr(exe_path, '/') == NULL)
+                exe_path = search_path(exe_path);
+            /*
+            while (access(exe_path, X_OK))
+            {
+                if (ft_strchr(info->argv[0], '/') == NULL)
+                    exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+                else
+                    exe_path = info->argv[0];
+                index++;
+            }
+            */
+            if (exe_path == NULL)
+            {
+                // printf("%s, %d\n", __FILE__, __LINE__);
+                err_exit(info->argv[0], "command not found");
+            }
+            if (access(exe_path, X_OK) < 0)
+                err_exit(info->argv[0], "command not found");
+                
+            execve(exe_path, info->argv, info->envp);
+            function_error("execve");
         }
-        */
-        if (exe_path == NULL)
-        {
-            // printf("%s, %d\n", __FILE__, __LINE__);
-            err_exit(info->argv[0], "command not found");
-        }
-        if (access(exe_path, X_OK) < 0)
-            err_exit(info->argv[0], "command not found");
-        execve(exe_path, info->argv, info->envp);
-        function_error("execve");
     }
     else if (i == 0)//一番右のコマンド
     {
@@ -479,24 +487,30 @@ void    dopipes(int i, t_info *info)
             dup2(pipefd[0], STDIN);
             close(pipefd[0]);
             exe_path = info->argv[0];
-            if (ft_strchr(exe_path, '/') == NULL)
-                exe_path = search_path(exe_path);
-            /*
-            while (access(exe_path, X_OK))
+            //builtin command
+            if (is_builtin(exe_path) == true)
+                exec_builtin(exe_path, info);
+            else
             {
-                if (ft_strchr(info->argv[0], '/') == NULL)
-                    exe_path = make_exepath((info->path)[index], (info->argv)[0]);
-                else
-                    exe_path = info->argv[0];
-                index++;
+                if (ft_strchr(exe_path, '/') == NULL)
+                    exe_path = search_path(exe_path);
+                /*
+                while (access(exe_path, X_OK))
+                {
+                    if (ft_strchr(info->argv[0], '/') == NULL)
+                        exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+                    else
+                        exe_path = info->argv[0];
+                    index++;
+                }
+                */
+                if (exe_path == NULL)
+                    err_exit(info->argv[0], "command not found");
+                if (access(exe_path, X_OK) < 0)
+                    err_exit(info->argv[0], "command not found");
+                execve(exe_path, info->argv, info->envp);
+                function_error("execve");
             }
-            */
-            if (exe_path == NULL)
-                err_exit(info->argv[0], "command not found");
-            if (access(exe_path, X_OK) < 0)
-                err_exit(info->argv[0], "command not found");
-            execve(exe_path, info->argv, info->envp);
-            function_error("execve");
         }
     }
     else//それ以外の場所
@@ -523,24 +537,30 @@ void    dopipes(int i, t_info *info)
             dup2(pipefd[0], STDIN);
             close(pipefd[0]);
             exe_path = info->argv[0];
-            if (ft_strchr(exe_path, '/') == NULL)
-                exe_path = search_path(exe_path);
-            /*
-            while (access(exe_path, X_OK))
+            //builtin command
+            if (is_builtin(exe_path) == true)
+                exec_builtin(exe_path, info);
+            else
             {
-                if (ft_strchr(info->argv[0], '/') == NULL)
-                    exe_path = make_exepath((info->path)[index], (info->argv)[0]);
-                else
-                    exe_path = info->argv[0];
-                index++;
+                if (ft_strchr(exe_path, '/') == NULL)
+                    exe_path = search_path(exe_path);
+                /*
+                while (access(exe_path, X_OK))
+                {
+                    if (ft_strchr(info->argv[0], '/') == NULL)
+                        exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+                    else
+                        exe_path = info->argv[0];
+                    index++;
+                }
+                */
+                if (exe_path == NULL)
+                    err_exit(info->argv[0], "command not found");
+                if (access(exe_path, X_OK) < 0)
+                    err_exit(info->argv[0], "command not found");
+                execve(exe_path, info->argv, info->envp);
+                function_error("execve");
             }
-            */
-            if (exe_path == NULL)
-                err_exit(info->argv[0], "command not found");
-            if (access(exe_path, X_OK) < 0)
-                err_exit(info->argv[0], "command not found");
-            execve(exe_path, info->argv, info->envp);
-            function_error("execve");
         }
     }
 }
@@ -579,14 +599,6 @@ void    multiple_pipes(t_info *info)
             g_signal.status = WEXITSTATUS(wstatus);
             g_signal.other_code = TRUE;
         }
-        // }
-        // else
-        // {
-        //     printf("<%d>\n", wstatus);
-        //     // g_signal.status = wstatus / 256;
-        //     g_signal.status = WEXITSTATUS(wstatus);
-        //     printf("%d\n", g_signal.status);
-        // }
     }
 }
 

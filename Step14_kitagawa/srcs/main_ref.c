@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_ref.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/28 14:28:57 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/02 13:28:20 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ void process_line(char *line, t_environ *list)
     t_token *token;
 	char	**array;
 	int		argc;
-	// bool	syntax_error;
-
-	// syntax_error = false;
+	
     token = tokenize(line);
     // while (token)
     // {
@@ -42,8 +40,6 @@ void process_line(char *line, t_environ *list)
     // exit(1);
     if (token->kind == TOKEN_EOF)
         ;
-    // else if (syntax_error == true)
-    //     *status = TOKENIZE_ERROR;
     else
     {
 		array = expand(token, list);

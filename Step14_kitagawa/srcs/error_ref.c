@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_ref.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/28 12:22:01 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/02 13:29:55 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	ft_count_and_output(int fd, va_list ap, int fmt)
 		add_count = ft_count_and_putstr(fd, (char *)va_arg(ap, char *));
 	return (add_count);
 }
+
 int	count(int fd, va_list ap, const char *fmt)
 {
 	size_t	i;

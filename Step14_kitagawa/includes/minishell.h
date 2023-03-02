@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/28 12:49:30 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/02 15:45:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_info{
     char    **path;//search path
     char    **envp;//環境変数
     int     *pipe_place;//pipeの位置インデックス
-    int    heredoc_flag;
+    int     heredoc_flag;
     // int     heredoc_count; 
 }t_info;
 
@@ -124,8 +124,13 @@ int set_signal_child(void);
 int set_signal_parent(void);
 int    heredoc_signal(void);
 
-
 // search_env.c
 char *search_env(char *key, t_environ *list);
+
+//built_in
+int     exec_builtin(char *exe_path, t_info *info);
+bool    is_builtin(char *exe_path);
+
+int builtin_pwd();
 
 #endif
