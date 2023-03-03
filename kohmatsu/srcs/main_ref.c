@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/01 18:40:23 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/03 22:21:01 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,14 @@ int main(int argc, char **argv, char **envp)
 
     // g_signal.status = 0;
     g_signal.other_code = FALSE;
-    list = make_environ(envp);
     while (1)
     {
+        list = make_environ(envp);
         if (g_signal.other_code == FALSE)
             g_signal.status = 0;
         g_signal.other_code = FALSE;
         g_signal.input_fd = dup(0);
+        g_signal.output_fd = dup(1);
         set_signal();
         line = readline("minishell$ ");
         if (line == NULL)

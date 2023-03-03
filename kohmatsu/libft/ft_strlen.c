@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:55:17 by kohmatsu          #+#    #+#             */
-/*   Updated: 2022/10/18 14:33:53 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/02 18:44:34 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ size_t	ft_strlen(const char *s)
 	size_t	len;
 
 	len = 0;
-	while (*s++)
+	while (*s)
+	{
 		len++;
+		s++;
+	}
 	return (len);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 12:54:49 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/02/28 12:19:42 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/03 23:16:33 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int set_signal()
 {
     signal(SIGINT, &signal_handler);
     signal(SIGQUIT, SIG_IGN);
+    return (0);
 }
 
 int set_signal_child()
