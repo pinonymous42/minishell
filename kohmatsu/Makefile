@@ -1,7 +1,9 @@
 NAME = minishell
 SRCDIR = ./srcs/
 SRCS = token_list_to_array.c destructer_ref.c error_ref.c expand_ref.c main_ref.c tokenize_ref.c pipe.c \
-		make_environ.c signal.c search_env.c
+		make_environ.c signal.c search_env.c cd_builtin.c echo_builtin.c env_builtin.c exit_builtin.c
+# SRCS = token_list_to_array.c destructer_ref.c error_ref.c expand_ref.c ../test.c tokenize_ref.c pipe.c \
+# 		make_environ.c signal.c search_env.c cd_builtin
 
 CC = gcc
 CFLAGS = -I $(shell brew --prefix readline)/include
@@ -26,6 +28,7 @@ $(NAME): $(OBJS)
 	make -C $(LIBDIR)
 	make -C $(GNLDIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -L $(LIBDIR) -L $(GNLDIR) -lft -lgnl
+	echo > ~/.inputrc set echo-control-characters off
 
 clean	:
 	$(RM) $(OBJDIR)

@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   search_env.c                                       :+:      :+:    :+:   */
+/*   env_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/26 13:27:36 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/03 22:50:05 by kohmatsu         ###   ########.fr       */
+/*   Created: 2023/03/03 14:26:14 by kohmatsu          #+#    #+#             */
+/*   Updated: 2023/03/03 14:33:04 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *search_env(char *key, t_environ *list)
+void    env_builtin(t_info *info)
 {
-    while (list != NULL)
+    t_environ *tmp;
+
+    tmp = info->list;
+    while (tmp)
     {
-        // printf("%s, %d\n", __FILE__, __LINE__);
-        if (ft_strncmp(list->key, key, ft_strlen(key)) == 0)
-        {
-            // printf("%s, %d\n", __FILE__, __LINE__);
-            return (list->value);
-        }
-        list = list->next;
+        ft_putstr_fd(tmp->key, STDOUT);
+        write(1, "=", 1);
+        ft_putstr_fd(tmp->value, STDOUT);
+        write(1, "\n", 1);
+        tmp = tmp->next;
     }
-    // printf("%s, %d\n", __FILE__, __LINE__);
-    return (NULL);
 }

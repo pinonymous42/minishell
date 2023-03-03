@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 11:08:05 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/02/27 11:54:33 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/03 13:02:04 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,19 @@ void    list_add_back(t_environ **list, t_environ *new)
 t_environ *make_environ(char **envp)
 {
     t_environ *list;
-    t_environ *new;
+    // t_environ *new;
 
-    if (envp == NULL)
-        return (NULL);
-    new = new_list(*envp++);
-    list = new;
+    if (*envp == NULL)
+    {
+        list = malloc(sizeof(t_environ));
+        if (!list)
+            function_error("malloc");
+        list->key = NULL;
+        list->value = NULL;
+        list->next = NULL;
+        return (list);
+    }
+    list = new_list(*envp++);
     // printf("%s, %d\n", __FILE__, __LINE__);
     // list_add_back(&list, new);
     // printf("%s\n", list->key);
