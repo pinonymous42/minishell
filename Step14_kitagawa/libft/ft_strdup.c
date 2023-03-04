@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 14:33:16 by matsushimak       #+#    #+#             */
-/*   Updated: 2022/10/18 21:24:42 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/03 22:48:48 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(const char *s1)
 	char	*ret;
 	char	*lead;
 
+	if (s1 == NULL)
+		return (NULL);
 	ret = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
 	if (!ret)
 		return (NULL);

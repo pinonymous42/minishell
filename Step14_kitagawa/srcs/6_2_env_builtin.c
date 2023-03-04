@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   env_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 11:55:17 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/02 18:44:34 by kohmatsu         ###   ########.fr       */
+/*   Created: 2023/03/03 14:26:14 by kohmatsu          #+#    #+#             */
+/*   Updated: 2023/03/03 14:33:04 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-size_t	ft_strlen(const char *s)
+void    env_builtin(t_info *info)
 {
-	size_t	len;
+    t_environ *tmp;
 
-	len = 0;
-	while (*s)
-	{
-		len++;
-		s++;
-	}
-	return (len);
+    tmp = info->list;
+    while (tmp)
+    {
+        ft_putstr_fd(tmp->key, STDOUT);
+        write(1, "=", 1);
+        ft_putstr_fd(tmp->value, STDOUT);
+        write(1, "\n", 1);
+        tmp = tmp->next;
+    }
 }
-
-// #include <stdio.h>
-// int main(void)
-// {
-// 	char s[] = "";
-// 	printf("%zu", ft_strlen(s));
-// 	return (0);
-// }

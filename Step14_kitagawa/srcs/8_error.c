@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_ref.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/02 13:29:55 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/03 22:37:46 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	ft_count_and_output(int fd, va_list ap, int fmt)
 		add_count = ft_count_and_putstr(fd, (char *)va_arg(ap, char *));
 	return (add_count);
 }
-
 int	count(int fd, va_list ap, const char *fmt)
 {
 	size_t	i;
@@ -68,14 +67,18 @@ int my_dprintf(int fd, const char *fmt, ...)
 //関数のエラーだからexitさせる
 void    function_error(char *function_name)
 {
-    printf("function error: %s\n", function_name);
+    // printf("function error: %s\n", function_name);
+	ft_putstr_fd("function error: ", STDERR_FILENO);
+	ft_putendl_fd(function_name, STDERR_FILENO);
     exit(1);
 }
 
 //exitしない, error codeは本家通り
 void    tokenize_error(char *message, char **rest, char *line)
 {
-    printf("minishell: syntax error near %s\n", message);
+    // printf("minishell: syntax error near %s\n", message);
+	ft_putstr_fd("minishell: syntax error near ", STDERR_FILENO);
+	ft_putendl_fd(message, STDERR_FILENO);
     while (*line)
 		line++;
 	*rest = line;
@@ -96,4 +99,9 @@ void	err_exit(const char *location, const char *msg)
 	my_dprintf(STDERR_FILENO, "minishell: %s: %s\n", location, msg);
 	// g_signal = 127;
 	exit(127);
+}
+
+void	file_not_found(const char *filename)
+{
+	my_dprintf(STDERR_FILENO, "minishell: %s: No such file or directory\n", filename);
 }

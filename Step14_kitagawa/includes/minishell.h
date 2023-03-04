@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/02 15:45:39 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/05 01:42:57 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,31 +59,36 @@ struct s_token{
 	t_token			*next;
 };
 
-typedef struct s_info{
-    int     input_fd;
-    int     output_fd;
-    int     argc;//cmdの数
-    int     pipe_count;//(pipeの個数)
-    char    **cmd;//実行コマンド(全部)
-    char    **argv;//実行コマンド(部分的)
-    int     argv_count;//実行コマンドの数(部分的)
-    char    **path;//search path
-    char    **envp;//環境変数
-    int     *pipe_place;//pipeの位置インデックス
-    int     heredoc_flag;
-    // int     heredoc_count; 
-}t_info;
-
 typedef struct s_environ {
     char *key;
     char *value;
     struct s_environ *next;
 }t_environ;
 
+typedef struct s_info{
+    int     input_fd;
+    int     output_fd;
+    int     **pipefd;
+    int     argc;//cmdの数
+    int     pipe_count;//(pipeの個数)
+    char    **cmd;//実行コマンド(全部)
+    char    **argv;//実行コマンド(部分的)
+    int     argv_count;//実行コマンドの数(部分的)
+    char    **path;//search path
+    // char    **envp;//環境変数
+    //bool    updata_list;//環境変数の更新があったかどうか
+    t_environ *list;
+    int     *pipe_place;//pipeの位置インデックス
+    int    heredoc_flag;//heredocを行なったかどうか
+    // int     heredoc_count; 
+}t_info;
+
+
 typedef struct s_signal {
     int status;//status code
     int heredoc_fd;//.heredocのfd
     int input_fd;//input(0)のfd
+    int output_fd;//output(1)のfd
     int other_code;//status codeが0以外の時に用いる
 }t_signal;
 
@@ -96,16 +101,20 @@ char	**token_list_to_array(t_token *token);
 //destruter_ref.c
 void	free_token(t_token *token);
 void	free_array(char **array);
+void	free_list(t_environ *list);
 
 //error_ref.c
 void    function_error(char *function_name);
 void    tokenize_error(char *message, char **rest, char *line);
 void	assert_error(const char *msg);
 void	err_exit(const char *location, const char *msg);
+void	file_not_found(const char *filename);
+int     my_dprintf(int fd, const char *fmt, ...);
 
-//pipe_ref.c
+//execute.c
 void     pipex(int argc, char *argv[], t_environ *list);
 int count_heredoc(char **argv);
+char **list_to_array(t_environ *list);
 
 //tokenize_ref.c
 t_token *tokenize(char *line);
@@ -117,20 +126,38 @@ char	**expand(t_token *tok, t_environ *list);
 
 //make_environ.c
 t_environ *make_environ(char **envp);
+t_environ *new_list(char *envp);
+void      list_add_back(t_environ **list, t_environ *new);
 
 // signal.c
 int set_signal(void);
 int set_signal_child(void);
 int set_signal_parent(void);
-int    heredoc_signal(void);
+int heredoc_signal(void);
+
 
 // search_env.c
 char *search_env(char *key, t_environ *list);
 
-//built_in
-int     exec_builtin(char *exe_path, t_info *info);
-bool    is_builtin(char *exe_path);
+//cd_builtin.c
+void    cd_builtin(t_info *info);
 
-int builtin_pwd();
+//echo_builtin.c
+void    echo_builtin(t_info *info);
+
+//env_builtin.c
+void    env_builtin(t_info *info);
+
+// exit_builtin.c
+void    exit_builtin(t_info *info);
+
+// pwd_builtin.c
+void    pwd_builtin(t_info *info);
+
+//export_builtin.c
+void    export_builtin(t_info *info, t_environ *list);
+
+//unset_builtin.c
+//void    unset_builtin(t_info *info);
 
 #endif

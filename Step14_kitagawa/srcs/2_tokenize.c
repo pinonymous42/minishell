@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:03:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/27 13:44:29 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/03 23:17:08 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static t_token *handle_metacharacter(char **rest, char *line)
         i++;
     }
     assert_error("Unexpected operator");
+    return (NULL);
 }
 
 static t_token *handle_contorol_op(char **rest, char *line)
@@ -119,6 +120,7 @@ static t_token *handle_contorol_op(char **rest, char *line)
         i++;
     }
     assert_error("Unexpected operator");
+    return (NULL);
 }
 
 char *ft_strndup(char *str, size_t n)

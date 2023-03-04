@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destructer_ref.c                                   :+:      :+:    :+:   */
+/*   6_5_pwd_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 01:40:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/02/22 18:19:38 by yokitaga         ###   ########.fr       */
+/*   Created: 2023/03/02 11:55:33 by yokitaga          #+#    #+#             */
+/*   Updated: 2023/03/04 18:11:01 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_token(t_token *token)
+void	pwd_builtin(t_info *info)
 {
-	if (token == NULL)
-		return ;
-	if (token->word)
-		free(token->word);
-	free_token(token->next);
-	free(token);
+    char cwd[PATH_MAX];
+    printf("%s, %d\n", __FILE__, __LINE__);
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        printf("%s\n", cwd);
+    }
 }
 
-void	free_array(char **array)
-{
-	int	i;
-
-	if (array == NULL)
-		return ;
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
