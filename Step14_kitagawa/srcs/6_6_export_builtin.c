@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/05 02:20:29 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:06:08 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,36 @@ void    list_add_back_export(t_environ **list, char *key, char *value)
     *list = head;
 }
 
-t_environ *copy_list(t_environ *list)
+void update_env(t_info *info, char *arg, t_environ *list)
 {
-    t_environ *new_list;
-    t_environ *head;
-    
-    new_list = new_node(list->key, list->value);
-    head = new_list;
-    while (list->next != NULL)
+    char    *key;
+    char    *value;
+    int     i;
+
+    i = ft_strchr_index(arg, '='); // '='のindexを取得
+    if (i == -1)// '='がない場合は何もしない
+        return ;
+    else //'='がある場合
     {
-        list = list->next;
-        new_list->next = new_node(list->key, list->value);
-        new_list = new_list->next;
+        key = ft_strndup(arg, i);
+        if(key == NULL)
+            function_error("strndup");
+        value = ft_substr(arg, i + 1, ft_strlen(arg) - i - 1);// '='の後ろの文字列をvalueとする
+        while (list != NULL)
+        {
+            if (ft_strncmp(list->key, key, ft_strlen(key)) == 0)
+            {
+                free(list->value);
+                list->value = value;
+                break ;
+            }
+            list = list->next;
+        }
     }
-    return (head);
+    free(key);
 }
 
-void	export_env(t_info *info, char *arg, t_environ *list)
+void	add_new_env(t_info *info, char *arg, t_environ *list)
 {
 	char	*key;
 	char	*value;
@@ -96,11 +109,12 @@ void	export_env(t_info *info, char *arg, t_environ *list)
     }
     else
     {
+        //iは'='のindex
         //printf("%s, %d\n", __FILE__, __LINE__);
         key = ft_strndup(arg, i);
         if (key == NULL)
             function_error("strndup");
-        value = ft_substr(arg, i + 1, ft_strlen(arg) - i - 1);
+        value = ft_substr(arg, i + 1, ft_strlen(arg) - i - 1); // '='の後ろの文字列をvalueとする
         if (value == NULL)
             function_error("substr");
         //printf("%s\n", key);
@@ -130,7 +144,8 @@ void    export_builtin(t_info *info, t_environ *list)
 {
     int i;
     char    **env;
-    //printf("%s, %d\n", __FILE__, __LINE__);
+    char    *key;
+    
     if (info->argv[1] == NULL)
     {
         //引数が与えられなかった場合には、現在の環境変数を表示
@@ -140,14 +155,34 @@ void    export_builtin(t_info *info, t_environ *list)
              ft_putendl_fd(*env, 1);
              env++;
         }
-        // while(info->list != NULL)
-        // {
-        //     printf("KEY:%s/", info->list->key);
-        //     printf("VALUE:%s\n", info->list->value);
-        //     info->list = info->list->next;
-        // }
         return ;
     }
+    i = 1;
+    while (info->argv[i] != NULL)
+    {
+        key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
+        if(search_env(key, list) != NULL)//既存の環境変数を上書きする場合
+        {
+            update_env(info, info->argv[i], list);
+        }
+        else //新しく追加する場合
+            add_new_env(info, info->argv[i], list);
+        free(key);
+        i++;
+    }
+    /*
+    else if(search_env(key, list) != NULL)
+    {
+        i = 1;
+        while (info->argv[i] != NULL)
+        {
+            export_env(info, info->argv[i], list);
+            i++;
+        }
+    }
+    */
+    //新しく追加する場合
+    /*
     else
     {
         //info->updata_list = TRUE;
@@ -170,5 +205,6 @@ void    export_builtin(t_info *info, t_environ *list)
         //free_list(info->list);
         //info->list = new_list;
     }
+    */
     return ;
 }
