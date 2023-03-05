@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/05 01:42:57 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:27:11 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,6 @@ void    pwd_builtin(t_info *info);
 void    export_builtin(t_info *info, t_environ *list);
 
 //unset_builtin.c
-//void    unset_builtin(t_info *info);
+void    unset_builtin(t_info *info, t_environ *list);
 
 #endif

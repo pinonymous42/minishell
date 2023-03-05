@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/05 02:11:05 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:29:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,6 +384,10 @@ int check_builtin(t_info *info, char **argv)
         return (1);
     if (ft_strncmp(argv[0], "export", 6) == 0)
         return (1);
+    if (ft_strncmp(argv[0], "pwd", 3) == 0)
+        return (1);
+    if  (ft_strncmp(argv[0], "unset", 5) == 0)
+        return (1);
     return (0);
 }
 
@@ -473,8 +477,8 @@ void    multiple_pipes(t_info *info, t_environ *list)
                     pwd_builtin(info);
                 else if (ft_strncmp(info->argv[0], "export", 6) == 0)
                     export_builtin(info, list);
-                //else if (ft_strncmp(info.argv[0], "unset", 5) == 0)
-                    //unset_builtin(&info);
+                else if (ft_strncmp(info->argv[0], "unset", 5) == 0)
+                    unset_builtin(info, list);
                 exit(0);
             }
             else
@@ -720,8 +724,8 @@ void pipex(int argc, char **argv, t_environ *list)
             pwd_builtin(&info);
         else if (ft_strncmp(info.argv[0], "export", 6) == 0)
             export_builtin(&info, list);
-        // else if (ft_strncmp(info.argv[0], "unset", 5) == 0)
-        //     unset_builtin(&info);
+        else if (ft_strncmp(info.argv[0], "unset", 5) == 0)
+            unset_builtin(&info, list);
     }
     else
         multiple_pipes(&info, list);
