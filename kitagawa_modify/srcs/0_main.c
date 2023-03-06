@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/06 15:04:34 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/06 12:44:12 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void process_line(char *line, t_environ *list)
 
 	// syntax_error = false;
     token = tokenize(line);
-    g_signal.pipe_count = count_pipe(token);
     // while (token)
     // {
     //     printf("%s\n", token->word);
@@ -53,19 +52,19 @@ void process_line(char *line, t_environ *list)
     //     *status = TOKENIZE_ERROR;
     else
     {
-        // printf("%s, %d\n", __FILE__, __LINE__);
+        printf("%s, %d\n", __FILE__, __LINE__);
 		array = expand(token, list);
-        // printf("%s, %d\n", __FILE__, __LINE__);
-        // while (token)
-        // {
-        //     printf("%s\n", token->word);
-        //     token = token->next;
-        // }
+        printf("%s, %d\n", __FILE__, __LINE__);
+        while (token)
+        {
+            printf("%s\n", token->word);
+            token = token->next;
+        }
         // exit(1);
 		// array = token_list_to_array(token);
-        // printf("%s, %d\n", __FILE__, __LINE__);
+        printf("%s, %d\n", __FILE__, __LINE__);
 		argc = count_argv(array);
-        // printf("%s, %d\n", __FILE__, __LINE__);
+        printf("%s, %d\n", __FILE__, __LINE__);
         if (g_signal.other_code == FALSE)
         {
             // printf("%s, %d\n", __FILE__, __LINE__);
@@ -97,8 +96,6 @@ int main(int argc, char **argv, char **envp)
         g_signal.other_code = FALSE;
         g_signal.input_fd = dup(0);
         g_signal.output_fd = dup(1);
-        g_signal.do_split = 0;
-        g_signal.pipe_count = 0;
         set_signal();
         line = readline("minishell$ ");
         if (line == NULL)

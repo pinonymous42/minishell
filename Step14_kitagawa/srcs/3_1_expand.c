@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/06 13:04:06 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/07 00:17:58 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,15 +147,15 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
                         var = ft_strndup(p, ft_strchr(p, '$') - p - 1);
                     else
 					{
-						printf("%s, %d\n", __FILE__, __LINE__);
+						//printf("%s, %d\n", __FILE__, __LINE__);
                         var = ft_strndup(p, ft_strchr(p, '\0') - p);
-						printf(">%s<\n", var);
+						//printf(">%s<\n", var);
 					}
                     if (new_word == NULL)
                         new_word = ft_strdup(search_env(var, list));
                     else
 					{
-						printf("%s, %d\n", __FILE__, __LINE__);
+						//printf("%s, %d\n", __FILE__, __LINE__);
                         new_word = ft_strjoin_with_free(new_word, search_env(var, list), FIRST_PARAM);
 					}
                     free(var);
@@ -163,7 +163,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
                         p = ft_strchr(p, '$');
                     else
 					{
-						printf("%s, %d\n", __FILE__, __LINE__);
+						//printf("%s, %d\n", __FILE__, __LINE__);
                         p = ft_strchr(p, '\0');
 					}
                 }
@@ -181,7 +181,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 				*not_expand_flag = 1;
 			}
 			append_char(&new_word, *p++);
-			printf("|%s|\n", new_word);
+			//printf("|%s|\n", new_word);
 		}
 	}
 	free(tok->word);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/06 15:03:01 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/06 11:29:54 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_info{
     int     output_fd;
     int     **pipefd;
     int     argc;//cmdの数
+    int     pipe_count;//(pipeの個数)
     char    **cmd;//実行コマンド(全部)
     char    **argv;//実行コマンド(部分的)
     int     argv_count;//実行コマンドの数(部分的)
@@ -77,8 +78,8 @@ typedef struct s_info{
     // char    **envp;//環境変数
     //bool    updata_list;//環境変数の更新があったかどうか
     t_environ *list;
+    int     *pipe_place;//pipeの位置インデックス
     int    heredoc_flag;//heredocを行なったかどうか
-    int *pipe_place;//pipeの位置インデックス
     // int     heredoc_count; 
 }t_info;
 
@@ -89,8 +90,6 @@ typedef struct s_signal {
     int input_fd;//input(0)のfd
     int output_fd;//output(1)のfd
     int other_code;//status codeが0以外の時に用いる
-    int do_split;//splitを行うかどうか
-    int pipe_count;//(pipeの個数)
 }t_signal;
 
 //global variable
@@ -112,11 +111,10 @@ void	err_exit(const char *location, const char *msg);
 void	file_not_found(const char *filename);
 int     my_dprintf(int fd, const char *fmt, ...);
 
-//pipe.c
+//execute.c
 void     pipex(int argc, char *argv[], t_environ *list);
 int count_heredoc(char **argv);
 char **list_to_array(t_environ *list);
-int count_pipe(t_token *token);
 
 //tokenize_ref.c
 t_token *tokenize(char *line);
