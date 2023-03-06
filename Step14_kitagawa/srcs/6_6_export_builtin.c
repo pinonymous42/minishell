@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/06 11:29:33 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/06 15:16:26 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void    export_builtin(t_info *info, t_environ *list)
     
     if (info->argv[1] == NULL)
     {
+        /*
         //引数が与えられなかった場合には、現在の環境変数を表示
         char    **env;
         int     i;
@@ -159,6 +160,22 @@ void    export_builtin(t_info *info, t_environ *list)
             i++;
         }
         free_array(env);
+        */
+        t_environ *tmp;
+        tmp = list;
+        while (tmp != NULL)
+        {
+            ft_putstr_fd("declare -x ", 1);
+            ft_putstr_fd(tmp->key, 1);
+            if (tmp->value != NULL)
+            {
+                ft_putstr_fd("=\"", 1);
+                ft_putstr_fd(tmp->value, 1);
+                ft_putstr_fd("\"", 1);
+            }
+            ft_putstr_fd("\n", 1);
+            tmp = tmp->next;
+        }
         return ;
     }
     i = 1;
