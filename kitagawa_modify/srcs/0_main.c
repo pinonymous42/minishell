@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/06 12:44:12 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/07 00:27:44 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,19 @@ void process_line(char *line, t_environ *list)
     //     *status = TOKENIZE_ERROR;
     else
     {
-        printf("%s, %d\n", __FILE__, __LINE__);
+        //printf("%s, %d\n", __FILE__, __LINE__);
 		array = expand(token, list);
-        printf("%s, %d\n", __FILE__, __LINE__);
-        while (token)
-        {
-            printf("%s\n", token->word);
-            token = token->next;
-        }
+        //printf("%s, %d\n", __FILE__, __LINE__);
+        // while (token)
+        // {
+        //     printf("%s\n", token->word);
+        //     token = token->next;
+        // }
         // exit(1);
 		// array = token_list_to_array(token);
-        printf("%s, %d\n", __FILE__, __LINE__);
+        //printf("%s, %d\n", __FILE__, __LINE__);
 		argc = count_argv(array);
-        printf("%s, %d\n", __FILE__, __LINE__);
+        //printf("%s, %d\n", __FILE__, __LINE__);
         if (g_signal.other_code == FALSE)
         {
             // printf("%s, %d\n", __FILE__, __LINE__);

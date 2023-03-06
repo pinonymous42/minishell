@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/07 00:02:49 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/07 00:17:58 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 					{
 						//printf("%s, %d\n", __FILE__, __LINE__);
                         var = ft_strndup(p, ft_strchr(p, '\0') - p);
-						printf(">%s<\n", var);
+						//printf(">%s<\n", var);
 					}
                     if (new_word == NULL)
                         new_word = ft_strdup(search_env(var, list));
