@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/06 15:04:20 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/06 15:39:58 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,14 @@ char    *make_exepath(char *path, char *command)
     return (exe_path);
 }
 
-int count_splitable(char **argv, int start, int end)
+int count_splitable(t_info *info, int start, int end)
 {
     int count;
 
     count = 0;
     while (start < end)
     {
-        if (ft_strchr(argv[start], ' '))
+        if (ft_strchr(info->cmd[start], ' '))
             count++;
         start++;
     }
@@ -398,12 +398,13 @@ void    make_info_argv(t_info *info, int end, int start)
     int argv_index;
     int split_count;
     
+    // printf("start: %d, end: %d\n", start, end);
     argv_index = 0;
     if (info->argv)
         safty_free(info->argv);
     pipe_index = start + 1;
-    info->argv_count = end - start + count_splitable(info->cmd, pipe_index, end);
-    // printf("|%d\n|", info->argv_count);
+    info->argv_count = end - start + count_splitable(info, pipe_index, end);
+    // printf("|count: %d|\n", info->argv_count);
     info->argv = (char **)malloc(sizeof(char *) * (info->argv_count));
     if (info->argv == NULL)
         function_error("malloc1");
@@ -413,7 +414,7 @@ void    make_info_argv(t_info *info, int end, int start)
         {
             split_count = 0;
             tmp = ft_split(info->cmd[pipe_index], ' ');
-            while (split_count < count_splitable(info->cmd, pipe_index, end) + 1)
+            while (split_count < count_splitable(info, pipe_index, end) + 1)
             {
                 info->argv[argv_index] = ft_strdup(tmp[split_count]);
                 split_count++;
@@ -427,6 +428,9 @@ void    make_info_argv(t_info *info, int end, int start)
         // printf("{%s, %d}\n", info->cmd[pipe_index], pipe_index);
         else
         {
+            // printf("%s, %d\n", __FILE__, __LINE__);
+            // printf("|%s|\n", info->cmd[pipe_index]);
+            // printf("pipe_index: %d, end: %d\n", pipe_index, end);
             info->argv[argv_index] = ft_strdup(info->cmd[pipe_index]);
             if (!info->argv[argv_index])
                 function_error("strdup");
@@ -582,7 +586,7 @@ int count_pipe(t_token *token)
     count = 0;
     while (token->kind != TOKEN_EOF)
     {
-        if (token->word[0] == '|' && ft_strlen(token->word[0]) == 1)
+        if (token->word[0] == '|' && ft_strlen(token->word) == 1)
             count++;
         token = token->next;
     }
@@ -612,14 +616,16 @@ int *place_pipe(t_info *info)
         function_error("malloc7");
     ret[0] = -1;
     ret[g_signal.pipe_count + 1] = info->argc;
+    // printf("pipe_place_end: %d\n", ret[g_signal.pipe_count + 1]);
     i = 0;
     j = 1;
-    while (i < info->argc)
+    while (i < g_signal.pipe_count)
     {
         if (*(info->cmd[i]) == '|' && ft_strlen(info->cmd[i]) == 1)
             ret[j++] = i;
         i++;
     }
+    // printf("pipe_place_end: %d\n", ret[g_signal.pipe_count + 1]);
 
     //pipefd作る
     info->pipefd = (int **)malloc(sizeof(int *) * (g_signal.pipe_count));
@@ -726,6 +732,12 @@ void pipex(int argc, char **argv, t_environ *list)
     if (g_signal.pipe_count == 0 && check_builtin(&info, info.cmd))
     {
         //printf("%s, %d\n", __FILE__, __LINE__);
+        // int i = 0;
+        // while(info.cmd[i])
+        // {
+        //     printf(">%s<\n", info.cmd[i]);
+        //     i++;
+        // }
         make_info_argv(&info, info.pipe_place[1], info.pipe_place[0]);
         check_redirect(&info);
         // printf("-----------------------------------\n");
