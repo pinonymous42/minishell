@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/06 14:51:05 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/06 15:27:38 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void    echo_builtin(t_info *info)
     int option_flag;
     int i;
 
-    i = 0;
+    // i = 0;
     // while (info->argv[i])
     // {
     //     printf(">%s<\n", info->argv[i]);

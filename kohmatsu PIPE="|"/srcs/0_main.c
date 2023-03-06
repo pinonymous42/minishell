@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/06 15:04:34 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/06 15:39:09 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,11 @@ void process_line(char *line, t_environ *list)
         // printf("%s, %d\n", __FILE__, __LINE__);
 		array = expand(token, list);
         // printf("%s, %d\n", __FILE__, __LINE__);
-        // while (token)
+        // int i = 0;
+        // while (array[i])
         // {
-        //     printf("%s\n", token->word);
-        //     token = token->next;
+        //     printf("%s\n", array[i]);
+        //     i++;
         // }
         // exit(1);
 		// array = token_list_to_array(token);
