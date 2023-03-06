@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/05 00:12:29 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/06 10:43:09 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ int main(int argc, char **argv, char **envp)
         free(line);
     }
     write(1, "exit\n", 5);
+    free_list(list);
     return (0);
 }
