@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/05 23:43:57 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/06 11:29:33 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,17 +143,20 @@ void	add_new_env(t_info *info, char *arg, t_environ *list)
 void    export_builtin(t_info *info, t_environ *list)
 {
     int i;
-    char    **env;
+    //char    **env;
     char    *key;
     
     if (info->argv[1] == NULL)
     {
         //引数が与えられなかった場合には、現在の環境変数を表示
-        env = list_to_array(info->list);
+        char    **env;
+        int     i;
         
-        while (*env != NULL) {
-             ft_putendl_fd(*env, 1);
-             env++;
+        env = list_to_array(list);
+        i = 0;
+        while (env[i] != NULL) {
+            ft_putendl_fd(env[i], 1);
+            i++;
         }
         free_array(env);
         return ;
