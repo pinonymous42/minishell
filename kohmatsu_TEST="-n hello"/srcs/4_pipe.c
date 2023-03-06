@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/06 12:39:23 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/06 15:04:20 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,14 @@ char    *make_exepath(char *path, char *command)
     return (exe_path);
 }
 
-int count_splitable(t_info *info, int start, int end)
+int count_splitable(char **argv, int start, int end)
 {
     int count;
 
     count = 0;
     while (start < end)
     {
-        if (ft_strchr(info->cmd[start], ' '))
+        if (ft_strchr(argv[start], ' '))
             count++;
         start++;
     }
@@ -396,25 +396,52 @@ void    make_info_argv(t_info *info, int end, int start)
     int pipe_index;
     char    **tmp;
     int argv_index;
+    int split_count;
     
     argv_index = 0;
     if (info->argv)
         safty_free(info->argv);
     pipe_index = start + 1;
-    info->argv_count = end - start + count_splitable(info, pipe_index, end);
+    info->argv_count = end - start + count_splitable(info->cmd, pipe_index, end);
     // printf("|%d\n|", info->argv_count);
     info->argv = (char **)malloc(sizeof(char *) * (info->argv_count));
     if (info->argv == NULL)
         function_error("malloc1");
     while (pipe_index < end)
     {
-        info->argv[argv_index] = ft_strdup(info->cmd[pipe_index]);
-        if (!info->argv[argv_index])
-            function_error("strdup");
-        argv_index++;
-        pipe_index++;
+        if (ft_strchr(info->cmd[pipe_index], ' ') && g_signal.do_split)
+        {
+            split_count = 0;
+            tmp = ft_split(info->cmd[pipe_index], ' ');
+            while (split_count < count_splitable(info->cmd, pipe_index, end) + 1)
+            {
+                info->argv[argv_index] = ft_strdup(tmp[split_count]);
+                split_count++;
+                argv_index++;
+            }
+            // printf("%s, %d\n", __FILE__, __LINE__);
+            safty_free(tmp);
+            pipe_index++;
+            // printf("%s, %d\n", __FILE__, __LINE__);
+        }
+        // printf("{%s, %d}\n", info->cmd[pipe_index], pipe_index);
+        else
+        {
+            info->argv[argv_index] = ft_strdup(info->cmd[pipe_index]);
+            if (!info->argv[argv_index])
+                function_error("strdup");
+            argv_index++;
+            pipe_index++;
+        }
     }
     info->argv[argv_index] = NULL;
+        // int i = 0;
+        // while (info->argv[i])
+        // {
+        //     printf("|%s|\n", info->argv[i]);
+        //     i++;
+        // }
+    // printf("%s, %d\n", __FILE__, __LINE__);
 }
 
 void    do_fd(t_info *info, int i)
@@ -429,10 +456,10 @@ void    do_fd(t_info *info, int i)
     }
     if (info->output_fd == 1)
     {
-        if (i != info->pipe_count)
+        if (i != g_signal.pipe_count)
             dup2(info->pipefd[i][1], 1);  
     }
-    while (j < info->pipe_count)
+    while (j < g_signal.pipe_count)
     {
         close(info->pipefd[j][0]);
         close(info->pipefd[j][1]);
@@ -451,7 +478,7 @@ void    multiple_pipes(t_info *info, t_environ *list)
     i = 0;
     exe_path = NULL;
     index = 0;
-    while (i < info->pipe_count + 1)
+    while (i < g_signal.pipe_count + 1)
     {
         pid = fork();
         if (pid == -1)
@@ -460,10 +487,13 @@ void    multiple_pipes(t_info *info, t_environ *list)
         {
             set_signal_child();
             make_info_argv(info, info->pipe_place[i + 1], info->pipe_place[i]);
+            // printf("%s, %d\n", __FILE__, __LINE__);
             if (check_redirect(info) == 1)
                 exit(1);
+                // printf("%s, %d\n", __FILE__, __LINE__);
             do_fd(info, i);
-            if (check_builtin(info, info->argv) && i > info->pipe_count - 1)
+            // printf("%s, %d\n", __FILE__, __LINE__);
+            if (check_builtin(info, info->argv) && i > g_signal.pipe_count - 1)
             {
                 // printf("%s, %d\n", __FILE__, __LINE__);
                 if (ft_strncmp(info->argv[0], "cd", 2) == 0)
@@ -521,7 +551,7 @@ void    multiple_pipes(t_info *info, t_environ *list)
         i++;
     }
     i = 0;
-    while (i < info->pipe_count + 1)
+    while (i < g_signal.pipe_count + 1)
     {
         wait(&wstatus);
         i++;
@@ -543,18 +573,18 @@ void    multiple_pipes(t_info *info, t_environ *list)
 }
 /*-------------------------------------------------------------*/
 
-int count_pipe(t_info *info)
+int count_pipe(t_token *token)
 {
     int count;
     int i;
 
     i = 0;
     count = 0;
-    while (info->cmd[i])
+    while (token->kind != TOKEN_EOF)
     {
-        if (info->cmd[i][0] == '|' && ft_strlen(info->cmd[i]) == 1)
+        if (token->word[0] == '|' && ft_strlen(token->word[0]) == 1)
             count++;
-        i++;
+        token = token->next;
     }
     return (count);
 }
@@ -577,11 +607,11 @@ int *place_pipe(t_info *info)
     int i;
     int j;
 
-    ret = (int *)malloc(sizeof(int) * (info->pipe_count + 2));
+    ret = (int *)malloc(sizeof(int) * (g_signal.pipe_count + 2));
     if (ret == NULL)
         function_error("malloc7");
     ret[0] = -1;
-    ret[info->pipe_count + 1] = info->argc;
+    ret[g_signal.pipe_count + 1] = info->argc;
     i = 0;
     j = 1;
     while (i < info->argc)
@@ -592,11 +622,11 @@ int *place_pipe(t_info *info)
     }
 
     //pipefd作る
-    info->pipefd = (int **)malloc(sizeof(int *) * (info->pipe_count));
+    info->pipefd = (int **)malloc(sizeof(int *) * (g_signal.pipe_count));
     if (info->pipefd == NULL)
         function_error("malloc");
     i = 0;
-    while (i < info->pipe_count)
+    while (i < g_signal.pipe_count)
     {
         info->pipefd[i] = (int *)malloc(sizeof(int) * 2);
         if (info->pipefd[i] == NULL)
@@ -607,7 +637,7 @@ int *place_pipe(t_info *info)
         i++;
     }
     i = 0;
-    while (i < info->pipe_count)
+    while (i < g_signal.pipe_count)
         pipe(info->pipefd[i++]);
     return (ret);
 }
@@ -619,7 +649,6 @@ void    info_init(t_info *info, int argc, char **argv, t_environ *list)
     info->argc = argc;//cmdの数  
     info->argv = NULL;   
     info->cmd = argv;
-    info->pipe_count = count_pipe(info);
     info->path = make_path_list(list);
     // if (info->updata_list == TRUE)
     //     ;
@@ -633,7 +662,7 @@ void    info_init(t_info *info, int argc, char **argv, t_environ *list)
     // exit(1);
     // printf("%s, %d\n", __FILE__, __LINE__);
     // int i = 0;
-    // while (i < info->pipe_count + 2)
+    // while (i < g_signal.pipe_count + 2)
     // {
     //     printf("%d\n", info->pipe_place[i]);
     //     i++;
@@ -672,7 +701,7 @@ void    finish(t_info *info)
     free(info->pipe_place);
     if (info->pipefd)
     {
-        while (i < info->pipe_count)
+        while (i < g_signal.pipe_count)
         {
             free(info->pipefd[i]);
             i++;
@@ -694,7 +723,7 @@ void pipex(int argc, char **argv, t_environ *list)
     
     info_init(&info, argc, argv, list);
     //printf("%s, %d\n", __FILE__, __LINE__);
-    if (info.pipe_count == 0 && check_builtin(&info, info.cmd))
+    if (g_signal.pipe_count == 0 && check_builtin(&info, info.cmd))
     {
         //printf("%s, %d\n", __FILE__, __LINE__);
         make_info_argv(&info, info.pipe_place[1], info.pipe_place[0]);
