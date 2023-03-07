@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_ref.c                                        :+:      :+:    :+:   */
+/*   8_error.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/03 22:37:46 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/07 11:26:18 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	assert_error(const char *msg)
 //子プロセスexit, error codeは本家通り
 void	err_exit(const char *location, const char *msg)
 {
+	printf("%s, %d\n", __FILE__, __LINE__);
 	my_dprintf(STDERR_FILENO, "minishell: %s: %s\n", location, msg);
 	// g_signal = 127;
 	exit(127);
