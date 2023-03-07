@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/06 15:39:58 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/07 11:43:39 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void    do_input(t_info *info, int i)
     info->input_fd = open(info->argv[i + 1], O_RDONLY);
     if (info->input_fd == -1)
     {
-        // printf("%s, %d\n", __FILE__, __LINE__);
+        printf("%s, %d\n", __FILE__, __LINE__);
         err_exit(info->argv[i + 1], "command not found");
     }
         // function_error("open");
@@ -410,8 +410,11 @@ void    make_info_argv(t_info *info, int end, int start)
         function_error("malloc1");
     while (pipe_index < end)
     {
+            // printf("|%d|\n", pipe_index);
         if (ft_strchr(info->cmd[pipe_index], ' ') && g_signal.do_split)
         {
+            // printf("%s, %d\n", __FILE__, __LINE__);
+            // printf(">%s<\n", info->cmd[pipe_index]);
             split_count = 0;
             tmp = ft_split(info->cmd[pipe_index], ' ');
             while (split_count < count_splitable(info, pipe_index, end) + 1)
@@ -431,6 +434,8 @@ void    make_info_argv(t_info *info, int end, int start)
             // printf("%s, %d\n", __FILE__, __LINE__);
             // printf("|%s|\n", info->cmd[pipe_index]);
             // printf("pipe_index: %d, end: %d\n", pipe_index, end);
+            // printf("%s, %d\n", __FILE__, __LINE__);
+            // printf(">%s<\n", info->cmd[pipe_index]);
             info->argv[argv_index] = ft_strdup(info->cmd[pipe_index]);
             if (!info->argv[argv_index])
                 function_error("strdup");
@@ -445,6 +450,7 @@ void    make_info_argv(t_info *info, int end, int start)
         //     printf("|%s|\n", info->argv[i]);
         //     i++;
         // }
+        // printf("------------------------\n");
     // printf("%s, %d\n", __FILE__, __LINE__);
 }
 
@@ -490,7 +496,15 @@ void    multiple_pipes(t_info *info, t_environ *list)
         else if (pid == 0)
         {
             set_signal_child();
+            // printf("{%d, %d}\n", info->pipe_place[i + 1], info->pipe_place[i]);
             make_info_argv(info, info->pipe_place[i + 1], info->pipe_place[i]);
+            // int x = 0;
+            // printf("----------------------\n");
+            // while (info->argv[x])
+            // {
+            //     printf("|%s|\n", info->argv[x]);
+            //     x++;
+            // }
             // printf("%s, %d\n", __FILE__, __LINE__);
             if (check_redirect(info) == 1)
                 exit(1);
@@ -500,6 +514,7 @@ void    multiple_pipes(t_info *info, t_environ *list)
             if (check_builtin(info, info->argv) && i > g_signal.pipe_count - 1)
             {
                 // printf("%s, %d\n", __FILE__, __LINE__);
+                // printf("|%s|\n", info->argv[0]);
                 if (ft_strncmp(info->argv[0], "cd", 2) == 0)
                     cd_builtin(info);
                 else if (ft_strncmp(info->argv[0], "echo", 4) == 0)
@@ -516,10 +531,19 @@ void    multiple_pipes(t_info *info, t_environ *list)
                     unset_builtin(info, list);
                 exit(0);
             }
+            else if (check_builtin(info, info->argv))
+            {
+                // printf("%s, %d\n", __FILE__, __LINE__);
+                exit(0);
+            }
             else
             {
+                // printf("%s, %d\n", __FILE__, __LINE__);
                 if (access(exe_path, X_OK) == 0 && ft_strncmp(exe_path, "./", 2))
+                {
+                    // printf("%s, %d\n", __FILE__, __LINE__);
                     err_exit(info->argv[0], "command not found");
+                }
                 while ((info->path)[index] != NULL && access(exe_path, X_OK))
                 {
                     if (ft_strchr(info->argv[0], '/') == NULL)
@@ -539,7 +563,10 @@ void    multiple_pipes(t_info *info, t_environ *list)
                 // }
                 
                 if (execve(exe_path, info->argv, list_to_array(info->list)) == -1)
+                {
+                    // printf("%s, %d\n", __FILE__, __LINE__);
                      err_exit(info->argv[0], "command not found");
+                }
                 // function_error("execve");
             }
         }
@@ -611,6 +638,7 @@ int *place_pipe(t_info *info)
     int i;
     int j;
 
+    // printf("?%s?\n", info->cmd[0]);
     ret = (int *)malloc(sizeof(int) * (g_signal.pipe_count + 2));
     if (ret == NULL)
         function_error("malloc7");
@@ -619,10 +647,14 @@ int *place_pipe(t_info *info)
     // printf("pipe_place_end: %d\n", ret[g_signal.pipe_count + 1]);
     i = 0;
     j = 1;
-    while (i < g_signal.pipe_count)
+    while (i < info->argc)
     {
-        if (*(info->cmd[i]) == '|' && ft_strlen(info->cmd[i]) == 1)
+        // printf("%s, %d\n", __FILE__, __LINE__);
+        // printf("i: %d, info->cmd: %s\n", i, info->cmd[i]);
+        if (info->cmd[i][0] == '|' && ft_strlen(info->cmd[i]) == 1)
+        {
             ret[j++] = i;
+        }
         i++;
     }
     // printf("pipe_place_end: %d\n", ret[g_signal.pipe_count + 1]);
@@ -728,6 +760,10 @@ void pipex(int argc, char **argv, t_environ *list)
     t_info  info;
     
     info_init(&info, argc, argv, list);
+    // printf("{%d}\n", g_signal.pipe_count);
+    // printf("{%d}\n", info.pipe_place[0]);
+    // printf("{%d}\n", info.pipe_place[1]);
+    // printf("{%d}\n", info.pipe_place[2]);
     //printf("%s, %d\n", __FILE__, __LINE__);
     if (g_signal.pipe_count == 0 && check_builtin(&info, info.cmd))
     {
