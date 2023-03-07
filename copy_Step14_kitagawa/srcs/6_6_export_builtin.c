@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/07 01:50:11 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/06 15:16:26 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void    export_builtin(t_info *info, t_environ *list)
     int i;
     //char    **env;
     char    *key;
-    //printf("%s, %d\n", __FILE__, __LINE__);
+    
     if (info->argv[1] == NULL)
     {
         /*

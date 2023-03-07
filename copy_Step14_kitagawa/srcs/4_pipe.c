@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_pipe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/07 12:36:08 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/06 12:39:23 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -374,30 +374,6 @@ int    check_redirect(t_info *info)
 
 int check_builtin(t_info *info, char **argv)
 {
-
-    // int j = 0;
-    // char **tmp = info->cmd;
-    // while (tmp[j])
-    // {
-    //      printf("%s\n", tmp[j]);
-    //      j++;
-    // }
-    // minishell$ export TEST="b" | echo $TEST
-    // export
-    // TEST=b
-    // |
-    // echo
-    // a
-    // a
-    // minishell: export: export
-
-    // int j = 0;
-    // char **tmp = argv;
-    // while (tmp[j])
-    // {
-    //      printf("%s\n", tmp[j]);
-    //      j++;
-    // }
     if (ft_strncmp(argv[0], "cd", 2) == 0)
         return (1);
     if (ft_strncmp(argv[0], "echo", 4) == 0)
@@ -407,12 +383,7 @@ int check_builtin(t_info *info, char **argv)
     if (ft_strncmp(argv[0], "exit", 4) == 0)
         return (1);
     if (ft_strncmp(argv[0], "export", 6) == 0)
-    {
-        //export TEST="b" | echo $TEST
-        //来てない
-        //printf("%s, %d\n", __FILE__, __LINE__);
         return (1);
-    }
     if (ft_strncmp(argv[0], "pwd", 3) == 0)
         return (1);
     if  (ft_strncmp(argv[0], "unset", 5) == 0)
@@ -480,28 +451,6 @@ void    multiple_pipes(t_info *info, t_environ *list)
     i = 0;
     exe_path = NULL;
     index = 0;
-    
-    //debug
-    // int j = 0;
-    // char **tmp = info->cmd;
-    // while (tmp[j])
-    // {
-    //     printf("%s\n", tmp[j]);
-    //     j++;
-    // }
-    // テスト結果。まぁ二回通るのでこれで良い。
-    // minishell$ export TEST="b" | echo $TEST
-    // export
-    // TEST=b
-    // |
-    // echo
-    // a
-    // export
-    // TEST=b
-    // |
-    // echo
-    // a
-    
     while (i < info->pipe_count + 1)
     {
         pid = fork();
@@ -509,83 +458,14 @@ void    multiple_pipes(t_info *info, t_environ *list)
             function_error("fork");
         else if (pid == 0)
         {
-            // int j = 0;
-            // char **tmp = info->cmd;
-            // while (tmp[j])
-            // {
-            //     printf("before:%s\n", tmp[j]);
-            //     j++;
-            // }
-            // minishell$ export TEST="b" | echo $TEST
-            // before:export
-            // before:TEST=b
-            // before:|
-            // before:echo
-            // before:a
-            // before:export
-            // before:TEST=b
-            // before:|
-            // before:echo
-            // before:a
-
             set_signal_child();
             make_info_argv(info, info->pipe_place[i + 1], info->pipe_place[i]);
-            
-            // int j = 0;
-            // char **tmp = info->argv;
-            // while (tmp[j])
-            // {
-            //     printf("%s\n", tmp[j]);
-            //     j++;
-            // }
-            // printf("------------\n");
-            // minishell$ export TEST="b" | echo $TEST
-            // export
-            // TEST=b
-            // ------------
-            // echo
-            // a
-            // ------------
-            // a
-            // minishell: export: export
-            
             if (check_redirect(info) == 1)
                 exit(1);
             do_fd(info, i);
-            //printf("%s, %d\n", __FILE__, __LINE__);
-            //printf("info->argv[0]:%s\n", info->argv[0]);
-            // j = 0;
-            // tmp = info->cmd;
-            // while (tmp[j])
-            // {
-            //     printf("after:%s\n", tmp[j]);
-            //     j++;
-            // }
-            // after:export
-            // after:TEST=b
-            // after:|
-            // after:echo
-            // after:a
-            // a
-            // minishell: export: export
-            
             if (check_builtin(info, info->argv) && i > info->pipe_count - 1)
             {
                 // printf("%s, %d\n", __FILE__, __LINE__);
-                // int j = 0;
-                // char **tmp = info->argv;
-                // while (tmp[j])
-                // {
-                //     printf("%s\n", tmp[j]);
-                //     j++;
-                // }
-                // minishell$ export TEST="b" | echo $TEST
-                // minishell: export: export
-                // echo
-                // a
-                // a
-                //exportがここに来てないとおかしい
-                
                 if (ft_strncmp(info->argv[0], "cd", 2) == 0)
                     cd_builtin(info);
                 else if (ft_strncmp(info->argv[0], "echo", 4) == 0)
@@ -597,15 +477,11 @@ void    multiple_pipes(t_info *info, t_environ *list)
                 else if (ft_strncmp(info->argv[0], "pwd", 3) == 0)
                     pwd_builtin(info);
                 else if (ft_strncmp(info->argv[0], "export", 6) == 0)
-                {
                     export_builtin(info, list);
-                }
                 else if (ft_strncmp(info->argv[0], "unset", 5) == 0)
                     unset_builtin(info, list);
                 exit(0);
             }
-            else if (check_builtin(info, info->argv))
-                exit(0);
             else
             {
                 if (access(exe_path, X_OK) == 0 && ft_strncmp(exe_path, "./", 2))
@@ -627,7 +503,7 @@ void    multiple_pipes(t_info *info, t_environ *list)
                 // {
                 //     err_exit(info->argv[0], "command not found");
                 // }
-                //printf("%s, %d\n", __FILE__, __LINE__);
+                
                 if (execve(exe_path, info->argv, list_to_array(info->list)) == -1)
                      err_exit(info->argv[0], "command not found");
                 // function_error("execve");
@@ -818,22 +694,6 @@ void pipex(int argc, char **argv, t_environ *list)
     
     info_init(&info, argc, argv, list);
     //printf("%s, %d\n", __FILE__, __LINE__);
-
-    //debug
-    // int i = 0;
-    // char **tmp = info.cmd;
-    // while (tmp[i])
-    // {
-    //     printf("%s\n", tmp[i]);
-    //     i++;
-    // }
-    //テスト結果
-    // minishell$ export TEST="b" | echo $TEST
-    // export
-    // TEST=b
-    // |
-    // echo
-    // a
     if (info.pipe_count == 0 && check_builtin(&info, info.cmd))
     {
         //printf("%s, %d\n", __FILE__, __LINE__);
@@ -854,7 +714,6 @@ void pipex(int argc, char **argv, t_environ *list)
         //     printf("%s\n", info.list->value);
         //     info.list = info.list->next;
         // }
-        //printf("info->argv[0]:%s\n", info->argv[0]);
         if (ft_strncmp(info.argv[0], "cd", 2) == 0)
             cd_builtin(&info);
         else if (ft_strncmp(info.argv[0], "echo", 4) == 0)
@@ -870,7 +729,6 @@ void pipex(int argc, char **argv, t_environ *list)
         else if (ft_strncmp(info.argv[0], "unset", 5) == 0)
             unset_builtin(&info, list);
     }
-    //こっちに入る
     else
         multiple_pipes(&info, list);
     finish(&info);

@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/07 11:04:57 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/07 00:27:44 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,13 @@ void process_line(char *line, t_environ *list)
         //printf("%s, %d\n", __FILE__, __LINE__);
 		array = expand(token, list);
         //printf("%s, %d\n", __FILE__, __LINE__);
-        
-        // t_token *tmp;
-        // tmp = token;
-        // while (tmp)
+        // while (token)
         // {
-        //      printf("%s\n", tmp->word);
-        //      tmp = tmp->next;
+        //     printf("%s\n", token->word);
+        //     token = token->next;
         // }
-        //この時点ので結果
-        //minishell$ export TEST="b" | echo $TEST
-        // export
-        // TEST=b
-        // |
-        // echo
-        // a
-        // (null)
         // exit(1);
-		//array = token_list_to_array(token);
+		// array = token_list_to_array(token);
         //printf("%s, %d\n", __FILE__, __LINE__);
 		argc = count_argv(array);
         //printf("%s, %d\n", __FILE__, __LINE__);
@@ -101,7 +90,6 @@ int main(int argc, char **argv, char **envp)
     g_signal.other_code = FALSE;
     while (1)
     {
-        //printf("%s, %d\n", __FILE__, __LINE__);
         //list = make_environ(envp);
         if (g_signal.other_code == FALSE)
             g_signal.status = 0;
