@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/08 12:06:17 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 00:07:35 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,12 +145,12 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
                 }
                 else
                 {
-                    if (ft_strchr(p, '$'))
-                        var = ft_strndup(p, ft_strchr(p, '$') - p - 1);
+                    if (ft_strchr(p, '$'))//ここで$があるかどうかで分岐させる
+                        var = ft_strndup(p, ft_strchr(p, '$') - p - 1);//$がある場合は$の一つ前までを取得
                     else
 					{
 						// printf("%s, %d\n", __FILE__, __LINE__);
-                        var = ft_strndup(p, ft_strchr(p, '\0') - p);
+                        var = ft_strndup(p, ft_strchr(p, '\0') - p);//$がない場合は\0までを取得
 						// printf(">%s<\n", var);
 					}
                     if (new_word == NULL)

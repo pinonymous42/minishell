@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   8_error.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/07 11:26:18 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/08 23:48:27 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,9 @@ void	err_exit(const char *location, const char *msg)
 void	file_not_found(const char *filename)
 {
 	my_dprintf(STDERR_FILENO, "minishell: %s: No such file or directory\n", filename);
+}
+
+void ambiguous_redirect(char *filename)
+{
+	my_dprintf(STDERR_FILENO, "minishell: %s: ambiguous redirect\n", filename);
 }
