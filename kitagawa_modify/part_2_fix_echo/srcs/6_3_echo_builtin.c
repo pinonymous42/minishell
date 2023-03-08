@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_3_echo_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/06 15:27:38 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/08 19:51:15 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void    echo_builtin(t_info *info)
     // }
     // exit(1);
     option_flag = 0;
+    //printf("%s, %d\n", __FILE__, __LINE__);
     if (ft_strncmp(info->argv[1], "-n", 2) == 0)
         option_flag = 1;
     if (option_flag == 0)
@@ -33,7 +34,13 @@ void    echo_builtin(t_info *info)
         i = 1;
         while (info->argv[i])
         {
-            ft_putstr_fd(info->argv[i], STDOUT);
+            if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)
+                ft_putstr_fd(info->argv[i], STDOUT);
+            else//環境変数がNO_SUCH_ENVの場合は何もせずに次の引数へ
+            {
+                i++;
+                continue;
+            } 
             if (info->argv[i + 1] != NULL)
                 write(1, " ", 1);
             i++;
@@ -43,9 +50,17 @@ void    echo_builtin(t_info *info)
     else
     {
         i = 2;
+        //printf("%s, %d\n", __FILE__, __LINE__);
         while (info->argv[i])
         {
-            ft_putstr_fd(info->argv[i], STDOUT);
+            //printf("%s\n", info->argv[i]);
+            if (info->argv[i] != NO_SUCH_ENV)
+                ft_putstr_fd(info->argv[i], STDOUT);
+            else//環境変数がない場合は何もせずに次の引数へ
+            {
+                i++;
+                continue;
+            } 
             if (info->argv[i + 1] != NULL)
                 write(1, " ", 1);
             i++;

@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/08 19:09:07 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/08 19:35:45 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void    cd_builtin(t_info *info)
     char    *old_pwd;
     char    *update_pwd;
 
-    old_pwd = search_env("PWD", info->list);
     if (info->argv[1] == NULL)//引数がない場合はHOMEに移動
     {
         // printf("%s, %d\n", __FILE__, __LINE__);
@@ -66,7 +65,12 @@ void    cd_builtin(t_info *info)
     {
         // printf("%s, %d\n", __FILE__, __LINE__);
         if (chdir(info->argv[1]) == -1)//chdir() は、呼び出し元プロセスの現在の作業ディレクトリ (current working directory) を、 path に指定されたディレクトリに変更する。
-            function_error("cd");
+            function_error("chdir");
     }
-    
+    //printf("info->argv[1] = %s\n", info->argv[1]);
+    old_pwd = search_env("PWD", info->list);
+    printf("old_pwd = %s\n", old_pwd);
+    // new_pwd = update_pwd(info->argv[1], old_pwd);
+    // set_new_pwd(info->list, new_pwd);
+    // free(new_pwd);
 }
