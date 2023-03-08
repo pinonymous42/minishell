@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/09 00:42:09 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 01:13:53 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,8 +367,8 @@ int    check_redirect(t_info *info)
             //printf("%s, %d\n", __FILE__, __LINE__);
             if (ft_strncmp(search_env(info->argv[i + 1], info->list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) == 0)//>の後にno_such_envが来たらエラー
             {
-                ambiguous_redirect(info->argv[i + 1]);
-                return (1);
+                 ambiguous_redirect(info->argv[i + 1]);
+                 return (1);
             }
             do_output(info, i);
             continue;
@@ -785,6 +785,7 @@ void pipex(int argc, char **argv, t_environ *list)
         {
             g_signal.other_code = TRUE;
             g_signal.status = 1;
+            finish(&info);
             return ;
         }
         // printf("-----------------------------------\n");
