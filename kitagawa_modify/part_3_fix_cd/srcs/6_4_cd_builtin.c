@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/08 19:35:45 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:39:17 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,25 @@ void    cd_builtin(t_info *info)
 }
 */
 
+void set_new_pwd(t_environ *list, char *new_pwd_dup)
+{
+    while (list != NULL)
+    {
+        // printf("%s, %d\n", __FILE__, __LINE__);
+        if (ft_strncmp(list->key, "PWD", ft_strlen("PWD")) == 0)
+        {
+            free(list->value);
+            // printf("%s, %d\n", __FILE__, __LINE__);
+            list->value = new_pwd_dup;
+            printf("%s\n", list->value);
+        }
+        list = list->next;
+    }
+}
+
 void    cd_builtin(t_info *info)
 {
     char    *home;
-    char    *path;
-    char    *old_pwd;
-    char    *update_pwd;
 
     if (info->argv[1] == NULL)//引数がない場合はHOMEに移動
     {
@@ -68,9 +81,14 @@ void    cd_builtin(t_info *info)
             function_error("chdir");
     }
     //printf("info->argv[1] = %s\n", info->argv[1]);
-    old_pwd = search_env("PWD", info->list);
-    printf("old_pwd = %s\n", old_pwd);
-    // new_pwd = update_pwd(info->argv[1], old_pwd);
-    // set_new_pwd(info->list, new_pwd);
-    // free(new_pwd);
+    //old_pwd = search_env("PWD", info->list);
+    //printf("old_pwd = %s\n", old_pwd);
+    char    new_pwd[PATH_MAX];
+    char    *dup;
+    if (getcwd(new_pwd, sizeof(new_pwd)) != NULL) {
+        //printf("%s\n", new_pwd);
+        dup = ft_strdup(new_pwd);
+        set_new_pwd(info->list, dup);
+    }
+    //free(new_pwd);
 }
