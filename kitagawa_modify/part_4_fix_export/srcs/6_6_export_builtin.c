@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/08 14:34:45 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/08 23:13:11 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,54 @@ bool    check_argv_no_such_env(t_info *info)
     return (true);//全部の引数がNO_SUCH_ENVの場合はtrue
 }
 
+bool check_add_or_not(char *arg, t_environ *list)
+{
+    int i;
+
+    i = 0;
+    char *key;
+    while (arg[i] != '\0')
+    {
+        if (arg[i] == '+')
+        {
+            if (arg[i + 1] == '=')
+            {
+                key = ft_strndup(arg, i);// '+'の前の文字列をkeyとする
+                if(ft_strncmp(search_env(key, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//keyが存在する場合
+                {
+                    free(key);
+                    return (true);
+                }
+                else
+                {
+                    free(key);
+                    return (false);
+                }
+            }
+        }
+        i++;
+    }
+    return (false);
+}
+
+void    add_env_value(t_info *info, char *arg, t_environ *list)
+{
+    int  i;
+    char *key;
+
+    i = ft_strchr_index(arg, '+');
+    key = ft_strndup(arg, i);
+    while (list != NULL)
+    {
+        if (ft_strncmp(list->key, key, ft_strlen(key)) == 0)
+        {
+            list->value = ft_strjoin_with_free(list->value, arg + i + 2, 1);
+            break ;
+        }
+        list = list->next;
+    }
+    free(key);
+}
 
 void    export_builtin(t_info *info, t_environ *list)
 {
@@ -168,19 +216,6 @@ void    export_builtin(t_info *info, t_environ *list)
     //printf("%s, %d\n", __FILE__, __LINE__);
     if (info->argv[1] == NULL)
     {
-        //引数が与えられなかった場合には、現在の環境変数を表示
-        /*
-        char    **env;
-        int     i;
-        
-        env = list_to_array(list);
-        i = 0;
-        while (env[i] != NULL) {
-            ft_putendl_fd(env[i], 1);
-            i++;
-        }
-        free_array(env);
-        */
         t_environ *tmp;
         tmp = list;
         while (tmp != NULL)
@@ -198,24 +233,9 @@ void    export_builtin(t_info *info, t_environ *list)
         }
         return ;
     }
-    //printf("%d\n", check_argv_no_such_env(info));
     
     else if (check_argv_no_such_env(info) == true)
     {
-        //printf("%s, %d\n", __FILE__, __LINE__);
-        // 全て引数が展開されているかつ、全ての引数が既存の環境変数に含まれていない場合は引数なしと同じ
-        // char **argv;
-        // int   j;
-
-        // argv = info->argv;
-        // j = 1;
-        // while (argv[j] != NULL)
-        // {
-        //     if (search_env(argv[j], list) != NULL) ///既存の変数と一致した場合
-        //         break;
-        //     j++;
-        // }
-        //ここに来た時点で、全ての引数が既存の環境変数にふくまれていないので、引数なしと同じ
         t_environ *tmp;
         tmp = list;
         while (tmp != NULL)
@@ -232,25 +252,28 @@ void    export_builtin(t_info *info, t_environ *list)
             tmp = tmp->next;
         }
     }
+    
     else
     {
-    //printf("%s, %d\n", __FILE__, __LINE__);
         i = 1;
         while (info->argv[i] != NULL)
         {
-            key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
-            if(search_env(key, list) != NO_SUCH_ENV)//既存の環境変数を上書きする場合
+            if (check_add_or_not(info->argv[i], list) == true)
             {
-                //printf("%s, %d\n", __FILE__, __LINE__);
-                update_env(info, info->argv[i], list);
+                printf("%s, %d\n", __FILE__, __LINE__);
+                add_env_value(info, info->argv[i], list);
+                i++;
             }
-            else //新しく追加する場合
+            else
             {
-                //printf("%s, %d\n", __FILE__, __LINE__);
-                add_new_env(info, info->argv[i], list);
+                key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
+                if(ft_strncmp(search_env(key, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV) != 0))//keyが存在する場合
+                    update_env(info, info->argv[i], list);
+                else //新しく追加する場合
+                    add_new_env(info, info->argv[i], list);
+                free(key);
+                i++;
             }
-            free(key);
-            i++;
         }
     }
     return ;
