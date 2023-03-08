@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/08 23:13:11 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/08 23:28:54 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	add_new_env(t_info *info, char *arg, t_environ *list)
             function_error("strdup");
         value = NULL;
         list_add_back_export(&list, key, value);
+        free(key);
         //list_add_back_export(&info, key, value);
     }
     else
@@ -260,13 +261,17 @@ void    export_builtin(t_info *info, t_environ *list)
         {
             if (check_add_or_not(info->argv[i], list) == true)
             {
-                printf("%s, %d\n", __FILE__, __LINE__);
+                //printf("%s, %d\n", __FILE__, __LINE__);
                 add_env_value(info, info->argv[i], list);
                 i++;
             }
             else
             {
-                key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
+                //printf("%d\n", ft_strchr_index(info->argv[1], '='));
+                if (ft_strchr_index(info->argv[1], '=') != -1)// '='がある場合
+                    key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
+                else
+                    key = ft_strdup(info->argv[1]);// '='がない場合はそのままkeyとする
                 if(ft_strncmp(search_env(key, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV) != 0))//keyが存在する場合
                     update_env(info, info->argv[i], list);
                 else //新しく追加する場合
