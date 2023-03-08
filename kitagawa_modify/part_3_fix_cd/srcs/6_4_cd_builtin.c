@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/08 20:39:17 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:39:58 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void set_new_pwd(t_environ *list, char *new_pwd_dup)
             free(list->value);
             // printf("%s, %d\n", __FILE__, __LINE__);
             list->value = new_pwd_dup;
-            printf("%s\n", list->value);
+            //printf("%s\n", list->value);
         }
         list = list->next;
     }
