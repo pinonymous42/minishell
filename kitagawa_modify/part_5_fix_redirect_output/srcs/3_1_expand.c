@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/08 12:06:17 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 00:19:10 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 			g_signal.do_split = 1;
             while (ft_strchr(p, '$'))
             {
-                p++;
+                p++;//$の次の文字を指す
                 if (*p == '?')
                 {
                     p++;
@@ -145,20 +145,28 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
                 }
                 else
                 {
-                    if (ft_strchr(p, '$'))
-                        var = ft_strndup(p, ft_strchr(p, '$') - p - 1);
+                    if (ft_strchr(p, '$'))//ここで$があるかどうかで分岐させる
+                        var = ft_strndup(p, ft_strchr(p, '$') - p - 1);//$がある場合は$の一つ前までを取得
                     else
 					{
 						// printf("%s, %d\n", __FILE__, __LINE__);
-                        var = ft_strndup(p, ft_strchr(p, '\0') - p);
+                        var = ft_strndup(p, ft_strchr(p, '\0') - p);//$がない場合は\0までを取得
 						// printf(">%s<\n", var);
 					}
                     if (new_word == NULL)
-                        new_word = ft_strdup(search_env(var, list));
+					{
+						if (ft_strncmp(search_env(var, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//varが存在する場合
+                        	new_word = ft_strdup(search_env(var, list));
+						else
+							new_word = ft_strdup(var);
+					}
                     else//
 					{
 						// printf("%s, %d\n", __FILE__, __LINE__);
-                        new_word = ft_strjoin_with_free(new_word, search_env(var, list), FIRST_PARAM);
+						if (ft_strncmp(search_env(var, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)
+                        	new_word = ft_strjoin_with_free(new_word, search_env(var, list), FIRST_PARAM);
+						else
+							new_word = ft_strjoin_with_free(new_word, var, FIRST_PARAM);
 					}
                     free(var);
                     if (ft_strchr(p, '$'))

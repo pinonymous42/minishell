@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/08 14:33:58 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 00:42:09 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,6 +364,12 @@ int    check_redirect(t_info *info)
         }
         else if (*(info->argv)[i] == '>')
         {
+            //printf("%s, %d\n", __FILE__, __LINE__);
+            if (ft_strncmp(search_env(info->argv[i + 1], info->list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) == 0)//>の後にno_such_envが来たらエラー
+            {
+                ambiguous_redirect(info->argv[i + 1]);
+                return (1);
+            }
             do_output(info, i);
             continue;
         }
@@ -775,7 +781,12 @@ void pipex(int argc, char **argv, t_environ *list)
         //     i++;
         // }
         make_info_argv(&info, info.pipe_place[1], info.pipe_place[0]);
-        check_redirect(&info);
+        if (check_redirect(&info) == 1)
+        {
+            g_signal.other_code = TRUE;
+            g_signal.status = 1;
+            return ;
+        }
         // printf("-----------------------------------\n");
         // int i = 0;
         // while (info.argv[i])
@@ -791,6 +802,7 @@ void pipex(int argc, char **argv, t_environ *list)
         //     printf("%s\n", info.list->value);
         //     info.list = info.list->next;
         // }
+        //printf("%s, %d\n", __FILE__, __LINE__);
         if (ft_strncmp(info.argv[0], "cd", 2) == 0)
             cd_builtin(&info);
         else if (ft_strncmp(info.argv[0], "echo", 4) == 0)
@@ -802,14 +814,14 @@ void pipex(int argc, char **argv, t_environ *list)
         else if (ft_strncmp(info.argv[0], "pwd", 3) == 0)
             pwd_builtin(&info);
         else if (ft_strncmp(info.argv[0], "export", 6) == 0)
-        {
-            //printf("%s, %d\n", __FILE__, __LINE__);
             export_builtin(&info, list);
-        }
         else if (ft_strncmp(info.argv[0], "unset", 5) == 0)
             unset_builtin(&info, list);
     }
     else
+    {
+        //printf("%s, %d\n", __FILE__, __LINE__);
         multiple_pipes(&info, list);
+    }
     finish(&info);
 }

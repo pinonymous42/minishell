@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/08 12:52:14 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 00:23:17 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	assert_error(const char *msg);
 void	err_exit(const char *location, const char *msg);
 void	file_not_found(const char *filename);
 int     my_dprintf(int fd, const char *fmt, ...);
+void    ambiguous_redirect(char *filename);
 
 //pipe.c
 void     pipex(int argc, char *argv[], t_environ *list);

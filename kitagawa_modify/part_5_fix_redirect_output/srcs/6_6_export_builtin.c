@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/08 23:28:54 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 00:11:58 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	add_new_env(t_info *info, char *arg, t_environ *list)
     }
 }
 
-
+//修正必要
 bool    check_argv_no_such_env(t_info *info)
 {
     int i;
@@ -152,7 +152,7 @@ bool    check_argv_no_such_env(t_info *info)
     //printf("%s\n", info->argv[1]);
     while (info->argv[i] != NULL)
     {
-        if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)
+        if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//NO_SUCH_ENVでない場合
             return (false);
         i++;
     }
