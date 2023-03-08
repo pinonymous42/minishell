@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/07 00:17:58 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/08 12:06:17 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char    *double_variable_expand(char *new_word, t_environ *list)
     char    *ret;
     char    *var;
 
+	g_signal.do_split = 1;
     tmp = new_word;
     while (*new_word != '$')
         new_word++;
@@ -133,6 +134,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 		}
 		else if (*p == '$')//$VAR="echo hello"と入っていても後でどうせ中身をsplitするからただgetenvだけでいいんじゃね
         {
+			g_signal.do_split = 1;
             while (ft_strchr(p, '$'))
             {
                 p++;
@@ -147,15 +149,15 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
                         var = ft_strndup(p, ft_strchr(p, '$') - p - 1);
                     else
 					{
-						//printf("%s, %d\n", __FILE__, __LINE__);
+						// printf("%s, %d\n", __FILE__, __LINE__);
                         var = ft_strndup(p, ft_strchr(p, '\0') - p);
-						//printf(">%s<\n", var);
+						// printf(">%s<\n", var);
 					}
                     if (new_word == NULL)
                         new_word = ft_strdup(search_env(var, list));
-                    else
+                    else//
 					{
-						//printf("%s, %d\n", __FILE__, __LINE__);
+						// printf("%s, %d\n", __FILE__, __LINE__);
                         new_word = ft_strjoin_with_free(new_word, search_env(var, list), FIRST_PARAM);
 					}
                     free(var);
@@ -163,7 +165,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
                         p = ft_strchr(p, '$');
                     else
 					{
-						//printf("%s, %d\n", __FILE__, __LINE__);
+						// printf("%s, %d\n", __FILE__, __LINE__);
                         p = ft_strchr(p, '\0');
 					}
                 }
@@ -181,7 +183,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 				*not_expand_flag = 1;
 			}
 			append_char(&new_word, *p++);
-			//printf("|%s|\n", new_word);
+			// printf("|%s|\n", new_word);
 		}
 	}
 	free(tok->word);
@@ -294,10 +296,11 @@ char	**expand(t_token *tok, t_environ *list)
 	
 	i = 0;
 	not_expand_flag = 0;
-	// printf("%s, %d\n", __FILE__, __LINE__);
+	//ここまで来てる
+	//printf("%s, %d\n", __FILE__, __LINE__);
 	// printf("<%s>\n", tok->word);
 	quote_removal(tok, list, &not_expand_flag);
-	// printf("%s, %d\n", __FILE__, __LINE__);
+	//printf("%s, %d\n", __FILE__, __LINE__);
 	// printf("|%s|\n", tok->word);
 	array = token_list_to_array(tok);
 	// printf("%s, %d\n", __FILE__, __LINE__);

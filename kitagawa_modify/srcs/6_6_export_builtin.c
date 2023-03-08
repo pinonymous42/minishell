@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/07 01:50:11 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:34:45 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,26 @@ void	add_new_env(t_info *info, char *arg, t_environ *list)
     }
 }
 
+
+bool    check_argv_no_such_env(t_info *info)
+{
+    int i;
+
+    i = 1;
+    //全部の引数が展開されている場合はtrue
+    //printf("%s, %d\n", __FILE__, __LINE__);
+    //printf("%s\n", info->argv[1]);
+    while (info->argv[i] != NULL)
+    {
+        if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)
+            return (false);
+        i++;
+    }
+    //printf("%s, %d\n", __FILE__, __LINE__);
+    return (true);//全部の引数がNO_SUCH_ENVの場合はtrue
+}
+
+
 void    export_builtin(t_info *info, t_environ *list)
 {
     int i;
@@ -148,8 +168,8 @@ void    export_builtin(t_info *info, t_environ *list)
     //printf("%s, %d\n", __FILE__, __LINE__);
     if (info->argv[1] == NULL)
     {
-        /*
         //引数が与えられなかった場合には、現在の環境変数を表示
+        /*
         char    **env;
         int     i;
         
@@ -178,54 +198,60 @@ void    export_builtin(t_info *info, t_environ *list)
         }
         return ;
     }
-    i = 1;
-    while (info->argv[i] != NULL)
+    //printf("%d\n", check_argv_no_such_env(info));
+    
+    else if (check_argv_no_such_env(info) == true)
     {
-        key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
-        if(search_env(key, list) != NULL)//既存の環境変数を上書きする場合
+        //printf("%s, %d\n", __FILE__, __LINE__);
+        // 全て引数が展開されているかつ、全ての引数が既存の環境変数に含まれていない場合は引数なしと同じ
+        // char **argv;
+        // int   j;
+
+        // argv = info->argv;
+        // j = 1;
+        // while (argv[j] != NULL)
+        // {
+        //     if (search_env(argv[j], list) != NULL) ///既存の変数と一致した場合
+        //         break;
+        //     j++;
+        // }
+        //ここに来た時点で、全ての引数が既存の環境変数にふくまれていないので、引数なしと同じ
+        t_environ *tmp;
+        tmp = list;
+        while (tmp != NULL)
         {
-            update_env(info, info->argv[i], list);
+            ft_putstr_fd("declare -x ", 1);
+            ft_putstr_fd(tmp->key, 1);
+            if (tmp->value != NULL)
+            {
+                ft_putstr_fd("=\"", 1);
+                ft_putstr_fd(tmp->value, 1);
+                ft_putstr_fd("\"", 1);
+            }
+            ft_putstr_fd("\n", 1);
+            tmp = tmp->next;
         }
-        else //新しく追加する場合
-            add_new_env(info, info->argv[i], list);
-        free(key);
-        i++;
     }
-    /*
-    else if(search_env(key, list) != NULL)
+    else
     {
+    //printf("%s, %d\n", __FILE__, __LINE__);
         i = 1;
         while (info->argv[i] != NULL)
         {
-            export_env(info, info->argv[i], list);
+            key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
+            if(search_env(key, list) != NO_SUCH_ENV)//既存の環境変数を上書きする場合
+            {
+                //printf("%s, %d\n", __FILE__, __LINE__);
+                update_env(info, info->argv[i], list);
+            }
+            else //新しく追加する場合
+            {
+                //printf("%s, %d\n", __FILE__, __LINE__);
+                add_new_env(info, info->argv[i], list);
+            }
+            free(key);
             i++;
         }
     }
-    */
-    //新しく追加する場合
-    /*
-    else
-    {
-        //info->updata_list = TRUE;
-        //t_environ *new_list;
-        //printf("%s, %d\n", __FILE__, __LINE__);
-        //new_list = copy_list(info->list);
-        //printf("%s, %d\n", __FILE__, __LINE__);
-        i = 1;
-        while (info->argv[i] != NULL)
-		{
-			export_env(info, info->argv[i], list);
-			i++;
-		}
-        // while(info->list != NULL)
-        // {
-        //     printf("KEY:%s/", info->list->key);
-        //     printf("VALUE:%s\n", info->list->value);
-        //     info->list = info->list->next;
-        // }
-        //free_list(info->list);
-        //info->list = new_list;
-    }
-    */
     return ;
 }

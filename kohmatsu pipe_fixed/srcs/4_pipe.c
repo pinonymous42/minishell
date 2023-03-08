@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_pipe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/07 11:43:39 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/08 00:54:24 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -522,7 +522,7 @@ void    multiple_pipes(t_info *info, t_environ *list)
                 else if (ft_strncmp(info->argv[0], "env", 3) == 0)
                     env_builtin(info);
                 else if (ft_strncmp(info->argv[0], "exit", 4) == 0)
-                    env_builtin(info);
+                    exit_builtin(info);
                 else if (ft_strncmp(info->argv[0], "pwd", 3) == 0)
                     pwd_builtin(info);
                 else if (ft_strncmp(info->argv[0], "export", 6) == 0)

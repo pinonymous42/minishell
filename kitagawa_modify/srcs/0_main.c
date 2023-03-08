@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/07 11:04:57 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/08 11:55:51 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void process_line(char *line, t_environ *list)
 
 	// syntax_error = false;
     token = tokenize(line);
+    g_signal.pipe_count = count_pipe(token);
     // while (token)
     // {
     //     printf("%s\n", token->word);
@@ -52,30 +53,20 @@ void process_line(char *line, t_environ *list)
     //     *status = TOKENIZE_ERROR;
     else
     {
-        //printf("%s, %d\n", __FILE__, __LINE__);
+        // printf("%s, %d\n", __FILE__, __LINE__);
 		array = expand(token, list);
         //printf("%s, %d\n", __FILE__, __LINE__);
-        
-        // t_token *tmp;
-        // tmp = token;
-        // while (tmp)
+        // int i = 0;
+        // while (array[i])
         // {
-        //      printf("%s\n", tmp->word);
-        //      tmp = tmp->next;
+        //     printf("%s\n", array[i]);
+        //     i++;
         // }
-        //この時点ので結果
-        //minishell$ export TEST="b" | echo $TEST
-        // export
-        // TEST=b
-        // |
-        // echo
-        // a
-        // (null)
         // exit(1);
-		//array = token_list_to_array(token);
-        //printf("%s, %d\n", __FILE__, __LINE__);
+		// array = token_list_to_array(token);
+        // printf("%s, %d\n", __FILE__, __LINE__);
 		argc = count_argv(array);
-        //printf("%s, %d\n", __FILE__, __LINE__);
+        // printf("%s, %d\n", __FILE__, __LINE__);
         if (g_signal.other_code == FALSE)
         {
             // printf("%s, %d\n", __FILE__, __LINE__);
@@ -108,6 +99,8 @@ int main(int argc, char **argv, char **envp)
         g_signal.other_code = FALSE;
         g_signal.input_fd = dup(0);
         g_signal.output_fd = dup(1);
+        g_signal.do_split = 0;
+        g_signal.pipe_count = 0;
         set_signal();
         line = readline("minishell$ ");
         if (line == NULL)
