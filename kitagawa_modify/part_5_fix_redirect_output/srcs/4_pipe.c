@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/09 09:18:52 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 14:01:55 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void    do_input(t_info *info, int i)
     info->input_fd = open(info->argv[i + 1], O_RDONLY);
     if (info->input_fd == -1)
     {
-        printf("%s, %d\n", __FILE__, __LINE__);
+        //printf("%s, %d\n", __FILE__, __LINE__);
         err_exit(info->argv[i + 1], "command not found");
     }
         // function_error("open");
@@ -572,7 +572,7 @@ void    multiple_pipes(t_info *info, t_environ *list)
                 if (execve(exe_path, info->argv, list_to_array(info->list)) == -1)
                 {
                     // printf("%s, %d\n", __FILE__, __LINE__);
-                     err_exit(info->argv[0], "command not found");
+                    err_exit(info->argv[0], "command not found");
                 }
                 // function_error("execve");
             }

@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/08 19:53:46 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 13:09:03 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void    echo_builtin(t_info *info)
         i = 1;
         while (info->argv[i])
         {
-            if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)
+            if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//環境変数がNO_SUCH_ENVでない場合は出力
                 ft_putstr_fd(info->argv[i], STDOUT);
             else//環境変数がNO_SUCH_ENVの場合は何もせずに次の引数へ
             {
