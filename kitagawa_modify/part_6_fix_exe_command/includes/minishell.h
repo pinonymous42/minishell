@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/09 00:23:17 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:22:29 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void    function_error(char *function_name);
 void    tokenize_error(char *message, char **rest, char *line);
 void	assert_error(const char *msg);
 void	err_exit(const char *location, const char *msg);
+void	command_not_found(const char *location);
 void	file_not_found(const char *filename);
 int     my_dprintf(int fd, const char *fmt, ...);
 void    ambiguous_redirect(char *filename);
@@ -147,7 +148,7 @@ char *search_env(char *key, t_environ *list);
 void    cd_builtin(t_info *info);
 
 //echo_builtin.c
-void    echo_builtin(t_info *info);
+void    echo_builtin(t_info *info, int j);
 
 //env_builtin.c
 void    env_builtin(t_info *info);
@@ -159,6 +160,7 @@ void    exit_builtin(t_info *info);
 void    pwd_builtin(t_info *info);
 
 //export_builtin.c
+int	    ft_strchr_index(const char *str, char c);
 void    export_builtin(t_info *info, t_environ *list);
 
 //unset_builtin.c

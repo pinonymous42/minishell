@@ -6,13 +6,13 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/09 13:09:03 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:22:19 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    echo_builtin(t_info *info)
+void    echo_builtin(t_info *info, int j)
 {
     int option_flag;
     int i;
@@ -31,7 +31,7 @@ void    echo_builtin(t_info *info)
     if (option_flag == 0)
     {
         // printf("%s, %d\n", __FILE__, __LINE__);
-        i = 1;
+        i = j+1;
         while (info->argv[i])
         {
             if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//環境変数がNO_SUCH_ENVでない場合は出力
@@ -49,7 +49,7 @@ void    echo_builtin(t_info *info)
     }
     else
     {
-        i = 2;
+        i = j+2;
         //printf("%s, %d\n", __FILE__, __LINE__);
         while (info->argv[i])
         {
