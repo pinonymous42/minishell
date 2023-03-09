@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/09 14:07:10 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 09:19:04 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	assert_error(const char *msg)
 //子プロセスexit, error codeは本家通り
 void	err_exit(const char *location, const char *msg)
 {
-	//printf("%s, %d\n", __FILE__, __LINE__);
+	printf("%s, %d\n", __FILE__, __LINE__);
 	my_dprintf(STDERR_FILENO, "minishell: %s: %s\n", location, msg);
 	// g_signal = 127;
 	exit(127);
