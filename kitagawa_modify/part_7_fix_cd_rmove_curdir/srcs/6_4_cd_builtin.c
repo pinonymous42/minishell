@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/09 17:40:09 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 17:53:14 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,19 @@ void    cd_builtin(t_info *info)
         set_new_pwd(info->list, dup);
     }
     else
+    {
+        char *error_pwd;
+        while (info->list != NULL)//PWDの値を取得
+        {
+            if (ft_strncmp(info->list->key,"PWD", ft_strlen("PWD")) == 0)
+            {
+                error_pwd = ft_strjoin_with_free(info->list->value, "/.", 1);
+                info->list->value = error_pwd;
+                break;
+            }
+            info->list = info->list->next;
+        }
         perror("cd: error retrieving current directory: getcwd: cannot access parent directories");
+    }
     //free(new_pwd);
 }
