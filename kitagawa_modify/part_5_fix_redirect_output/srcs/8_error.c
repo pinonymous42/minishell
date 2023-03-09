@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/09 00:23:44 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 09:19:04 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,5 @@ void	file_not_found(const char *filename)
 
 void ambiguous_redirect(char *filename)
 {
-	my_dprintf(STDERR_FILENO, "minishell: $%s: ambiguous redirect\n", filename);
+	my_dprintf(STDERR_FILENO, "minishell: %s: ambiguous redirect\n", filename);
 }

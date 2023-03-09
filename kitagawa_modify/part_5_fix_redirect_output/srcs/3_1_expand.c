@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/09 00:19:10 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 09:15:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,15 +158,21 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 						if (ft_strncmp(search_env(var, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//varが存在する場合
                         	new_word = ft_strdup(search_env(var, list));
 						else
-							new_word = ft_strdup(var);
+						{
+							new_word = ft_strdup("$");
+							new_word = ft_strjoin_with_free(new_word, var, FIRST_PARAM);
+						}
 					}
                     else//
 					{
 						// printf("%s, %d\n", __FILE__, __LINE__);
-						if (ft_strncmp(search_env(var, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)
+						if (ft_strncmp(search_env(var, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//varが存在する場合
                         	new_word = ft_strjoin_with_free(new_word, search_env(var, list), FIRST_PARAM);
-						else
+						else//varが存在しない場合
+						{
+							new_word = ft_strjoin_with_free(new_word, "$", FIRST_PARAM);
 							new_word = ft_strjoin_with_free(new_word, var, FIRST_PARAM);
+						}
 					}
                     free(var);
                     if (ft_strchr(p, '$'))
