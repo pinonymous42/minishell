@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/09 15:22:19 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 23:10:43 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void    echo_builtin(t_info *info, int j)
         i = j+1;
         while (info->argv[i])
         {
-            if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//環境変数がNO_SUCH_ENVでない場合は出力
+            if (ft_strchr(info->argv[i], '$') == NULL)//info->argv[i]に$が含まれていない場合はそのまま出力
                 ft_putstr_fd(info->argv[i], STDOUT);
-            else//環境変数がNO_SUCH_ENVの場合は何もせずに次の引数へ
+            else//info->argv[i]に$が含まれている場合は飛ばす
             {
                 i++;
                 continue;
@@ -54,9 +54,9 @@ void    echo_builtin(t_info *info, int j)
         while (info->argv[i])
         {
             //printf("%s\n", info->argv[i]);
-            if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)
+            if (ft_strchr(info->argv[i], '$') == NULL)//argv[i]に$が含まれていない場合はそのまま出力
                 ft_putstr_fd(info->argv[i], STDOUT);
-            else//環境変数がない場合は何もせずに次の引数へ
+            else//argv[i]に$が含まれている場合は$を含む文字列を出力
             {
                 i++;
                 continue;

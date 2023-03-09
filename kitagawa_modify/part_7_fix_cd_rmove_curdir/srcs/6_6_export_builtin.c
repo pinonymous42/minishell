@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/09 00:11:58 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 23:01:34 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,12 +152,12 @@ bool    check_argv_no_such_env(t_info *info)
     //printf("%s\n", info->argv[1]);
     while (info->argv[i] != NULL)
     {
-        if (ft_strncmp(info->argv[i], NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//NO_SUCH_ENVでない場合
+        if (ft_strchr(info->argv[i], '$') == NULL)//引数に'$'がない場合
             return (false);
         i++;
     }
     //printf("%s, %d\n", __FILE__, __LINE__);
-    return (true);//全部の引数がNO_SUCH_ENVの場合はtrue
+    return (true);//全部の引数に'$'がある場合
 }
 
 bool check_add_or_not(char *arg, t_environ *list)

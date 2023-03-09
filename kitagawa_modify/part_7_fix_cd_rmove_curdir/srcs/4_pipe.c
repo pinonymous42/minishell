@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/09 15:25:48 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 22:25:43 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,7 +365,6 @@ int    check_redirect(t_info *info)
         else if (*(info->argv)[i] == '>')
         {
             //printf("%s, %d\n", __FILE__, __LINE__);
-            
             if (ft_strchr(info->argv[i + 1],'$') != NULL)//$が含まれている
             {
                  ambiguous_redirect(info->argv[i + 1]);
@@ -529,7 +528,7 @@ void    multiple_pipes(t_info *info, t_environ *list)
                 //info->argv[j]に=が含まれている場合はj++で次に進む
                 //=が含まれていない場合は抜ける
                 //printf("%d\n", j);
-                if (ft_strchr_index(info->argv[j], '=') == -1)
+                if (ft_strchr_index(info->argv[j], '=') == -1)//=が含まれていない場合
                     break;
                 j++;
             }
