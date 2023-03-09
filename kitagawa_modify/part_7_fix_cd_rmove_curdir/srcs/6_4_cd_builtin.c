@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/08 20:39:58 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/09 17:40:09 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,13 @@ void    cd_builtin(t_info *info)
     //printf("old_pwd = %s\n", old_pwd);
     char    new_pwd[PATH_MAX];
     char    *dup;
+    //printf("new_pwd = %s\n", getcwd(new_pwd, sizeof(new_pwd)));
     if (getcwd(new_pwd, sizeof(new_pwd)) != NULL) {
         //printf("%s\n", new_pwd);
         dup = ft_strdup(new_pwd);
         set_new_pwd(info->list, dup);
     }
+    else
+        perror("cd: error retrieving current directory: getcwd: cannot access parent directories");
     //free(new_pwd);
 }
