@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/10 17:48:11 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/11 00:12:16 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	add_new_env(t_info *info, char *arg, t_environ *list)
             function_error("strdup");
         value = NULL;
         list_add_back_export(&list, key, value);
+        free(key);
         //list_add_back_export(&info, key, value);
     }
     else
@@ -140,6 +141,74 @@ void	add_new_env(t_info *info, char *arg, t_environ *list)
     }
 }
 
+//修正必要
+bool    check_argv_no_such_env(t_info *info)
+{
+    int i;
+
+    i = 1;
+    //全部の引数が展開されている場合はtrue
+    //printf("%s, %d\n", __FILE__, __LINE__);
+    //printf("%s\n", info->argv[1]);
+    while (info->argv[i] != NULL)
+    {
+        if (ft_strchr(info->argv[i], '$') == NULL)//引数に'$'がない場合
+            return (false);
+        i++;
+    }
+    //printf("%s, %d\n", __FILE__, __LINE__);
+    return (true);//全部の引数に'$'がある場合
+}
+
+bool check_add_or_not(char *arg, t_environ *list)
+{
+    int i;
+
+    i = 0;
+    char *key;
+    while (arg[i] != '\0')
+    {
+        if (arg[i] == '+')
+        {
+            if (arg[i + 1] == '=')
+            {
+                key = ft_strndup(arg, i);// '+'の前の文字列をkeyとする
+                if(ft_strncmp(search_env(key, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//keyが存在する場合
+                {
+                    free(key);
+                    return (true);
+                }
+                else
+                {
+                    free(key);
+                    return (false);
+                }
+            }
+        }
+        i++;
+    }
+    return (false);
+}
+
+void    add_env_value(t_info *info, char *arg, t_environ *list)
+{
+    int  i;
+    char *key;
+
+    i = ft_strchr_index(arg, '+');
+    key = ft_strndup(arg, i);
+    while (list != NULL)
+    {
+        if (ft_strncmp(list->key, key, ft_strlen(key)) == 0)
+        {
+            list->value = ft_strjoin_with_free(list->value, arg + i + 2, 1);
+            break ;
+        }
+        list = list->next;
+    }
+    free(key);
+}
+
 int    not_allowed_variant_character(char *key)
 {
     while (*key)
@@ -156,40 +225,59 @@ void    export_builtin(t_info *info, t_environ *list)
     int i;
     //char    **env;
     char    *key;
-    
-    if (info->argv[1] == NULL)
+    //printf("%s, %d\n", __FILE__, __LINE__);
+    if (info->argv[1] == NULL || check_argv_no_such_env(info) == true)
     {
-        //引数が与えられなかった場合には、現在の環境変数を表示
-        char    **env;
-        int     i;
-        
-        env = list_to_array(list);
-        i = 0;
-        while (env[i] != NULL) {
-            ft_putendl_fd(env[i], 1);
-            i++;
+        t_environ *tmp;
+        tmp = list;
+        while (tmp != NULL)
+        {
+            ft_putstr_fd("declare -x ", 1);
+            ft_putstr_fd(tmp->key, 1);
+            if (tmp->value != NULL)
+            {
+                ft_putstr_fd("=\"", 1);
+                ft_putstr_fd(tmp->value, 1);
+                ft_putstr_fd("\"", 1);
+            }
+            ft_putstr_fd("\n", 1);
+            tmp = tmp->next;
         }
-        free_array(env);
         return ;
     }
-    i = 1;
-    while (info->argv[i] != NULL)
+    else
     {
-        key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
-        if (not_allowed_variant_character(key))
+        i = 1;
+        while (info->argv[i] != NULL)
         {
-            my_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", info->argv[1]);
-            g_signal.status = 1;
-            g_signal.other_code = TRUE;
-            return ;
+            if (check_add_or_not(info->argv[i], list) == true)
+            {
+                //printf("%s, %d\n", __FILE__, __LINE__);
+                add_env_value(info, info->argv[i], list);
+                i++;
+            }
+            else
+            {
+                //printf("%d\n", ft_strchr_index(info->argv[1], '='));
+                if (ft_strchr_index(info->argv[1], '=') != -1)// '='がある場合
+                    key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
+                else
+                    key = ft_strdup(info->argv[1]);// '='がない場合はそのままkeyとする
+                if (not_allowed_variant_character(key))
+                {
+                    my_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", info->argv[1]);
+                    g_signal.status = 1;
+                    g_signal.other_code = TRUE;
+                    return ;
+                }
+                if(ft_strncmp(search_env(key, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV) != 0))//keyが存在する場合
+                    update_env(info, info->argv[i], list);
+                else //新しく追加する場合
+                    add_new_env(info, info->argv[i], list);
+                free(key);
+                i++;
+            }
         }
-        if(search_env(key, list) != NULL)//既存の環境変数を上書きする場合
-        {
-            update_env(info, info->argv[i], list);
-        }
-        else //新しく追加する場合
-            add_new_env(info, info->argv[i], list);
-        free(key);
-        i++;
     }
+    return ;
 }

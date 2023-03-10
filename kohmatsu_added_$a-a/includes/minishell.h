@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/09 15:22:29 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/10 23:54:11 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void    pwd_builtin(t_info *info);
 //export_builtin.c
 int	    ft_strchr_index(const char *str, char c);
 void    export_builtin(t_info *info, t_environ *list);
+int     not_allowed_variant_character(char *key);
 
 //unset_builtin.c
 void    unset_builtin(t_info *info, t_environ *list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/09 09:15:39 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/11 00:14:10 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void	append_char(char **s, char c)
 	*s = new;
 }
 
+int	is_variable_character(char c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
+
 char    *double_variable_expand(char *new_word, t_environ *list)
 {
     char    *tmp;
@@ -40,12 +45,15 @@ char    *double_variable_expand(char *new_word, t_environ *list)
 
 	g_signal.do_split = 1;
     tmp = new_word;
+	var = ft_calloc(sizeof(char), 1);
     while (*new_word != '$')
         new_word++;
+	// printf(">%s<\n", new_word);
     if (new_word == tmp)
         ret = ft_calloc(sizeof(char), 1);
     else
         ret = ft_strndup(tmp, new_word - tmp);
+	// printf("|%s|\n", ret);
     new_word++;
     if (*new_word == '?')
     {
@@ -54,33 +62,46 @@ char    *double_variable_expand(char *new_word, t_environ *list)
     }
     else
     {
-		if (ft_strchr(new_word, '$') || ft_strchr(new_word, ' '))
+		// printf("%s, %d\n", __FILE__, __LINE__);
+		if (ft_strchr(new_word, '$') || ft_strchr(new_word, ' ') || not_allowed_variant_character(new_word))
 		{
-			if (ft_strchr(new_word, ' ') == 0 || (ft_strchr(new_word, '$') && (ft_strchr(new_word, '$') < ft_strchr(new_word, ' '))))
-				var = ft_strndup(new_word, ft_strchr(new_word, '$') - new_word);
-			else if (ft_strchr(new_word, '$') == 0 || (ft_strchr(new_word, ' ') && (ft_strchr(new_word, '$') > ft_strchr(new_word, ' '))))
-			{
-				// printf("%s, %d\n", __FILE__, __LINE__);
-				var = ft_strndup(new_word, ft_strchr(new_word, ' ') - new_word);
-			}
+			// printf("%s, %d\n", __FILE__, __LINE__);
+			while (*new_word != '$' && *new_word != ' ' && is_variable_character(*new_word))
+				append_char(&var, *new_word++);
+			// printf("%s, %d\n", __FILE__, __LINE__);
 		}
         else
+		{
+			// printf("%s, %d\n", __FILE__, __LINE__);
             var = ft_strndup(new_word, ft_strchr(new_word, '\0') - new_word);
+		}
 		// printf("{%s}\n", var);
         ret = ft_strjoin_with_free(ret, search_env(var, list), FIRST_PARAM);
 		// printf("|%s|\n", ret);
         free(var);
 		if (ft_strchr(new_word, '$') || ft_strchr(new_word, ' '))
 		{
+			// printf("%s, %d\n", __FILE__, __LINE__);
 			if (ft_strchr(new_word, ' ') == 0 || (ft_strchr(new_word, '$') && (ft_strchr(new_word, '$') < ft_strchr(new_word, ' '))))
 				new_word = ft_strchr(new_word, '$');
 			else if (ft_strchr(new_word, '$') == 0 || (ft_strchr(new_word, ' ') && (ft_strchr(new_word, '$') > ft_strchr(new_word, ' '))))
 				new_word = ft_strchr(new_word, ' ');
 		}
         else
-            new_word = ft_strchr(new_word, '\0');
+		{
+			// printf("%s, %d\n", __FILE__, __LINE__);
+			if (not_allowed_variant_character(new_word))
+			{
+				while (is_variable_character(*new_word))
+					new_word++;
+			}
+			else
+            	new_word = ft_strchr(new_word, '\0');
+		}
     }
+	// printf("?%s?\n", new_word);
     ret = ft_strjoin_with_free(ret, new_word, FIRST_PARAM);
+	// printf("{%s}\n", ret);
     free(tmp);
     return (ret);
 }
@@ -137,7 +158,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 			g_signal.do_split = 1;
             while (ft_strchr(p, '$'))
             {
-                p++;//$の次の文字を指す
+                p++;
                 if (*p == '?')
                 {
                     p++;
@@ -145,42 +166,41 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
                 }
                 else
                 {
-                    if (ft_strchr(p, '$'))//ここで$があるかどうかで分岐させる
-                        var = ft_strndup(p, ft_strchr(p, '$') - p - 1);//$がある場合は$の一つ前までを取得
+                    if (ft_strchr(p, '$'))
+                        var = ft_strndup(p, ft_strchr(p, '$') - p - 1);
                     else
 					{
-						// printf("%s, %d\n", __FILE__, __LINE__);
-                        var = ft_strndup(p, ft_strchr(p, '\0') - p);//$がない場合は\0までを取得
-						// printf(">%s<\n", var);
+						if (not_allowed_variant_character(p))
+						{
+							// printf("%s, %d\n", __FILE__, __LINE__);
+							var = ft_calloc(sizeof(char), 1);
+							while (is_variable_character(*p))
+							{
+								// printf("|%c|\n", *p);
+								append_char(&var, *p++);
+							}
+							// printf("%s, %d\n", __FILE__, __LINE__);
+						}
+						else
+							var = ft_strndup(p, ft_strchr(p, '\0') - p);
 					}
                     if (new_word == NULL)
-					{
-						if (ft_strncmp(search_env(var, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//varが存在する場合
-                        	new_word = ft_strdup(search_env(var, list));
-						else
-						{
-							new_word = ft_strdup("$");
-							new_word = ft_strjoin_with_free(new_word, var, FIRST_PARAM);
-						}
-					}
-                    else//
-					{
-						// printf("%s, %d\n", __FILE__, __LINE__);
-						if (ft_strncmp(search_env(var, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//varが存在する場合
-                        	new_word = ft_strjoin_with_free(new_word, search_env(var, list), FIRST_PARAM);
-						else//varが存在しない場合
-						{
-							new_word = ft_strjoin_with_free(new_word, "$", FIRST_PARAM);
-							new_word = ft_strjoin_with_free(new_word, var, FIRST_PARAM);
-						}
-					}
+                        new_word = ft_strdup(search_env(var, list));
+                    else
+                        new_word = ft_strjoin_with_free(new_word, search_env(var, list), FIRST_PARAM);
                     free(var);
                     if (ft_strchr(p, '$'))
                         p = ft_strchr(p, '$');
                     else
 					{
-						// printf("%s, %d\n", __FILE__, __LINE__);
-                        p = ft_strchr(p, '\0');
+						if (not_allowed_variant_character(p))
+						{
+							// printf("%s, %d\n", __FILE__, __LINE__);
+							while (is_variable_character(*p))
+								p++;
+						}
+						else
+                        	p = ft_strchr(p, '\0');
 					}
                 }
             }
@@ -200,6 +220,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 			// printf("|%s|\n", new_word);
 		}
 	}
+	// printf("%s, %d\n", __FILE__, __LINE__);
 	free(tok->word);
 	tok->word = new_word;
 	quote_removal(tok->next, list, not_expand_flag);
