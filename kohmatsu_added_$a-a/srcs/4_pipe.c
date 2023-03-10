@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/10 17:46:50 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/10 23:55:30 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,21 @@ char    *make_exepath(char *path, char *command)
 int count_splitable(t_info *info, int start, int end)
 {
     int count;
+    int i;
 
     count = 0;
     while (start < end)
     {
         if (ft_strchr(info->cmd[start], ' '))
-            count++;
+        {
+            i = 0;
+            while (info->cmd[start][i])
+            {
+                if (info->cmd[start][i] == ' ')
+                    count++;
+                i++;
+            }
+        }
         start++;
     }
     return (count);
