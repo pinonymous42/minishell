@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/11 00:28:44 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/11 00:14:10 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 		// printf("|%s|\n", p);
 		if (*p == SINGLE_QUOTE)
 		{
-			// printf("%s, %d\n", __FILE__, __LINE__);
 			p++;
 			while (*p != SINGLE_QUOTE)
 			{
@@ -129,7 +128,6 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 					assert_error("Unclosed single quote");
 				append_char(&new_word, *p++);
 			}
-			// printf(">%s<\n", new_word);
 			p++;
 		}
 		else if (*p == DOUBLE_QUOTE)
@@ -225,7 +223,6 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 	// printf("%s, %d\n", __FILE__, __LINE__);
 	free(tok->word);
 	tok->word = new_word;
-	// printf(">%s<\n", tok->word);
 	quote_removal(tok->next, list, not_expand_flag);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_pipe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/08 00:54:24 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/11 15:27:22 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,21 @@ char    *make_exepath(char *path, char *command)
 int count_splitable(t_info *info, int start, int end)
 {
     int count;
+    int i;
 
     count = 0;
     while (start < end)
     {
         if (ft_strchr(info->cmd[start], ' '))
-            count++;
+        {
+            i = 0;
+            while (info->cmd[start][i])
+            {
+                if (info->cmd[start][i] == ' ')
+                    count++;
+                i++;
+            }
+        }
         start++;
     }
     return (count);
@@ -129,7 +138,7 @@ void    do_input(t_info *info, int i)
     info->input_fd = open(info->argv[i + 1], O_RDONLY);
     if (info->input_fd == -1)
     {
-        printf("%s, %d\n", __FILE__, __LINE__);
+        //printf("%s, %d\n", __FILE__, __LINE__);
         err_exit(info->argv[i + 1], "command not found");
     }
         // function_error("open");
@@ -364,6 +373,12 @@ int    check_redirect(t_info *info)
         }
         else if (*(info->argv)[i] == '>')
         {
+            //printf("%s, %d\n", __FILE__, __LINE__);
+            if (ft_strchr(info->argv[i + 1],'$') != NULL)//$が含まれている
+            {
+                 ambiguous_redirect(info->argv[i + 1]);
+                 return (1);
+            }
             do_output(info, i);
             continue;
         }
@@ -372,21 +387,21 @@ int    check_redirect(t_info *info)
     return (0);
 }
 
-int check_builtin(t_info *info, char **argv)
+int check_builtin(t_info *info, char *argv)
 {
-    if (ft_strncmp(argv[0], "cd", 2) == 0)
+    if (ft_strncmp(argv, "cd", 2) == 0)
         return (1);
-    if (ft_strncmp(argv[0], "echo", 4) == 0)
+    if (ft_strncmp(argv, "echo", 4) == 0)
         return (1);
-    if (ft_strncmp(argv[0], "env", 3) == 0)
+    if (ft_strncmp(argv, "env", 3) == 0)
         return (1);
-    if (ft_strncmp(argv[0], "exit", 4) == 0)
+    if (ft_strncmp(argv, "exit", 4) == 0)
         return (1);
-    if (ft_strncmp(argv[0], "export", 6) == 0)
+    if (ft_strncmp(argv, "export", 6) == 0)
         return (1);
-    if (ft_strncmp(argv[0], "pwd", 3) == 0)
+    if (ft_strncmp(argv, "pwd", 3) == 0)
         return (1);
-    if  (ft_strncmp(argv[0], "unset", 5) == 0)
+    if  (ft_strncmp(argv, "unset", 5) == 0)
         return (1);
     return (0);
 }
@@ -402,7 +417,7 @@ void    make_info_argv(t_info *info, int end, int start)
     argv_index = 0;
     if (info->argv)
         safty_free(info->argv);
-    pipe_index = start + 1;
+    pipe_index = start + 1;//pipeの次のindex
     info->argv_count = end - start + count_splitable(info, pipe_index, end);
     // printf("|count: %d|\n", info->argv_count);
     info->argv = (char **)malloc(sizeof(char *) * (info->argv_count));
@@ -505,40 +520,62 @@ void    multiple_pipes(t_info *info, t_environ *list)
             //     printf("|%s|\n", info->argv[x]);
             //     x++;
             // }
-            // printf("%s, %d\n", __FILE__, __LINE__);
+            //printf("%s, %d\n", __FILE__, __LINE__);
             if (check_redirect(info) == 1)
                 exit(1);
                 // printf("%s, %d\n", __FILE__, __LINE__);
             do_fd(info, i);
             // printf("%s, %d\n", __FILE__, __LINE__);
-            if (check_builtin(info, info->argv) && i > g_signal.pipe_count - 1)
+            
+            //以下はbash-3.2$ A= B= echo C=c
+            //C=c
+            //などの場合に対応するための処理
+            int j;
+            j = 0;
+            while (info->argv[j] != NULL)
+            {
+                //info->argv[j]に=が含まれている場合はj++で次に進む
+                //=が含まれていない場合は抜ける
+                //printf("%d\n", j);
+                if (ft_strchr_index(info->argv[j], '=') == -1)//=が含まれていない場合
+                    break;
+                j++;
+            }
+            
+            if (check_builtin(info, info->cmd[info->pipe_place[i] + 1]) && i > g_signal.pipe_count - 1 && check_builtin(info, info->cmd[info->pipe_place[i - 1] + 1]))
             {
                 // printf("%s, %d\n", __FILE__, __LINE__);
                 // printf("|%s|\n", info->argv[0]);
-                if (ft_strncmp(info->argv[0], "cd", 2) == 0)
+                if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "cd", 2) == 0)
                     cd_builtin(info);
-                else if (ft_strncmp(info->argv[0], "echo", 4) == 0)
-                    echo_builtin(info);
-                else if (ft_strncmp(info->argv[0], "env", 3) == 0)
+                else if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "echo", 4) == 0)
+                    echo_builtin(info, i);
+                else if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "exit", 4) == 0)
                     env_builtin(info);
-                else if (ft_strncmp(info->argv[0], "exit", 4) == 0)
-                    exit_builtin(info);
-                else if (ft_strncmp(info->argv[0], "pwd", 3) == 0)
-                    pwd_builtin(info);
-                else if (ft_strncmp(info->argv[0], "export", 6) == 0)
-                    export_builtin(info, list);
-                else if (ft_strncmp(info->argv[0], "unset", 5) == 0)
+                else if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "unset", 5) == 0)
                     unset_builtin(info, list);
+                else if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "env", 3) == 0)
+                    env_builtin(info);
+                else if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "export", 6) == 0)
+                    export_builtin(info, list);
+                else if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "pwd", 3) == 0)
+                    pwd_builtin(info);
                 exit(0);
             }
-            else if (check_builtin(info, info->argv))
+            else if (check_builtin(info, info->cmd[info->pipe_place[i] + 1]))
             {
-                // printf("%s, %d\n", __FILE__, __LINE__);
+                printf("%s, %d\n", __FILE__, __LINE__);
+                if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "env", 3) == 0)
+                    env_builtin(info);
+                else if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "export", 6) == 0)
+                    export_builtin(info, list);
+                else if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "pwd", 3) == 0)
+                    pwd_builtin(info);
                 exit(0);
             }
             else
             {
-                // printf("%s, %d\n", __FILE__, __LINE__);
+                //printf("%s, %d\n", __FILE__, __LINE__);
                 if (access(exe_path, X_OK) == 0 && ft_strncmp(exe_path, "./", 2))
                 {
                     // printf("%s, %d\n", __FILE__, __LINE__);
@@ -564,8 +601,15 @@ void    multiple_pipes(t_info *info, t_environ *list)
                 
                 if (execve(exe_path, info->argv, list_to_array(info->list)) == -1)
                 {
+                    //prinf("%d\n", ft_strchr(info->argv[0], '='));
+                    if (ft_strchr_index(info->argv[j], '=') == -1)
+                        command_not_found(info->argv[j]);
+                    else
+                        exit(0);
+                    //err_exit(info->argv[0], "command not found");
+                    //err_exit(info->argv[0], info->argv[0]);
                     // printf("%s, %d\n", __FILE__, __LINE__);
-                     err_exit(info->argv[0], "command not found");
+                    //exit(127);
                 }
                 // function_error("execve");
             }
@@ -651,7 +695,7 @@ int *place_pipe(t_info *info)
     {
         // printf("%s, %d\n", __FILE__, __LINE__);
         // printf("i: %d, info->cmd: %s\n", i, info->cmd[i]);
-        if (info->cmd[i][0] == '|' && ft_strlen(info->cmd[i]) == 1)
+        if (info->cmd[i][0] == '|' && ft_strlen(info->cmd[i]) == 1 && info->cmd[i + 1] != NULL)
         {
             ret[j++] = i;
         }
@@ -765,7 +809,7 @@ void pipex(int argc, char **argv, t_environ *list)
     // printf("{%d}\n", info.pipe_place[1]);
     // printf("{%d}\n", info.pipe_place[2]);
     //printf("%s, %d\n", __FILE__, __LINE__);
-    if (g_signal.pipe_count == 0 && check_builtin(&info, info.cmd))
+    if (g_signal.pipe_count == 0 && check_builtin(&info, info.cmd[0]))
     {
         //printf("%s, %d\n", __FILE__, __LINE__);
         // int i = 0;
@@ -775,7 +819,13 @@ void pipex(int argc, char **argv, t_environ *list)
         //     i++;
         // }
         make_info_argv(&info, info.pipe_place[1], info.pipe_place[0]);
-        check_redirect(&info);
+        if (check_redirect(&info) == 1)
+        {
+            g_signal.other_code = TRUE;
+            g_signal.status = 1;
+            finish(&info);
+            return ;
+        }
         // printf("-----------------------------------\n");
         // int i = 0;
         // while (info.argv[i])
@@ -791,10 +841,11 @@ void pipex(int argc, char **argv, t_environ *list)
         //     printf("%s\n", info.list->value);
         //     info.list = info.list->next;
         // }
+        //printf("%s, %d\n", __FILE__, __LINE__);
         if (ft_strncmp(info.argv[0], "cd", 2) == 0)
             cd_builtin(&info);
         else if (ft_strncmp(info.argv[0], "echo", 4) == 0)
-            echo_builtin(&info);
+            echo_builtin(&info, 0);
         else if (ft_strncmp(info.argv[0], "env", 3) == 0)
             env_builtin(&info);
         else if (ft_strncmp(info.argv[0], "exit", 4) == 0)
@@ -807,6 +858,9 @@ void pipex(int argc, char **argv, t_environ *list)
             unset_builtin(&info, list);
     }
     else
+    {
+        //printf("%s, %d\n", __FILE__, __LINE__);
         multiple_pipes(&info, list);
+    }
     finish(&info);
 }
