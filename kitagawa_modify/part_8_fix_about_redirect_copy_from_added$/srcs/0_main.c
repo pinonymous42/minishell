@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/08 11:55:51 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/12 19:35:48 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,20 @@ void process_line(char *line, t_environ *list)
 
 	// syntax_error = false;
     token = tokenize(line);
+    //printf("%s, %d\n", __FILE__, __LINE__);
+    if (g_signal.status == 258 && g_signal.other_code == TRUE)
+    {
+        free_token(token);
+        return ;
+    }
+    //printf("%s, %d\n", __FILE__, __LINE__);
     g_signal.pipe_count = count_pipe(token);
-    // while (token)
-    // {
-    //     printf("%s\n", token->word);
-    //     token = token->next;
-    // }
-    // exit(1);
     if (token->kind == TOKEN_EOF)
         ;
-    // else if (syntax_error == true)
-    //     *status = TOKENIZE_ERROR;
     else
     {
         // printf("%s, %d\n", __FILE__, __LINE__);
 		array = expand(token, list);
-        //printf("%s, %d\n", __FILE__, __LINE__);
-        // int i = 0;
-        // while (array[i])
-        // {
-        //     printf("%s\n", array[i]);
-        //     i++;
-        // }
-        // exit(1);
-		// array = token_list_to_array(token);
-        // printf("%s, %d\n", __FILE__, __LINE__);
 		argc = count_argv(array);
         // printf("%s, %d\n", __FILE__, __LINE__);
         if (g_signal.other_code == FALSE)
@@ -107,6 +96,7 @@ int main(int argc, char **argv, char **envp)
             break;
         if (*line != '\0')
             add_history(line);
+		//printf("g_signal.status:%d\n", g_signal.status);
         process_line(line, list);
         free(line);
     }

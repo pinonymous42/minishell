@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/09 14:30:09 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/12 19:24:20 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	ft_count_and_output(int fd, va_list ap, int fmt)
 		add_count = ft_count_and_putstr(fd, (char *)va_arg(ap, char *));
 	return (add_count);
 }
+
 int	count(int fd, va_list ap, const char *fmt)
 {
 	size_t	i;
@@ -83,7 +84,19 @@ void    tokenize_error(char *message, char **rest, char *line)
 		line++;
 	*rest = line;
 	g_signal.status = 258;
-	g_signal.status = TRUE;
+	g_signal.other_code = TRUE;
+}
+
+void    tokenize_error_2(char *message, char *word)
+{
+    // printf("minishell: syntax error near %s\n", message);
+	ft_putstr_fd("minishell: syntax error near ", STDERR_FILENO);
+	ft_putstr_fd(message, STDERR_FILENO);
+	ft_putstr_fd(" `", STDERR_FILENO);
+	ft_putstr_fd(word, STDERR_FILENO);
+	ft_putendl_fd("'", STDERR_FILENO);
+	g_signal.status = 258;
+	g_signal.other_code = TRUE;
 }
 
 //minishell自体を終わらせたいからexitする

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_pipe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/11 00:29:20 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/11 13:23:27 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,7 +426,7 @@ void    make_info_argv(t_info *info, int end, int start)
     while (pipe_index < end)
     {
             // printf("|%d|\n", pipe_index);
-        if (ft_strchr(info->cmd[pipe_index], ' ') && g_signal.do_split)
+        if (ft_strchr(info->cmd[pipe_index], ' ') && g_signal.do_split)//スペースが含まれている
         {
             // printf("%s, %d\n", __FILE__, __LINE__);
             // printf(">%s<\n", info->cmd[pipe_index]);

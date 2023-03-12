@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/11 00:28:44 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/12 19:36:02 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
                 if (*p == '?')
                 {
                     p++;
+					//printf("%s, %d\n", __FILE__, __LINE__);
                     new_word = ft_itoa(g_signal.status);
                 }
                 else
@@ -334,23 +335,9 @@ char	**expand(t_token *tok, t_environ *list)
 	
 	i = 0;
 	not_expand_flag = 0;
-	//ここまで来てる
-	//printf("%s, %d\n", __FILE__, __LINE__);
-	// printf("<%s>\n", tok->word);
 	quote_removal(tok, list, &not_expand_flag);
-	//printf("%s, %d\n", __FILE__, __LINE__);
-	// printf("|%s|\n", tok->word);
 	array = token_list_to_array(tok);
-	// printf("%s, %d\n", __FILE__, __LINE__);
-	// printf(">%s<\n", tok->word);
-	// while (*array)
-	// {
-	// 	printf("%s\n", *array);
-	// 	array++;
-	// }
 	heredoc_count = count_heredoc(array);
-	// printf("%d\n", heredoc_count);
-	// exit(1);
 	heredoc_flag = 0;
 	// printf("|%d|\n", not_expand_flag);
 	while (array[i])

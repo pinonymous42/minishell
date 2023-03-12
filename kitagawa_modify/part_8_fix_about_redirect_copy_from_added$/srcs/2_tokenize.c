@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_ref.c                                     :+:      :+:    :+:   */
+/*   2_tokenize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:03:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/03 23:17:08 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/12 19:16:07 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,80 @@ static t_token *handle_word(char **rest, char *line)
 	return (token);
 }
 
+bool check_redirect_token(t_token *token)
+{
+    if (token->kind == TOKEN_METACHAR)
+    {
+        if (ft_strncmp(token->word, ">", 2) == 0 || ft_strncmp(token->word, ">>", 3) == 0 || ft_strncmp(token->word, "<", 2) == 0 || ft_strncmp(token->word, "<<", 3) == 0)
+            return (true);
+    }
+    return (false);
+}
+
+void check_and_sort_tokens(t_token **head)
+{
+    t_token *current;
+    t_token *prev;
+    
+    current = *head;
+    prev = NULL;
+    while (current != NULL)
+    {
+        //printf("%s, %d\n", __FILE__, __LINE__);
+        if (check_redirect_token(current) == true)
+        {
+            if (current->next == NULL || current->next->kind != TOKEN_WORD)
+            {
+                tokenize_error_2("unexpected token", current->word);
+                break;
+            }
+            else//current: redirect, current->next: word 
+            {
+                //printf("%s, %d\n", __FILE__, __LINE__);
+                t_token *tmp;
+                tmp = current->next->next;
+                if (tmp == NULL || tmp->kind != TOKEN_WORD)//何もしない
+                    ;
+                else//tmp->kind == TOKEN_WORD
+                {
+                    while (tmp->kind == TOKEN_WORD)//tmp->kind == TOKEN_WORDの間、tmpを進める
+                    {
+                        if (tmp->next == NULL)
+                            break;
+                        else if (tmp->next->kind != TOKEN_WORD)
+                            break;
+                        tmp = tmp->next;
+                    }
+                    //tmp->next->kind != TOKEN_WORD
+                    if (prev == NULL)
+                    {
+                        *head = current->next->next;
+                        if (tmp->next == NULL)
+                            current->next->next = NULL;
+                        else
+                            current->next->next = tmp->next;
+                        tmp->next = current;
+                    }
+                    else
+                    {
+                        prev->next = current->next->next;
+                        //printf("%s, %d\n", __FILE__, __LINE__);
+                        if (tmp->next == NULL)
+                            current->next->next = NULL;
+                        else
+                            current->next->next = tmp->next;
+                        //printf("%s, %d\n", __FILE__, __LINE__);
+                        tmp->next = current;
+                    }
+                }
+            }
+        }
+        prev = current;//prevを進める
+        current = current->next;//currentを進める
+    }
+}
+
+
 t_token *tokenize(char *line)
 {
     t_token *head;
@@ -215,6 +289,7 @@ t_token *tokenize(char *line)
             append_token(&head, token);
         }
     }
+    check_and_sort_tokens(&head);
     append_token(&head, new_token(TOKEN_EOF));
     return (head);
 }
