@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/10 23:54:11 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:15:54 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 # define SINGLE_QUOTE '\''
 # define DOUBLE_QUOTE '"'
-# define NO_SUCH_ENV  "No_such_environment_variable"
+// # define NO_SUCH_ENV  "No_such_environment_variable"
 
 # define RIGHT 1
 # define MID 0
@@ -92,6 +92,7 @@ typedef struct s_signal {
     int other_code;//status codeが0以外の時に用いる
     int do_split;//splitを行うかどうか
     int pipe_count;//(pipeの個数)
+    int not_expand_flag;
 }t_signal;
 
 //global variable
@@ -108,6 +109,7 @@ void	free_list(t_environ *list);
 //error_ref.c
 void    function_error(char *function_name);
 void    tokenize_error(char *message, char **rest, char *line);
+void    tokenize_error_2(char *message, char *word);
 void	assert_error(const char *msg);
 void	err_exit(const char *location, const char *msg);
 void	command_not_found(const char *location);

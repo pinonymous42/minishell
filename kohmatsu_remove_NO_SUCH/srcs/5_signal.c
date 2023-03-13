@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   5_signal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 12:54:49 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/03 23:16:33 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:05:10 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void    signal_handler(int sig)
 {
+    (void)sig;
     g_signal.status = 1;
     g_signal.other_code = TRUE;
-    // close(g_signal.heredoc_fd);
     rl_on_new_line();
     rl_replace_line("", 0);
     write(1, "\n", 1);
-    // printf("%s, %d\n", __FILE__, __LINE__);
     rl_redisplay();
 }
 
@@ -47,15 +46,11 @@ int set_signal_parent()
 
 void    heredoc_signal_handler(int signal)
 {
+    (void)signal;
     g_signal.status = 1;
     g_signal.other_code = TRUE;
-    // close(g_signal.heredoc_fd);
     close(0);
-    // rl_on_new_line();
-    // rl_replace_line("", 0);
     write(1, "\n", 1);
-    // fflush(STDIN);
-    // rl_redisplay();
 }
 
 int    heredoc_signal(void)

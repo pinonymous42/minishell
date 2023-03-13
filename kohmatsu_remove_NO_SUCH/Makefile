@@ -7,7 +7,7 @@ SRCS = 0_main.c 1_make_environ.c 2_tokenize.c 3_1_expand.c 3_2_token_list_to_arr
 # 		make_environ.c signal.c search_env.c cd_builtin
 
 CC = gcc
-CFLAGS = -I $(shell brew --prefix readline)/include
+CFLAGS = -I $(shell brew --prefix readline)/include -Wall -Wextra -Werror
 LDFLAGS = -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 RM = rm -rf
 

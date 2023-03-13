@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/11 00:14:10 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:03:28 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ char    *double_variable_expand(char *new_word, t_environ *list)
 	var = ft_calloc(sizeof(char), 1);
     while (*new_word != '$')
         new_word++;
-	// printf(">%s<\n", new_word);
     if (new_word == tmp)
         ret = ft_calloc(sizeof(char), 1);
     else
         ret = ft_strndup(tmp, new_word - tmp);
-	// printf("|%s|\n", ret);
     new_word++;
     if (*new_word == '?')
     {
@@ -62,26 +60,17 @@ char    *double_variable_expand(char *new_word, t_environ *list)
     }
     else
     {
-		// printf("%s, %d\n", __FILE__, __LINE__);
 		if (ft_strchr(new_word, '$') || ft_strchr(new_word, ' ') || not_allowed_variant_character(new_word))
 		{
-			// printf("%s, %d\n", __FILE__, __LINE__);
 			while (*new_word != '$' && *new_word != ' ' && is_variable_character(*new_word))
 				append_char(&var, *new_word++);
-			// printf("%s, %d\n", __FILE__, __LINE__);
 		}
         else
-		{
-			// printf("%s, %d\n", __FILE__, __LINE__);
             var = ft_strndup(new_word, ft_strchr(new_word, '\0') - new_word);
-		}
-		// printf("{%s}\n", var);
         ret = ft_strjoin_with_free(ret, search_env(var, list), FIRST_PARAM);
-		// printf("|%s|\n", ret);
         free(var);
 		if (ft_strchr(new_word, '$') || ft_strchr(new_word, ' '))
 		{
-			// printf("%s, %d\n", __FILE__, __LINE__);
 			if (ft_strchr(new_word, ' ') == 0 || (ft_strchr(new_word, '$') && (ft_strchr(new_word, '$') < ft_strchr(new_word, ' '))))
 				new_word = ft_strchr(new_word, '$');
 			else if (ft_strchr(new_word, '$') == 0 || (ft_strchr(new_word, ' ') && (ft_strchr(new_word, '$') > ft_strchr(new_word, ' '))))
@@ -89,7 +78,6 @@ char    *double_variable_expand(char *new_word, t_environ *list)
 		}
         else
 		{
-			// printf("%s, %d\n", __FILE__, __LINE__);
 			if (not_allowed_variant_character(new_word))
 			{
 				while (is_variable_character(*new_word))
@@ -99,14 +87,12 @@ char    *double_variable_expand(char *new_word, t_environ *list)
             	new_word = ft_strchr(new_word, '\0');
 		}
     }
-	// printf("?%s?\n", new_word);
     ret = ft_strjoin_with_free(ret, new_word, FIRST_PARAM);
-	// printf("{%s}\n", ret);
     free(tmp);
     return (ret);
 }
 
-void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
+void	quote_removal(t_token *tok, t_environ *list)
 {
 	char	*new_word;
 	char	*p;
@@ -118,7 +104,6 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 	new_word = NULL;
 	while (*p)
 	{
-		// printf("|%s|\n", p);
 		if (*p == SINGLE_QUOTE)
 		{
 			p++;
@@ -126,6 +111,8 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 			{
 				if (*p == '\0')
 					assert_error("Unclosed single quote");
+				if (*p == '$')
+					g_signal.not_expand_flag = 1;
 				append_char(&new_word, *p++);
 			}
 			p++;
@@ -140,20 +127,10 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 				append_char(&new_word, *p++);
 			}
 			p++;
-			// printf("%s\n", new_word);
-			// exit(1);
-			// int count = 0;
 			while (ft_strchr(new_word, '$'))
-			{
-				// count++;
 				new_word = double_variable_expand(new_word, list);
-				// printf("%s, %d\n", __FILE__, __LINE__);
-				// printf("[%s]\n", new_word);
-				// if (count == 2)
-				// 	exit(1);
-			}
 		}
-		else if (*p == '$')//$VAR="echo hello"と入っていても後でどうせ中身をsplitするからただgetenvだけでいいんじゃね
+		else if (*p == '$')
         {
 			g_signal.do_split = 1;
             while (ft_strchr(p, '$'))
@@ -172,14 +149,9 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 					{
 						if (not_allowed_variant_character(p))
 						{
-							// printf("%s, %d\n", __FILE__, __LINE__);
 							var = ft_calloc(sizeof(char), 1);
 							while (is_variable_character(*p))
-							{
-								// printf("|%c|\n", *p);
 								append_char(&var, *p++);
-							}
-							// printf("%s, %d\n", __FILE__, __LINE__);
 						}
 						else
 							var = ft_strndup(p, ft_strchr(p, '\0') - p);
@@ -195,7 +167,6 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
 					{
 						if (not_allowed_variant_character(p))
 						{
-							// printf("%s, %d\n", __FILE__, __LINE__);
 							while (is_variable_character(*p))
 								p++;
 						}
@@ -207,32 +178,20 @@ void	quote_removal(t_token *tok, t_environ *list, int *not_expand_flag)
         }
 		else
 		{
-			// printf("-------------------------");
-			// printf("%s\n", tok->word);
-			// printf("%s\n", tok->next->word);
-			// printf("%s\n", tok->next->next->word);
 			if (ft_strncmp(tok->word, "<<", 2) == 0 && ft_strchr(tok->next->word, '\"') && ft_strncmp(tok->next->next->word, "<<", 2) == 1)
-			{
-				// printf("%s, %d\n", __FILE__, __LINE__);
-				*not_expand_flag = 1;
-			}
+				g_signal.not_expand_flag = 1;
 			append_char(&new_word, *p++);
-			// printf("|%s|\n", new_word);
 		}
 	}
-	// printf("%s, %d\n", __FILE__, __LINE__);
 	free(tok->word);
 	tok->word = new_word;
-	quote_removal(tok->next, list, not_expand_flag);
+	quote_removal(tok->next, list);
 }
 
-void	write_to_heredoc_one(char **array, int i, int not_expand_flag, t_environ *list)
+void	write_to_heredoc_one(char **array, int i, t_environ *list)
 {
 	char	*line;
 	int		heredoc_fd;
-	char	*tmp;
-	char	*head;
-	char	*ptr;
 	
 	heredoc_fd = open(".heredoc", (O_WRONLY | O_CREAT | O_TRUNC), 0644);
     if (heredoc_fd == -1)
@@ -240,7 +199,6 @@ void	write_to_heredoc_one(char **array, int i, int not_expand_flag, t_environ *l
 	heredoc_signal();
     while (1)
     {
-		// printf("%s, %d\n", __FILE__, __LINE__);
         line = readline("> ");
 		if (line == NULL)
 			break ;
@@ -249,14 +207,13 @@ void	write_to_heredoc_one(char **array, int i, int not_expand_flag, t_environ *l
 			free(line);
             break ;
 		}
-		if (not_expand_flag == 0 && ft_strchr(line, '$'))
+		if (g_signal.not_expand_flag == 0 && ft_strchr(line, '$'))
 		{
 			while (ft_strchr(line, '$'))
 				line = double_variable_expand(line, list);
 		}
         write(heredoc_fd, line, ft_strlen(line));
         write(heredoc_fd, "\n", 1);
-		// if (line)
 		free(line);
     }
 	dup2(g_signal.input_fd, 0);
@@ -264,7 +221,7 @@ void	write_to_heredoc_one(char **array, int i, int not_expand_flag, t_environ *l
     close(heredoc_fd);
 }
 
-void	write_to_heredoc_not_one(char **array, int i, int *heredoc_flag, int not_expand_flag, t_environ *list)
+void	write_to_heredoc_not_one(char **array, int i, int *heredoc_flag, t_environ *list)
 {
 	char	*line;
 	int		heredoc_fd;
@@ -272,13 +229,11 @@ void	write_to_heredoc_not_one(char **array, int i, int *heredoc_flag, int not_ex
 
 	if (ft_strncmp(array[i + 4], "<<", 2) == 0)
         return ;
-	// printf("%s, %d\n", __FILE__, __LINE__);
 	heredoc_signal();
     *heredoc_flag = 1;
     heredoc_fd = open(".heredoc", (O_WRONLY | O_CREAT | O_TRUNC), 0644);
     if (heredoc_fd == -1)
         function_error("open");
-	// printf("%s, %d\n", __FILE__, __LINE__);
     while (1)
     {
         line = readline("> ");
@@ -291,7 +246,6 @@ void	write_to_heredoc_not_one(char **array, int i, int *heredoc_flag, int not_ex
 		}
         free(line);
     }
-	// printf("%s, %d\n", __FILE__, __LINE__);
 	if (g_signal.other_code == FALSE)
 	{
 		while (1)
@@ -304,7 +258,7 @@ void	write_to_heredoc_not_one(char **array, int i, int *heredoc_flag, int not_ex
 				free(line);
 				break ;
 			}
-			if (not_expand_flag == 0 && search_env(line + 1, list))
+			if (g_signal.not_expand_flag == 0 && search_env(line + 1, list))
 			{
 				tmp = search_env(line + 1, list);
 				free(line);
@@ -315,7 +269,6 @@ void	write_to_heredoc_not_one(char **array, int i, int *heredoc_flag, int not_ex
 			free(line);
 		}
 	}
-	// printf("%s, %d\n", __FILE__, __LINE__);
     dup2(g_signal.input_fd, 0);
 	close(g_signal.input_fd);
     close(heredoc_fd);
@@ -327,46 +280,22 @@ char	**expand(t_token *tok, t_environ *list)
 	int	heredoc_count;
 	int	i;
 	int	heredoc_flag;
-	int	not_expand_flag;
 	
 	i = 0;
-	not_expand_flag = 0;
-	//ここまで来てる
-	//printf("%s, %d\n", __FILE__, __LINE__);
-	// printf("<%s>\n", tok->word);
-	quote_removal(tok, list, &not_expand_flag);
-	//printf("%s, %d\n", __FILE__, __LINE__);
-	// printf("|%s|\n", tok->word);
+	quote_removal(tok, list);
 	array = token_list_to_array(tok);
-	// printf("%s, %d\n", __FILE__, __LINE__);
-	// printf(">%s<\n", tok->word);
-	// while (*array)
-	// {
-	// 	printf("%s\n", *array);
-	// 	array++;
-	// }
 	heredoc_count = count_heredoc(array);
-	// printf("%d\n", heredoc_count);
-	// exit(1);
 	heredoc_flag = 0;
-	// printf("|%d|\n", not_expand_flag);
 	while (array[i])
 	{
-		// printf("%s\n", array[i]);
 		 if (ft_strncmp(array[i], "<<", 2) == 0 && heredoc_flag == 0)
         {
-			// printf("%s, %d\n", __FILE__, __LINE__);
             if (heredoc_count == 1)
-                write_to_heredoc_one(array, i, not_expand_flag, list);
+                write_to_heredoc_one(array, i, list);
             else
-			{
-				// printf("%s, %d\n", __FILE__, __LINE__);
-                write_to_heredoc_not_one(array, i, &heredoc_flag, not_expand_flag, list);
-			}
+                write_to_heredoc_not_one(array, i, &heredoc_flag, list);
         }
 		i++;
 	}
-	// exit(1);
-	// printf("%d\n", heredoc_count);
 	return (array);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 17:32:41 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/08 01:32:49 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:42:58 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	char	*ans;
 
+	if (s == NULL)
+		return (NULL);
 	ans = (char *)s;
 	while (*ans != (char)c)
 	{
