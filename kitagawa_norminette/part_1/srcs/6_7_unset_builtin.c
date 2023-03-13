@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:28:52 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 14:50:55 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:55:16 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	unset_var(t_environ *list, char *key)
 {
 	t_environ	*prev;
 	t_environ	*curr;
-    
+
 	prev = NULL;
 	curr = list;
 	while (curr != NULL)
@@ -37,7 +37,7 @@ void	unset_var(t_environ *list, char *key)
 	}
 }
 
-void unset_builtin(t_info *info, t_environ *list)
+void	unset_builtin(t_info *info, t_environ *list)
 {
 	int	i;
 

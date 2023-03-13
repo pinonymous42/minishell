@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/04 23:38:32 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:55:43 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	free_array(char **array)
 	free(array);
 }
 
-void free_list(t_environ *list)
+void	free_list(t_environ *list)
 {
-	t_environ *tmp;
+	t_environ	*tmp;
 
 	while (list)
 	{
