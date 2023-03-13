@@ -6,11 +6,21 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:53:49 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:31 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:04:51 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	error_exit(char *str)
+{
+	ft_putendl_fd("exit", STDERR_FILENO);
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+	g_signal.status = 255;
+	exit(255);
+}
 
 void	exit_builtin(t_info *info)
 {
@@ -24,14 +34,7 @@ void	exit_builtin(t_info *info)
 		while (info->argv[1][i])
 		{
 			if (ft_isdigit(info->argv[1][i]) == 0)
-			{
-				ft_putendl_fd("exit", STDERR_FILENO);
-				ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-				ft_putstr_fd(info->argv[1], STDERR_FILENO);
-				ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-				g_signal.status = 255;
-				exit(255);
-			}
+				error_exit(info->argv[1]);
 			i++;
 		}
 		if (info->argv[2] != NULL)

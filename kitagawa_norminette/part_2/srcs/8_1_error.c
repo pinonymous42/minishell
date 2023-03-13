@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 18:43:24 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:45:44 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,12 @@ void	tokenize_error_2(char *message, char *word)
 	ft_putstr_fd(word, STDERR_FILENO);
 	ft_putendl_fd("'", STDERR_FILENO);
 	g_signal.status = 258;
+	g_signal.other_code = TRUE;
+}
+
+void   export_not_valid_identifier(char *argv)
+{
+	my_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", argv);
+	g_signal.status = 1;
 	g_signal.other_code = TRUE;
 }

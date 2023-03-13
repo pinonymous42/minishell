@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 19:56:24 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:49:22 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,12 @@ void    function_error(char *function_name);
 void    tokenize_error(char *message, char **rest, char *line);
 void    tokenize_error_2(char *message, char *word);
 void	assert_error(const char *msg);
+void    export_not_valid_identifier(char *argv);
 void	err_exit(const char *location, const char *msg);
 void	command_not_found(const char *location);
 void	file_not_found(const char *filename);
-int     my_dprintf(int fd, const char *fmt, ...);
 void    ambiguous_redirect(char *filename);
+int     my_dprintf(int fd, const char *fmt, ...);
 
 //pipe.c
 void     pipex(int argc, char *argv[], t_environ *list);
