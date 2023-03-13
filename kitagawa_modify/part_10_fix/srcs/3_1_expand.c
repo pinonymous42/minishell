@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/11 00:14:10 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/13 01:36:33 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ void	write_to_heredoc_one(char **array, int i, int not_expand_flag, t_environ *l
         line = readline("> ");
 		if (line == NULL)
 			break ;
-		if (ft_strncmp(line, array[i + 1], ft_strlen(line)) == 0)
+		if (ft_strncmp(line, array[i + 1], ft_strlen(line)) == 0)//ここでlineの長さを比較しているのは、<<EOFのEOFの部分がEOFEOFとかになっていた場合に対応するため
 		{
 			free(line);
             break ;
