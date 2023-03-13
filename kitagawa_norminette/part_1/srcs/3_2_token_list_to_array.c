@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_2_token_list_to_array.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:12:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 12:45:01 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:12:45 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ char	**token_list_to_array(t_token *token)
 	size_t	i;
 
 	count = 0;
-    // printf(">%s<\n", token->word);
 	count = ft_count(token);
-    // printf("<%s>\n", token->word);
     array = ft_calloc(count + 1, sizeof(char *));
     if (array == NULL)
         function_error("calloc");
@@ -45,7 +43,6 @@ char	**token_list_to_array(t_token *token)
     i = 0;
     while (cur != NULL && cur->kind != TOKEN_EOF && cur->word != NULL)
     {
-        // printf("|%s|\n", cur->word);
         array[i] = ft_strdup(cur->word);
         if (array[i] == NULL)
             function_error("strdup");

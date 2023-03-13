@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 12:15:54 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:15:33 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int heredoc_signal(void);
 
 // search_env.c
 char *search_env(char *key, t_environ *list);
+int  ft_strcmp(char* str1, char* str2);
 
 //cd_builtin.c
 void    cd_builtin(t_info *info);

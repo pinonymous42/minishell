@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:03:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/12 19:53:41 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:16:55 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ bool check_redirect_token(t_token *token)
 {
     if (token->kind == TOKEN_METACHAR)
     {
-        if (ft_strncmp(token->word, ">", 2) == 0 || ft_strncmp(token->word, ">>", 3) == 0 || ft_strncmp(token->word, "<", 2) == 0 || ft_strncmp(token->word, "<<", 3) == 0)
+        if (ft_strcmp(token->word, ">") == 0 || ft_strcmp(token->word, ">>") == 0 || ft_strcmp(token->word, "<") == 0 || ft_strcmp(token->word, "<<") == 0)
             return (true);
     }
     return (false);
@@ -208,7 +208,6 @@ void check_and_sort_tokens(t_token **head)
     prev = NULL;
     while (current != NULL)
     {
-        //printf("%s, %d\n", __FILE__, __LINE__);
         if (check_redirect_token(current) == true)
         {
             if (current->next == NULL || current->next->kind != TOKEN_WORD)
@@ -218,7 +217,6 @@ void check_and_sort_tokens(t_token **head)
             }
             else//current: redirect, current->next: word 
             {
-                //printf("%s, %d\n", __FILE__, __LINE__);
                 t_token *tmp;
                 tmp = current->next->next;
                 if (tmp == NULL || tmp->kind != TOKEN_WORD)//何もしない
@@ -246,12 +244,10 @@ void check_and_sort_tokens(t_token **head)
                     else
                     {
                         prev->next = current->next->next;
-                        //printf("%s, %d\n", __FILE__, __LINE__);
                         if (tmp->next == NULL)
                             current->next->next = NULL;
                         else
                             current->next->next = tmp->next;
-                        //printf("%s, %d\n", __FILE__, __LINE__);
                         tmp->next = current;
                     }
                 }

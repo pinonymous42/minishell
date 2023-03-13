@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 11:08:05 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/04 18:47:10 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:12:14 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void    list_add_back(t_environ **list, t_environ *new)
 t_environ *make_environ(char **envp)
 {
     t_environ *list;
-    // t_environ *new;
 
     if (*envp == NULL)
     {
@@ -54,19 +53,10 @@ t_environ *make_environ(char **envp)
         return (list);
     }
     list = new_list(*envp++);
-    // printf("%s, %d\n", __FILE__, __LINE__);
-    // list_add_back(&list, new);
-    // printf("%s\n", list->key);
-    // printf("%s\n", list->value);
-    // printf("%s\n", list->next->key);
-    // printf("%s\n", list->next->value);
-    // exit(1);
 
     while (*envp)
     {
-        // printf("%s, %d\n", __FILE__, __LINE__);
         list_add_back(&list, new_list(*envp));
-        // printf("%s, %d\n", __FILE__, __LINE__);
         envp++;
         // break ;
     }
