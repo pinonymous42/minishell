@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_export_builtin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 13:06:07 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:54:02 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,11 @@ t_environ *new_node(char *key, char *value)
 {
     t_environ *new;
     
-    //printf("%s, %d\n", __FILE__, __LINE__);
     new = malloc(sizeof(t_environ));
     if (!new)
         function_error("malloc");
     new->key = ft_strdup(key);
-    // if (new->key == NULL)
-    //     function_error("strdup");
     new->value = ft_strdup(value);
-    // if (new->value == NULL)
-    //     function_error("strdup");
     new->next = NULL;
     return (new);
 }
@@ -49,16 +44,9 @@ void    list_add_back_export(t_environ **list, char *key, char *value)
     t_environ *head;
     
     head = *list;
-    //printf("%s, %d\n", __FILE__, __LINE__);
     while ((*list)->next != NULL)
-    {
-        // printf("key:%s/", (*list)->key);
-        // printf("value:%s\n", (*list)->value);
         *list = (*list)->next;
-    }
     (*list)->next = new_node(key, value);
-    // printf("new key:%s/", (*list)->next->key);
-    // printf("new value:%s\n", (*list)->next->value);
     *list = head;
 }
 
@@ -111,33 +99,15 @@ void	add_new_env(char *arg, t_environ *list)
     else
     {
         //iは'='のindex
-        //printf("%s, %d\n", __FILE__, __LINE__);
         key = ft_strndup(arg, i);
         if (key == NULL)
             function_error("strndup");
         value = ft_substr(arg, i + 1, ft_strlen(arg) - i - 1); // '='の後ろの文字列をvalueとする
         if (value == NULL)
             function_error("substr");
-        //printf("%s\n", key);
-        //printf("%s\n", value);
-        //list_add_back_export(&(info->list), key, value);
         list_add_back_export(&list, key, value);
         free(key);
         free(value);
-        /*
-        while (info->list != NULL)
-        {
-            printf("KEY:%s/", info->list->key);
-            printf("VALUE:%s\n", info->list->value);
-            info->list = info->list->next;
-        }
-        */
-    //     while(list != NULL)
-    //     {
-    //         printf("KEY:%s/", list->key);
-    //         printf("VALUE:%s\n", list->value);
-    //         list = list->next;
-    //     }
     }
 }
 
@@ -148,15 +118,12 @@ bool    check_argv_no_such_env(t_info *info)
 
     i = 1;
     //全部の引数が展開されている場合はtrue
-    //printf("%s, %d\n", __FILE__, __LINE__);
-    //printf("%s\n", info->argv[1]);
     while (info->argv[i] != NULL)
     {
         if (ft_strchr(info->argv[i], '$') == NULL)//引数に'$'がない場合
             return (false);
         i++;
     }
-    //printf("%s, %d\n", __FILE__, __LINE__);
     return (true);//全部の引数に'$'がある場合
 }
 
@@ -223,10 +190,9 @@ int    not_allowed_variant_character(char *key)
 void    export_builtin(t_info *info, t_environ *list)
 {
     int i;
-    //char    **env;
     char    *key;
-    //printf("%s, %d\n", __FILE__, __LINE__);
-    if (info->argv[1] == NULL || check_argv_no_such_env(info) == true)
+    
+    if (info->argv[1] == NULL || check_argv_no_such_env(info) == true)//引数がない場合
     {
         t_environ *tmp;
         tmp = list;
@@ -248,17 +214,15 @@ void    export_builtin(t_info *info, t_environ *list)
     else
     {
         i = 1;
-        while (info->argv[i] != NULL)
+        while (info->argv[i] != NULL)//引数がある場合
         {
             if (check_add_or_not(info->argv[i], list) == true)
             {
-                //printf("%s, %d\n", __FILE__, __LINE__);
                 add_env_value(info->argv[i], list);
                 i++;
             }
             else
             {
-                //printf("%d\n", ft_strchr_index(info->argv[1], '='));
                 if (ft_strchr_index(info->argv[1], '=') != -1)// '='がある場合
                     key = ft_strndup(info->argv[1], ft_strchr_index(info->argv[1], '=')); // '='の前までをkeyとする
                 else

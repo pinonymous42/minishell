@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 11:55:33 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/09 17:56:18 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:51:08 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	pwd_builtin(t_info *info)
 {
     char cwd[PATH_MAX];
-    //printf("%s, %d\n", __FILE__, __LINE__);
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
         printf("%s\n", cwd);
     }

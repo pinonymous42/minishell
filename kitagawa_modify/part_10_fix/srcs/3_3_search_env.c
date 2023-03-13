@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:27:36 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/13 13:37:15 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:48:36 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char *search_env(char *key, t_environ *list)
     {
         if (ft_strcmp(list->key, key) == 0)
         {
-            // printf("%s, %d\n", __FILE__, __LINE__);
             return (list->value);
         }
         list = list->next;

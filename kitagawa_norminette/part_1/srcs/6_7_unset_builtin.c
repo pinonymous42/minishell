@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:28:52 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/05 18:34:34 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:50:55 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	unset_var(t_environ *list, char *key)
 		{
 			if (prev != NULL)
 				prev->next = curr->next;
-			else//prevがNULLの場合は、currが先頭の要素を指している
+			else
 				list = curr->next;
 			free(curr->key);
 			free(curr->value);
