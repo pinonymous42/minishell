@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:27:36 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/12 23:05:19 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:37:15 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,8 @@ int ft_strcmp(char* str1, char* str2)
 
 char *search_env(char *key, t_environ *list)
 {
-    //char *no_such_env;
-    //printf("%s, %d\n", __FILE__, __LINE__);
-    //no_such_env = _ENV;
     while (list != NULL)
     {
-        // printf("%s, %d\n", __FILE__, __LINE__);
         if (ft_strcmp(list->key, key) == 0)
         {
             // printf("%s, %d\n", __FILE__, __LINE__);
@@ -43,6 +39,5 @@ char *search_env(char *key, t_environ *list)
         }
         list = list->next;
     }
-    //printf("%s, %d\n", __FILE__, __LINE__);
     return (NO_SUCH_ENV);
 }
