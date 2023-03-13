@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 21:33:05 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 21:43:31 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	put_env(t_environ *list)
 char	*make_key(char *argv)
 {
 	char	*key;
-	int		i;
 
 	if (ft_strchr_index(argv, '=') != -1)
 		key = ft_strndup(argv, ft_strchr_index(argv, '='));

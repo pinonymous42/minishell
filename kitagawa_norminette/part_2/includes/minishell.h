@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 20:49:22 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 21:41:37 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,16 @@ void    exit_builtin(t_info *info);
 // pwd_builtin.c
 void    pwd_builtin(t_info *info);
 
-//export_builtin.c
-int	    ft_strchr_index(const char *str, char c);
+//6_6_1_export_builtin.c
 void    export_builtin(t_info *info, t_environ *list);
+//6_6_2_export_builtin.c
+int	    ft_strchr_index(const char *str, char c);
+void	update_env(char *arg, t_environ *list);
+void	add_new_env(char *arg, t_environ *list);
+//6_6_3_export_builtin.c
+bool	check_argv_no_such_env(t_info *info);
+bool	check_add_or_not(char *arg, t_environ *list);
+void	add_env_value(char *arg, t_environ *list);
 int     not_allowed_variant_character(char *key);
 
 //unset_builtin.c
