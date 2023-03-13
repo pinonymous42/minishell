@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 15:26:22 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:47:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ void	process_line(char *line, t_environ *list)
 	free_token(token);
 }
 
+void	init_g_signal(void)
+{
+	g_signal.other_code = FALSE;
+	g_signal.input_fd = dup(0);
+	g_signal.output_fd = dup(1);
+	g_signal.do_split = 0;
+	g_signal.pipe_count = 0;
+	g_signal.not_expand_flag = 0;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
@@ -72,12 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (g_signal.other_code == FALSE)
 			g_signal.status = 0;
-		g_signal.other_code = FALSE;
-		g_signal.input_fd = dup(0);
-		g_signal.output_fd = dup(1);
-		g_signal.do_split = 0;
-		g_signal.pipe_count = 0;
-		g_signal.not_expand_flag = 0;
+		init_g_signal();
 		set_signal();
 		line = readline("minishell$ ");
 		if (line == NULL)

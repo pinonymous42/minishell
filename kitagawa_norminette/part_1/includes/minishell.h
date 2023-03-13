@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 14:15:33 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:56:24 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,27 @@ int count_heredoc(char **argv);
 char **list_to_array(t_environ *list);
 int count_pipe(t_token *token);
 
-//tokenize_ref.c
+//tokenize
+//2_1_tokenize.c
 t_token *tokenize(char *line);
+//2_2_tokenize_utils.c
+bool	is_blank(char c);
 bool    is_metacharacter(char c);
-char *ft_strndup(char *str, size_t n);
+bool	is_control_operator(const char *s);
+t_token	*new_token(t_token_kind kind);
+void	append_token(t_token **head, t_token *new);
+//2_3_tokenize_handle.c
+t_token	*handle_metacharacter(char **rest, char *line);
+t_token	*handle_contorol_op(char **rest, char *line);
+//2_4_tokenize_handle_word.c
+char    *ft_strndup(char *str, size_t n);
+bool	check_single_quote(char **line);
+bool	check_double_quote(char **line);
+void	get_end(char **line);
+t_token	*handle_word(char **rest, char *line);
+//2_5_tokenize_check.c
+bool	check_redirect_token(t_token *token);
+void	check_and_sort_tokens(t_token **head);
 
 //expand_ref.c
 char	**expand(t_token *tok, t_environ *list);
