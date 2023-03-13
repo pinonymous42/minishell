@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/08 11:55:51 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:03:06 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ void process_line(char *line, t_environ *list)
 
 	// syntax_error = false;
     token = tokenize(line);
+    
+    if (g_signal.status == 258 && g_signal.other_code == TRUE)
+    {
+        free_token(token);
+        return ;
+    }
+    
     g_signal.pipe_count = count_pipe(token);
     // while (token)
     // {
@@ -87,12 +94,14 @@ int main(int argc, char **argv, char **envp)
     char *line;
     t_environ *list;
     
+    (void)argc;
+    (void)argv;
     list = make_environ(envp);
     // g_signal.status = 0;
     g_signal.other_code = FALSE;
     while (1)
     {
-        //printf("%s, %d\n", __FILE__, __LINE__);
+        // printf("%s, %d\n", __FILE__, __LINE__);
         //list = make_environ(envp);
         if (g_signal.other_code == FALSE)
             g_signal.status = 0;
@@ -101,8 +110,12 @@ int main(int argc, char **argv, char **envp)
         g_signal.output_fd = dup(1);
         g_signal.do_split = 0;
         g_signal.pipe_count = 0;
+	    g_signal.not_expand_flag = 0;
         set_signal();
+        // printf("|%s|\n", line);
+        // printf("%s, %d\n", __FILE__, __LINE__);
         line = readline("minishell$ ");
+        // printf("<%s>\n", line);
         if (line == NULL)
             break;
         if (*line != '\0')

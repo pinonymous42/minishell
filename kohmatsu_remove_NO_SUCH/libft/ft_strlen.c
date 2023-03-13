@@ -1,45 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 18:19:56 by kohmatsu          #+#    #+#             */
-/*   Updated: 2022/10/19 13:17:47 by kohmatsu         ###   ########.fr       */
+/*   Created: 2022/10/05 11:55:17 by kohmatsu          #+#    #+#             */
+/*   Updated: 2023/03/13 12:37:36 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-char	*ft_strrchr(const char *s, int c)
+size_t	ft_strlen(const char *s)
 {
-	size_t	i;
-	char	*ans;
-	char	*tmp;
+	size_t	len;
 
-	i = ft_strlen(s);
-	ans = (char *)s;
-	tmp = NULL;
-	if ((char)c == '\0')
-		return ((ans + i));
-	while (*ans)
+	len = 0;
+	while (*s != '\0')
 	{
-		if (*ans == (char)c)
-			tmp = ans;
-		ans++;
+		len++;
+		s++;
 	}
-	if (tmp)
-		return (tmp);
-	return (NULL);
+	return (len);
 }
 
 // #include <stdio.h>
-// #include <strings.h>
 // int main(void)
 // {
-// 	char *s = "libft-test-tokyo";
-// 	printf("%s\n", ft_strrchr(s, 0));
-// 	printf("%s\n", 	strrchr(s, 0));
+// 	char s[] = "";
+// 	printf("%zu", ft_strlen(s));
 // 	return (0);
 // }

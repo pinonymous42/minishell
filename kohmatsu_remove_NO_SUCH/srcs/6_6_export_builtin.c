@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/11 15:01:22 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:06:07 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void    list_add_back_export(t_environ **list, char *key, char *value)
     *list = head;
 }
 
-void update_env(t_info *info, char *arg, t_environ *list)
+void update_env(char *arg, t_environ *list)
 {
     char    *key;
     char    *value;
@@ -91,7 +91,7 @@ void update_env(t_info *info, char *arg, t_environ *list)
     free(key);
 }
 
-void	add_new_env(t_info *info, char *arg, t_environ *list)
+void	add_new_env(char *arg, t_environ *list)
 {
 	char	*key;
 	char	*value;
@@ -173,7 +173,7 @@ bool check_add_or_not(char *arg, t_environ *list)
             if (arg[i + 1] == '=')
             {
                 key = ft_strndup(arg, i);// '+'の前の文字列をkeyとする
-                if(ft_strncmp(search_env(key, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV)) != 0)//keyが存在する場合
+                if(search_env(key, list) != NULL)//keyが存在する場合
                 {
                     free(key);
                     return (true);
@@ -190,7 +190,7 @@ bool check_add_or_not(char *arg, t_environ *list)
     return (false);
 }
 
-void    add_env_value(t_info *info, char *arg, t_environ *list)
+void    add_env_value(char *arg, t_environ *list)
 {
     int  i;
     char *key;
@@ -253,7 +253,7 @@ void    export_builtin(t_info *info, t_environ *list)
             if (check_add_or_not(info->argv[i], list) == true)
             {
                 //printf("%s, %d\n", __FILE__, __LINE__);
-                add_env_value(info, info->argv[i], list);
+                add_env_value(info->argv[i], list);
                 i++;
             }
             else
@@ -270,10 +270,10 @@ void    export_builtin(t_info *info, t_environ *list)
                     g_signal.other_code = TRUE;
                     return ;
                 }
-                if(ft_strncmp(search_env(key, list), NO_SUCH_ENV, ft_strlen(NO_SUCH_ENV) != 0))//keyが存在する場合
-                    update_env(info, info->argv[i], list);
+                if(search_env(key, list) != NULL)//keyが存在する場合
+                    update_env(info->argv[i], list);
                 else //新しく追加する場合
-                    add_new_env(info, info->argv[i], list);
+                    add_new_env(info->argv[i], list);
                 free(key);
                 i++;
             }

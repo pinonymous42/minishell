@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:12:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/06 12:53:34 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:45:01 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**token_list_to_array(t_token *token)
         function_error("calloc");
     cur = token;
     i = 0;
-    while (cur != NULL && cur->kind != TOKEN_EOF)
+    while (cur != NULL && cur->kind != TOKEN_EOF && cur->word != NULL)
     {
         // printf("|%s|\n", cur->word);
         array[i] = ft_strdup(cur->word);
