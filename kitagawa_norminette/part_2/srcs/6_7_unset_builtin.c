@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:28:52 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 16:55:16 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 22:08:22 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	unset_var(t_environ *list, char *key)
 	curr = list;
 	while (curr != NULL)
 	{
-		if (ft_strncmp(curr->key, key, ft_strlen(key)) == 0)
+		if (ft_strcmp(curr->key, key) == 0)
 		{
 			if (prev != NULL)
 				prev->next = curr->next;
