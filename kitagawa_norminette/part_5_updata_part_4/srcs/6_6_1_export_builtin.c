@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 23:29:22 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 01:49:01 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	handle_argv(t_info *info, t_environ *list)
 				if (ft_strchr(key, '$') != NULL)
 				{
 					i++;
+					free(key);
 					continue ;
 				}
 				free(key);

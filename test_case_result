@@ -57,18 +57,16 @@ export $NO $NO: OK
 export $TEST $NO: OK
 export $NO $TEST: OK
 unset: OK
-・エッジケース2:OK
-環境変数に" "(空白)を入れた場合の挙動
-bash-3.2$ export a=" "
-bash-3.2$ echo$a-a
--a
+
 ・export エッジケース4:OK
 export TEST="a=b=c=d"
 env | grep TEST
 echo $TEST
+
 ・export エッジケース5:OK
 export PIPE="|"
 echo $PIPE
+
 ・export エッジケース6:OK
 bash-3.2$ export TEST="TEST=aaaa"
 bash-3.2$ env | grep TEST
@@ -92,7 +90,6 @@ export | grep HOGE
 [リダイレクト]
 echo aaa > test.txt: OK
 echo -n aaa >outfile: OK
-echo a > test1 b: OK
 echo a > test1 b: OK
 echo c > test2 "d    ef": OK
 echo > >: OK(syntax error)
@@ -121,7 +118,6 @@ cat | cat | ls :OK
 
 
 [パイプ✖️リダイレクト]
-
 
 
 [シグナル]
