@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_4_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:29:48 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 19:53:37 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/15 00:08:47 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	count_splitable(t_info *info, int start, int end)
 		if (ft_strchr(info->cmd[start], ' '))
 		{
 			i = 0;
+			while (info->cmd[start][i] == ' ')
+				i++;
 			while (info->cmd[start][i])
 			{
 				if (info->cmd[start][i] == ' ')

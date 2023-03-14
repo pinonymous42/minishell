@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 22:53:54 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:29:22 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ bool	judge_key(char *key, char *argv, t_environ *list)
 		export_not_valid_identifier(argv);
 		return (false);
 	}
+	else if (ft_strchr(key, '$') != NULL)
+		return (false);
 	else if (search_env(key, list) != NULL)
 		update_env(argv, list);
 	else
@@ -72,6 +74,11 @@ void	handle_argv(t_info *info, t_environ *list)
 			key = make_key(info->argv[i]);
 			if (judge_key(key, info->argv[i], list) == false)
 			{
+				if (ft_strchr(key, '$') != NULL)
+				{
+					i++;
+					continue ;
+				}
 				free(key);
 				break ;
 			}

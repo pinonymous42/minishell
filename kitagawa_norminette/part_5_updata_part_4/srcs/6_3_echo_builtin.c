@@ -6,16 +6,27 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 22:47:26 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 00:24:20 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	write_until_doll(char *str)
+{
+	int	j;
+
+	j = 0;
+	while (str[j] != '$')
+	{
+		write(1, &str[j], 1);
+		j++;
+	}
+}
+
 void	no_option(t_info *info, int j)
 {
 	int	i;
-	int k;
 
 	i = j + 1;
 	while (info->argv[i])
@@ -28,14 +39,7 @@ void	no_option(t_info *info, int j)
 		else if (g_signal.not_expand_flag == 1)
 			ft_putstr_fd(info->argv[i], STDOUT);
 		else
-		{
-			k = 0;
-			while (info->argv[i][k] != '$')
-			{
-				write(1, &info->argv[i][k], 1);
-				k++;
-			}
-		}
+			write_until_doll(info->argv[i]);
 		if (info->argv[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;
@@ -55,11 +59,10 @@ void	option(t_info *info, int j)
 			if (info->argv[i] != NULL)
 				ft_putstr_fd(info->argv[i], STDOUT);
 		}
+		else if (g_signal.not_expand_flag == 1)
+			ft_putstr_fd(info->argv[i], STDOUT);
 		else
-		{
-			i++;
-			continue ;
-		}
+			write_until_doll(info->argv[i]);
 		if (info->argv[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;

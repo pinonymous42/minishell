@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:16:13 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 22:48:10 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 00:56:37 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,14 @@ void	expansion(char **p, char **new_word, t_environ *list)
 	else
 	{
 		if (not_allowed_variant_character(*p))
-			check_variable_character(var, p);
+			check_variable_character(&var, p);
 		else
 			var = ft_strndup(*p, ft_strchr(*p, '\0') - *p);
 	}
 	if (*new_word == NULL)
-	{
-		if (search_env(var, list) != NULL)
-			*new_word = ft_strdup(search_env(var, list));
-		else
-		{
-			*new_word = ft_strdup("$");
-			*new_word = ft_strjoin_with_free(*new_word, var, FIRST_PARAM);
-		}
-	}
+		*new_word = create_new_word_if_null(var, list);
 	else
-	{
-		if (search_env(var, list) != NULL)
-			*new_word = ft_strjoin_with_free(*new_word,
-					search_env(var, list), FIRST_PARAM);
-		else
-		{
-			*new_word = ft_strjoin_with_free(*new_word, "$", FIRST_PARAM);
-			*new_word = ft_strjoin_with_free(*new_word, var, FIRST_PARAM);
-		}
-	}
+		create_new_word_if_not_null(new_word, var, list);
 	free(var);
 }
 

@@ -28,17 +28,15 @@ echo $? :OK
 exit a:OK
 echo '$TEST':OK(TEST="aaa"をexportしておく)
 echo $TEST:OK(TEST="aaa"をexportしておく)
-echo "aaa :OK//Assert Error: Unclosed single quoteでexitしちゃってる。本家はHEREDOCみたいな入力待ち状態になるけど、、、なぜ？？実装しなくて良い？？
-echo 'aaa :OK//同様
-→expandいじる必要性あり
-echo "$TEST":OK(TEST="aaa"をexportしておく):松島氏
-→leakおきる
+echo "aaa :OK
+echo 'aaa :OK
 
 ・エッジケース1:OK
 export TEST="-n hello"
 env | grep TEST
 echo $TEST   // echo -n hello と同じ
-・エッジケース2:OK
+
+・エッジケース2:NG:セグフォ起きたあああなんでええええ
 環境変数に" "(空白)を入れた場合の挙動
 bash-3.2$ export a=" "
 bash-3.2$ echo$a-a
@@ -57,22 +55,13 @@ export TEST+=TOKYO: OK
 export $NO: OK
 export $NO $NO: OK
 export $TEST $NO: OK
+export $NO $TEST: OK
 unset: OK
-
-・export エッジケース1:OK
-export
-export TEST
-env | grep TEST
-→何も表示しない
-export | grep TEST
-export HOGE=
-env | grep HOGE
-→表示する
-export | grep HOGE
-
-・export エッジケース1:OK(TESTを事前にexportしておく)
-export $NO $TEST
-export $TEST $NO
+・エッジケース2:OK
+環境変数に" "(空白)を入れた場合の挙動
+bash-3.2$ export a=" "
+bash-3.2$ echo$a-a
+-a
 ・export エッジケース4:OK
 export TEST="a=b=c=d"
 env | grep TEST
@@ -88,6 +77,17 @@ bash-3.2$ $TEST
 bash: TEST=aaaa: command not found//OKs
 bash-3.2$ env | grep TEST
 TEST=TEST=aaaa
+
+・export エッジケース1:OK
+export
+export TEST
+env | grep TEST
+→何も表示しない
+export | grep TEST
+export HOGE=
+env | grep HOGE
+→表示する
+export | grep HOGE
 
 [リダイレクト]
 echo aaa > test.txt: OK

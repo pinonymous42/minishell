@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:31:21 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 21:52:39 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 00:17:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	execute_check_equal(t_info *info, int j)
 void	child_do(char *exe_path, t_info *info, int i, t_environ *list)
 {
 	int	j;
-	
+
 	j = 0;
 	set_signal_child();
 	make_info_argv(info, info->pipe_place[i + 1], info->pipe_place[i]);
