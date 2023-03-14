@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 20:39:13 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:47:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	process_line(char *line, t_environ *list)
 	token = tokenize(line);
 	if (g_signal.status == 258 && g_signal.other_code == TRUE)
 	{
-		printf("%s, %d\n", __FILE__, __LINE__);
 		free_token(token);
 		return ;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_pipe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/13 13:04:41 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 20:29:15 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -483,7 +483,8 @@ void    multiple_pipes(t_info *info, t_environ *list)
                     }
                 }
             }
-            
+            //printf("%s, %d\n", __FILE__, __LINE__);
+            //printf("info->argv[j] = %s\n", info->argv[j]);
             if (check_builtin(info->cmd[info->pipe_place[i] + 1]) && i > g_signal.pipe_count - 1)
             {
                 if (ft_strncmp(info->cmd[info->pipe_place[i] + 1], "cd", 2) == 0)
@@ -518,13 +519,12 @@ void    multiple_pipes(t_info *info, t_environ *list)
                     err_exit(info->argv[0], "command not found");
                 while ((info->path)[index] != NULL && access(exe_path, X_OK))
                 {
-                    if (ft_strchr(info->argv[0], '/') == NULL)
-                        exe_path = make_exepath((info->path)[index], (info->argv)[0]);
+                    if (ft_strchr(info->argv[j], '/') == NULL)
+                        exe_path = make_exepath((info->path)[index], (info->argv)[j]);
                     else
-                        exe_path = info->argv[0];
+                        exe_path = info->argv[j];
                     index++;
                 }
-
                 if (execve(exe_path, info->argv, list_to_array(info->list)) == -1)
                 {
                     if (ft_strchr_index(info->argv[j], '=') == -1)
