@@ -1,0 +1,176 @@
+-----------------------------------------------------テストOK-----------------------------------------------------------
+[絶対パス]
+/bin/ls:OK
+/bin/pwd:OK
+/bin/echo:OK
+
+[相対パス]
+ls:OK
+pwd:OK
+echo:OK
+
+[実行コマンド]
+存在しないコマンド。
+A:OK
+A=:OK
+A=a:OK
+[エッジケース3:OK]:北川
+A=a echo a
+a
+bash-3.2$ B=b echo C=c
+C=c
+
+[expand]
+echo 'aaa':OK
+echo "$TEST":OK
+echo $TEST:OK
+echo $? :OK
+exit a:OK
+echo '$TEST':OK(TEST="aaa"をexportしておく)
+echo $TEST:OK(TEST="aaa"をexportしておく)
+echo "aaa :OK//Assert Error: Unclosed single quoteでexitしちゃってる。本家はHEREDOCみたいな入力待ち状態になるけど、、、なぜ？？実装しなくて良い？？
+echo 'aaa :OK//同様
+→expandいじる必要性あり
+echo "$TEST":OK(TEST="aaa"をexportしておく):松島氏
+→leakおきる
+
+・エッジケース1:OK
+export TEST="-n hello"
+env | grep TEST
+echo $TEST   // echo -n hello と同じ
+・エッジケース2:OK
+環境変数に" "(空白)を入れた場合の挙動
+bash-3.2$ export a=" "
+bash-3.2$ echo$a-a
+-a
+
+[builtinコマンド単体]
+echo:OK
+echo aaa: OK
+pwd: OK
+cd: OK
+
+export: OK
+export TEST: OK
+export TEST=aaa: OK
+export TEST+=TOKYO: OK
+export $NO: OK
+export $NO $NO: OK
+export $TEST $NO: OK
+unset: OK
+
+・export エッジケース1:OK
+export
+export TEST
+env | grep TEST
+→何も表示しない
+export | grep TEST
+export HOGE=
+env | grep HOGE
+→表示する
+export | grep HOGE
+
+・export エッジケース4:OK
+export TEST="a=b=c=d"
+env | grep TEST
+echo $TEST
+・export エッジケース5:OK
+export PIPE="|"
+echo $PIPE
+・export エッジケース6:OK
+bash-3.2$ export TEST="TEST=aaaa"
+bash-3.2$ env | grep TEST
+TEST=TEST=aaaa
+bash-3.2$ $TEST
+bash: TEST=aaaa: command not found//OKs
+bash-3.2$ env | grep TEST
+TEST=TEST=aaaa
+
+[リダイレクト]
+echo aaa > test.txt: OK
+echo -n aaa >outfile: OK
+echo a > test1 b: OK
+echo a > test1 b: OK
+echo c > test2 "d    ef": OK
+echo > >: OK(syntax error)
+cat test1 > test3 test2: OK
+cat test1 > test3 > test2:0K
+cat test1 < test3 test2: OK
+cat < test3 test2: OK
+<< HERE a b: OK
+・エッジケース1:OK
+> test
+< test
+>> test
+<< test
+・エッジケース2:OK
+f3のみにabcが記述される。
+> f0 echo > f1 > f2 > f3 abc
+
+
+[パイプ]
+env | grep PATH: OK
+echo a | echo b: OK
+cat | ls :OK
+cat | cat | ls :OK
+
+
+[パイプ✖️リダイレクト]
+
+
+
+[シグナル]
+・エッジケース1:OK
+シグナルの出力が、パイプの前後で異なる例
+Ctrl + C（同じ）
+bash-3.2$ echo | sleep 10 # Ctrl+C
+^C
+bash-3.2$ sleep 10 | echo # Ctrl+C
+
+^C
+bash-3.2$
+・エッジケース2:OK
+Ctrl + \（おそらく最後のコマンドでシグナルを受け取る場合 Quit 表示）
+bash-3.2$ echo | sleep 10 # Ctrl+\
+^\Quit: 3
+bash-3.2$ sleep 10 | echo # Ctrl+\
+
+^\bash-3.2$
+
+[エッジケース1:OK]
+minishell$ mkdir test
+minishell$ cd test
+minishell$ rmdir ../test
+minishell$ cd .
+cd: error retrieving current directory:                         getcwd: cannot access parent directories: No such file or directory
+minishell$ pwd
+/Users/kitagawayoshifumi/Downloads/42/PJLv.3/now/kitagawa_norminette/part_2/test/.
+minishell$ echo $PWD
+/Users/kitagawayoshifumi/Downloads/42/PJLv.3/now/kitagawa_norminette/part_2/test/.
+minishell$ cd ..
+minishell$ pwd
+/Users/kitagawayoshifumi/Downloads/42/PJLv.3/now/kitagawa_norminette/part_2
+
+-------------------------------------------------------テストNG----------------------------------------------------------------
+
+[builtinコマンド単体]
+・export エッジケース1:NG
+export $NO $TEST:NG//表示しちゃいけないけど、今は表示してる
+
+・export エッジケース3:NG
+既存の環境変数のみが入ってきたとき、本家では何も表示せず上書きするが、minishellではcommand not foundと表示される
+bash-3.2$ export TEST="TEST=aaaa"
+bash-3.2$ env | grep TEST
+TEST=TEST=aaaa
+bash-3.2$ TEST=aaaa
+bash-3.2$ env | grep TEST
+TEST=aaaa
+
+[パイプ]:一応置いとく
+・エッジケース:NG
+パイプ内でexit → $?にexitの値が入るはずが、minishellではenvが実行される
+bash-3.2$ echo $? | exit 42 ; echo $?
+42
+
+[リダイレクト]:北川
+echo aaa > $NON_EXIST:NG//function error: openになってるけど、本家はbash: $NON_EXIST: ambiguous redirect
