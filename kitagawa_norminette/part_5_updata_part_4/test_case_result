@@ -70,6 +70,9 @@ env | grep HOGE
 →表示する
 export | grep HOGE
 
+・export エッジケース1:OK(TESTを事前にexportしておく)
+export $NO $TEST
+export $TEST $NO
 ・export エッジケース4:OK
 export TEST="a=b=c=d"
 env | grep TEST
@@ -106,6 +109,8 @@ cat < test3 test2: OK
 ・エッジケース2:OK
 f3のみにabcが記述される。
 > f0 echo > f1 > f2 > f3 abc
+・エッジケース3:OK
+echo aaa > $NON_EXIST
 
 
 [パイプ]
@@ -154,8 +159,6 @@ minishell$ pwd
 -------------------------------------------------------テストNG----------------------------------------------------------------
 
 [builtinコマンド単体]
-・export エッジケース1:NG
-export $NO $TEST:NG//表示しちゃいけないけど、今は表示してる
 
 ・export エッジケース3:NG
 既存の環境変数のみが入ってきたとき、本家では何も表示せず上書きするが、minishellではcommand not foundと表示される
@@ -171,6 +174,3 @@ TEST=aaaa
 パイプ内でexit → $?にexitの値が入るはずが、minishellではenvが実行される
 bash-3.2$ echo $? | exit 42 ; echo $?
 42
-
-[リダイレクト]:北川
-echo aaa > $NON_EXIST:NG//function error: openになってるけど、本家はbash: $NON_EXIST: ambiguous redirect

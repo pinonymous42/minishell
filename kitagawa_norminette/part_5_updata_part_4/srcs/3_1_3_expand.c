@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_3_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:16:13 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 20:28:48 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 22:48:10 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,25 @@ void	expansion(char **p, char **new_word, t_environ *list)
 			var = ft_strndup(*p, ft_strchr(*p, '\0') - *p);
 	}
 	if (*new_word == NULL)
-		*new_word = ft_strdup(search_env(var, list));
+	{
+		if (search_env(var, list) != NULL)
+			*new_word = ft_strdup(search_env(var, list));
+		else
+		{
+			*new_word = ft_strdup("$");
+			*new_word = ft_strjoin_with_free(*new_word, var, FIRST_PARAM);
+		}
+	}
 	else
 	{
-		*new_word = ft_strjoin_with_free(*new_word,
-				search_env(var, list), FIRST_PARAM);
+		if (search_env(var, list) != NULL)
+			*new_word = ft_strjoin_with_free(*new_word,
+					search_env(var, list), FIRST_PARAM);
+		else
+		{
+			*new_word = ft_strjoin_with_free(*new_word, "$", FIRST_PARAM);
+			*new_word = ft_strjoin_with_free(*new_word, var, FIRST_PARAM);
+		}
 	}
 	free(var);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_3_echo_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 18:49:21 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 22:47:26 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	no_option(t_info *info, int j)
 {
 	int	i;
+	int k;
 
 	i = j + 1;
 	while (info->argv[i])
@@ -28,8 +29,12 @@ void	no_option(t_info *info, int j)
 			ft_putstr_fd(info->argv[i], STDOUT);
 		else
 		{
-			i++;
-			continue ;
+			k = 0;
+			while (info->argv[i][k] != '$')
+			{
+				write(1, &info->argv[i][k], 1);
+				k++;
+			}
 		}
 		if (info->argv[i + 1] != NULL)
 			write(1, " ", 1);
