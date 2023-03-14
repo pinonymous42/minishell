@@ -46,11 +46,17 @@ export $NO $NO: OK
 export $TEST $NO: OK
 unset: OK
 
-・export エッジケース3:OK
+・export エッジケース1:OK
+export
+export TEST
+env | grep TEST
+→何も表示しない
 export | grep TEST
 export HOGE=
 env | grep HOGE
+→表示する
 export | grep HOGE
+
 ・export エッジケース4:OK
 export TEST="a=b=c=d"
 env | grep TEST
@@ -147,12 +153,6 @@ $ e$TEST hello
 [builtinコマンド単体]
 ・export エッジケース1:NG
 export $NO $TEST:NG//表示しちゃいけないけど、今は表示してる
-
-・export エッジケース2:NG
-export
-export TEST
-env | grep TEST
-→本家は何も表示しないが、minishellではTEST=と表示される
 
 ・export エッジケース3:NG
 既存の環境変数のみが入ってきたとき、本家では何も表示せず上書きするが、minishellではcommand not foundと表示される
