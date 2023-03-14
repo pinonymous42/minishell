@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_1_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 20:24:11 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:05:33 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	handle_argv(t_info *info, t_environ *list)
 
 void	export_builtin(t_info *info, t_environ *list)
 {
-	printf("argv_count: %d\n", info->argv_count);
 	if ((info->argv[1] == NULL && info->argv_count == 2)
 		|| check_argv_no_such_env(info) == true)
 		put_env(list);

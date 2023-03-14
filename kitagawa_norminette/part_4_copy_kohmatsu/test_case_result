@@ -14,6 +14,11 @@ echo:OK
 A:OK
 A=:OK
 A=a:OK
+[エッジケース3:OK]:北川
+A=a echo a
+a
+bash-3.2$ B=b echo C=c
+C=c
 
 [expand]
 echo 'aaa':OK
@@ -26,6 +31,8 @@ echo $TEST:OK(TEST="aaa"をexportしておく)
 echo "aaa :OK//Assert Error: Unclosed single quoteでexitしちゃってる。本家はHEREDOCみたいな入力待ち状態になるけど、、、なぜ？？実装しなくて良い？？
 echo 'aaa :OK//同様
 →expandいじる必要性あり
+echo "$TEST":OK(TEST="aaa"をexportしておく):松島氏
+→leakおきる
 
 ・エッジケース1:OK
 export TEST="-n hello"
@@ -146,14 +153,11 @@ minishell$ pwd
 
 -------------------------------------------------------テストNG----------------------------------------------------------------
 
-echo "$TEST":NG(TEST="aaa"をexportしておく)
-→leakおきる
-
-[builtinコマンド単体];北川
+[builtinコマンド単体]
 ・export エッジケース1:NG
 export $NO $TEST:NG//表示しちゃいけないけど、今は表示してる
 
-・export エッジケース3:NG 北川
+・export エッジケース3:NG
 既存の環境変数のみが入ってきたとき、本家では何も表示せず上書きするが、minishellではcommand not foundと表示される
 bash-3.2$ export TEST="TEST=aaaa"
 bash-3.2$ env | grep TEST
@@ -170,9 +174,3 @@ bash-3.2$ echo $? | exit 42 ; echo $?
 
 [リダイレクト]:北川
 echo aaa > $NON_EXIST:NG//function error: openになってるけど、本家はbash: $NON_EXIST: ambiguous redirect
-
-[エッジケース3:NG]:北川
-A=a echo a//echo aが実行されない。minishell: echo: command not foundとなる。
-a
-bash-3.2$ B=b echo C=c//echo C=cが実行されない。minishell: echo: command not foundとなる。
-C=c

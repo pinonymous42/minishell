@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_6_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:42 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 19:32:23 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:30:58 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	do_mix_builtin(t_info *info, t_environ *list, int i)
 		pwd_builtin(info);
 }
 
-char	*create_path(t_info *info)
+char	*create_path(t_info *info, int j)
 {
 	char	*exe_path;
 	int		index;
@@ -99,14 +99,20 @@ char	*create_path(t_info *info)
 	exe_path = NULL;
 	index = 0;
 	if (access(exe_path, X_OK) == 0 && ft_strcmp(exe_path, "./"))
-		err_exit(info->argv[0], "command not found");
+		err_exit(info->argv[j], "command not found");
 	while ((info->path)[index] != NULL && access(exe_path, X_OK))
 	{
-		if (ft_strchr(info->argv[0], '/') == NULL)
+		if (ft_strchr(info->argv[j], '/') == NULL)
 			exe_path = make_exepath((info->path)[index],
-					(info->argv)[0]);
+					(info->argv)[j]);
 		else
-			exe_path = info->argv[0];
+			exe_path = info->argv[j];
+		index++;
+	}
+	index = 0;
+	while (index != j)
+	{
+		info->argv++;
 		index++;
 	}
 	return (exe_path);

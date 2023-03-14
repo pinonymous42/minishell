@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 20:27:25 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:10:10 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ void	do_fd(t_info *info, int i);
 void	execute_check_equal(t_info *info, int j);
 void	check_equal(t_info *info, int *j);
 void	do_mix_builtin(t_info *info, t_environ *list, int i);
-char	*create_path(t_info *info);
+char	*create_path(t_info *info, int j);
 void	malloc_error_free(int **pipefd, int i);
 void	check_variable_character(char *var, char **p);
 
