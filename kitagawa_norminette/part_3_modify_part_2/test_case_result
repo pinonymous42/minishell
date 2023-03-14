@@ -127,8 +127,6 @@ bash-3.2$ sleep 10 | echo # Ctrl+\
 
 ^\bash-3.2$
 
-
-
 [エッジケース1:OK]
 minishell$ mkdir test
 minishell$ cd test
@@ -160,6 +158,10 @@ $ e$TEST hello
 [builtinコマンド単体]
 ・export エッジケース1:NG
 export $NO $TEST:NG//表示しちゃいけないけど、今は表示してる
+
+export $NO $NO
+export NOSUCH NOSUCH NULL
+export NULL
 
 ・export エッジケース3:NG
 既存の環境変数のみが入ってきたとき、本家では何も表示せず上書きするが、minishellではcommand not foundと表示される
