@@ -21,6 +21,9 @@ echo "$TEST":OK
 echo $TEST:OK
 echo $? :OK
 exit a:OK
+echo '$TEST':OK(TEST="aaa"をexportしておく)
+echo $TEST:OK(TEST="aaa"をexportしておく)
+
 ・エッジケース1:OK
 export TEST="-n hello"
 env | grep TEST
@@ -79,6 +82,7 @@ echo -n aaa >outfile: OK
 echo a > test1 b: OK
 echo a > test1 b: OK
 echo c > test2 "d    ef": OK
+echo > >: OK(syntax error)
 cat test1 > test3 test2: OK
 cat test1 > test3 > test2:0K
 cat test1 < test3 test2: OK
@@ -144,6 +148,9 @@ minishell$ pwd
 echo "aaa :NG//Assert Error: Unclosed single quoteでexitしちゃってる。本家はHEREDOCみたいな入力待ち状態になるけど、、、なぜ？？実装しなくて良い？？
 echo 'aaa :NG//同様
 →expandいじる必要性あり
+
+echo "$TEST":NG(TEST="aaa"をexportしておく)
+→leakおきる
 
 ・エッジケース1:NG
 $export TEST="cho -n "
