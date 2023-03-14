@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:10:53 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 14:06:46 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:19:35 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ bool	check_argv_no_such_env(t_info *info)
 	int	i;
 
 	i = 1;
-	while (info->argv[i] != NULL)
+	while (i < info->argv_count)
 	{
-		if (ft_strchr(info->argv[i], '$') == NULL)
+		if (info->argv[i] != NULL)
 			return (false);
 		i++;
 	}

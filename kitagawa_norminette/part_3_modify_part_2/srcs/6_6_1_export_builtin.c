@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 21:43:31 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:20:08 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	handle_argv(t_info *info, t_environ *list)
 
 void	export_builtin(t_info *info, t_environ *list)
 {
-	if (info->argv[1] == NULL || check_argv_no_such_env(info) == true)
+	printf("argv_count: %d\n", info->argv_count);
+	if ((info->argv[1] == NULL && info->argv_count == 2) || check_argv_no_such_env(info) == true)
 		put_env(list);
 	else
 		handle_argv(info, list);
