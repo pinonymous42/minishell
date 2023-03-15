@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 23:50:08 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 14:19:38 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	append_char(char **s, char c)
 
 	size = 2;
 	if (*s)
-		size += strlen(*s);
+		size += ft_strlen(*s);
 	new = x_str_malloc(size);
 	if (*s)
-		strlcpy(new, *s, size);
+		ft_strlcpy(new, *s, size);
 	new[size - 2] = c;
 	new[size - 1] = '\0';
 	if (*s)

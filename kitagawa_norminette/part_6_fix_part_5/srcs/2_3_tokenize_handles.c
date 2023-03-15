@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:54:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 19:53:15 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 14:31:02 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ t_token	*handle_metacharacter(char **rest, char *line)
 	token = new_token(TOKEN_METACHAR);
 	while (i < 9)
 	{
-		if (ft_strncmp(line, metacharacters[i], \
-			ft_strlen(metacharacters[i])) == 0)
+		if (ft_strcmp(line, metacharacters[i]) == 0)
 		{
 			metachar = ft_strdup(metacharacters[i]);
 			if (metachar == NULL)
@@ -52,8 +51,7 @@ t_token	*handle_contorol_op(char **rest, char *line)
 	token = new_token(TOKEN_CONTROL_OP);
 	while (i < 9)
 	{
-		if (ft_strncmp(line, control_operators[i], \
-			ft_strlen(control_operators[i])) == 0)
+		if (ft_strcmp(line, control_operators[i]) == 0)
 		{
 			op = ft_strdup(control_operators[i]);
 			if (op == NULL)

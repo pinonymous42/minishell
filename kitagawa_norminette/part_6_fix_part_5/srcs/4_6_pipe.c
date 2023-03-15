@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:42 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 21:30:58 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 14:18:41 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	do_builtin(char *argv, t_environ *list, t_info *info)
 	else if (ft_strcmp(argv, "echo") == 0)
 		echo_builtin(info, 0);
 	else if (ft_strcmp(argv, "exit") == 0)
-		env_builtin(info);
+		exit_builtin(info);
 	else if (ft_strcmp(argv, "unset") == 0)
 		unset_builtin(info, list);
 	else if (ft_strcmp(argv, "env") == 0)

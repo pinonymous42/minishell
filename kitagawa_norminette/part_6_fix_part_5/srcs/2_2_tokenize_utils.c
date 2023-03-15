@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:51:03 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 18:52:58 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 14:32:23 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ bool	is_control_operator(const char *s)
 	i = 0;
 	while (i < 9)
 	{
-		if (ft_strncmp(s, control_operators[i], \
-			ft_strlen(control_operators[i])) == 0)
+		if (ft_strcmp((char *)s, control_operators[i]) == 0)
 			return (true);
 		i++;
 	}

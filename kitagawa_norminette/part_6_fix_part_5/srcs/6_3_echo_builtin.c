@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/15 00:24:20 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 14:24:17 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	echo_builtin(t_info *info, int j)
 	int	option_flag;
 
 	option_flag = 0;
-	if (ft_strncmp(info->argv[1], "-n", 2) == 0)
+	if (ft_strcmp(info->argv[1], "-n") == 0)
 		option_flag = 1;
 	if (option_flag == 0)
 		no_option(info, j);
