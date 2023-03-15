@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_7_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:31:21 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 19:31:33 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/15 00:17:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ void	execute_check_equal(t_info *info, int j)
 {
 	char	*key;
 
-	if (ft_strchr_index(info->argv[j], '=') == -1)
-		command_not_found(info->argv[j]);
+	if (ft_strchr_index(info->argv[0], '=') == -1)
+		command_not_found(info->argv[0]);
 	else
 	{
 		key = ft_strndup(info->argv[j],
-				ft_strchr_index(info->argv[j], '='));
+				ft_strchr_index(info->argv[0], '='));
 		if (search_env(key, info->list) != NULL)
 		{
 			free(key);
-			command_not_found(info->argv[j]);
+			command_not_found(info->argv[0]);
 		}
 		else
 		{
@@ -57,7 +57,7 @@ void	child_do(char *exe_path, t_info *info, int i, t_environ *list)
 	}
 	else
 	{
-		exe_path = create_path(info);
+		exe_path = create_path(info, j);
 		if (execve(exe_path, info->argv,
 				list_to_array(info->list)) == -1)
 			execute_check_equal(info, j);

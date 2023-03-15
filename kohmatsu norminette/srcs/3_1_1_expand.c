@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_1_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 20:26:59 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:50:08 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	check_variable_character(char *var, char **p)
+void	check_variable_character(char **var, char **p)
 {
-	var = ft_calloc(sizeof(char), 1);
+	*var = ft_calloc(sizeof(char), 1);
 	while (is_variable_character(**p))
 	{
-		append_char(&var, **p);
+		append_char(var, **p);
 		*p += 1;
 	}
 }

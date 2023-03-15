@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_1_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 19:31:59 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/15 00:55:53 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ void	pipex(int argc, char **argv, t_environ *list)
 	t_info	info;
 
 	info_init(&info, argc, argv, list);
+	if (argv[0] == NULL)
+	{
+		finish(&info);
+		return ;
+	}
 	if (g_signal.pipe_count == 0 && check_builtin(info.cmd[0]))
 	{
 		make_info_argv(&info, info.pipe_place[1], info.pipe_place[0]);

@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 20:24:11 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/15 01:55:54 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ bool	judge_key(char *key, char *argv, t_environ *list)
 		export_not_valid_identifier(argv);
 		return (false);
 	}
+	else if (ft_strchr(key, '$') != NULL)
+		return (false);
 	else if (search_env(key, list) != NULL)
 		update_env(argv, list);
 	else
@@ -72,7 +74,8 @@ void	handle_argv(t_info *info, t_environ *list)
 			key = make_key(info->argv[i]);
 			if (judge_key(key, info->argv[i], list) == false)
 			{
-				free(key);
+				if (yatto_owari(&key, &i))
+					continue ;
 				break ;
 			}
 			free(key);
@@ -83,7 +86,6 @@ void	handle_argv(t_info *info, t_environ *list)
 
 void	export_builtin(t_info *info, t_environ *list)
 {
-	printf("argv_count: %d\n", info->argv_count);
 	if ((info->argv[1] == NULL && info->argv_count == 2)
 		|| check_argv_no_such_env(info) == true)
 		put_env(list);

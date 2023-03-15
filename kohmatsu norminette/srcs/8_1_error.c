@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   8_1_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 20:21:25 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 22:00:08 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	tokenize_error(char *message, char **rest, char *line)
 		line++;
 	*rest = line;
 	g_signal.status = 258;
-	g_signal.status = TRUE;
+	g_signal.other_code = TRUE;
 }
 
 void	tokenize_error_2(char *message, char *word)
