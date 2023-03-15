@@ -3,23 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_3_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:10:53 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 15:19:35 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 01:55:43 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	yatto_owari(char **key, int *i)
+{
+	if (ft_strchr(*key, '$') != NULL)
+	{
+		*i += 1;
+		free(*key);
+		return (1);
+	}
+	free(*key);
+	return (0);
+}
 
 bool	check_argv_no_such_env(t_info *info)
 {
 	int	i;
 
 	i = 1;
-	while (i < info->argv_count)
+	while (info->argv[i] != NULL)
 	{
-		if (info->argv[i] != NULL)
+		if (ft_strchr(info->argv[i], '$') == NULL)
 			return (false);
 		i++;
 	}
@@ -76,7 +88,7 @@ int	not_allowed_variant_character(char *key)
 {
 	while (*key)
 	{
-		if (!(ft_isalnum(*key) || *key == '_'))
+		if (!(ft_isalnum(*key) || *key == '_' || *key == '$'))
 			return (1);
 		key++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_3_search_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:27:36 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 19:24:05 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:03:41 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ char	*search_env(char *key, t_environ *list)
 	while (list != NULL)
 	{
 		if (ft_strcmp(list->key, key) == 0)
-			return (list->value);
+		{
+			if (list->value != NULL)
+				return (list->value);
+			else
+				return ("");
+		}
 		list = list->next;
 	}
 	return (NULL);

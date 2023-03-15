@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:29:48 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 19:53:37 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/15 18:33:51 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	count_splitable(t_info *info, int start, int end)
 		if (ft_strchr(info->cmd[start], ' '))
 		{
 			i = 0;
+			while (info->cmd[start][i] == ' ')
+				i++;
 			while (info->cmd[start][i])
 			{
 				if (info->cmd[start][i] == ' ')
@@ -42,20 +44,18 @@ void	remove_redirect(char **tmp, t_info *info, int i)
 
 	argv_index = 0;
 	tmp_index = 0;
-	tmp = x_double_str_malloc(info->argv_count - 2);
-	while (argv_index != i)
+	if (!ft_strcmp(info->argv[0], "<") || !ft_strcmp(info->argv[0], ">"))
 	{
-		tmp[tmp_index] = x_strdup(info->argv[argv_index]);
-		tmp_index++;
-		argv_index++;
+		tmp = x_double_str_malloc(info->argv_count - 1);
+		tmp[tmp_index++] = x_strdup("cat");
 	}
+	else
+		tmp = x_double_str_malloc(info->argv_count - 2);
+	while (argv_index != i)
+		tmp[tmp_index++] = x_strdup(info->argv[argv_index++]);
 	argv_index += 2;
 	while (info->argv[argv_index])
-	{
-		tmp[tmp_index] = x_strdup(info->argv[argv_index]);
-		tmp_index++;
-		argv_index++;
-	}
+		tmp[tmp_index++] = x_strdup(info->argv[argv_index++]);
 	safty_free(info->argv);
 	info->argv = tmp;
 }

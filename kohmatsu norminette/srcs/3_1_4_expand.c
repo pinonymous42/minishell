@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_4_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:18:27 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 20:23:23 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/14 22:02:41 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	double_expansion(char **new_word, char **ret, t_environ *list)
 		}
 	}
 	else
+	{
+		free(var);
 		var = ft_strndup(*new_word, ft_strchr(*new_word, '\0') - *new_word);
+	}
 	tmp = search_env(var, list);
 	if (tmp)
 		*ret = ft_strjoin_with_free(*ret, tmp, FIRST_PARAM);

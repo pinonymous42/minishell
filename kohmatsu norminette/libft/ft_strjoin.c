@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 15:07:30 by matsushimak       #+#    #+#             */
-/*   Updated: 2023/03/05 02:17:26 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 01:23:54 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*ret;
+
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
 	if (s1 == NULL)

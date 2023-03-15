@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:03:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 19:09:01 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:57:38 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ t_token	*tokenize(char *line)
 	while (*line != '\0')
 	{
 		if (is_blank(*line) == true)
-			line++;
+		{
+			while (is_blank(*line) == true)
+				line++;
+		}
 		token_handle(&head, &line, line);
 	}
 	check_and_sort_tokens(&head);
