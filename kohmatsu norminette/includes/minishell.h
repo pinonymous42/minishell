@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/15 01:53:46 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/16 00:04:27 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,5 +196,6 @@ char		*create_path(t_info *info, int j);
 void		malloc_error_free(int **pipefd, int i);
 void		check_variable_character(char **var, char **p);
 int			yatto_owari(char **key, int *i);
+int			is_space(char *str);
 
 #endif	

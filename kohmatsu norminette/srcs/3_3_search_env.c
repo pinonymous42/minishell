@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_3_search_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:27:36 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 21:03:41 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/15 20:58:21 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_strcmp(char *str1, char *str2)
 {
+	if (str1 == NULL || str2 == NULL)
+		return (1);
 	while (*str1 == *str2)
 	{
 		if (*str1 == '\0' || *str2 == '\0')
