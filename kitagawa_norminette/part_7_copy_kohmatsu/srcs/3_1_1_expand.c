@@ -1,0 +1,98 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   3_1_1_expand.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
+/*   Updated: 2023/03/15 21:00:04 by kohmatsu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minishell.h"
+
+void	check_variable_character(char **var, char **p)
+{
+	*var = ft_calloc(sizeof(char), 1);
+	while (is_variable_character(**p))
+	{
+		append_char(var, **p);
+		*p += 1;
+	}
+}
+
+void	append_char(char **s, char c)
+{
+	size_t	size;
+	char	*new;
+
+	size = 2;
+	if (*s)
+		size += strlen(*s);
+	new = x_str_malloc(size);
+	if (*s)
+		strlcpy(new, *s, size);
+	new[size - 2] = c;
+	new[size - 1] = '\0';
+	if (*s)
+		free(*s);
+	*s = new;
+}
+
+int	is_variable_character(char c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
+
+void	quote_removal(t_token *tok, t_environ *list)
+{
+	char	*new_word;
+	char	*p;
+
+	if (tok == NULL || (tok->kind != TOKEN_WORD
+			&& tok->kind != TOKEN_METACHAR) || tok->word == NULL)
+		return ;
+	p = tok->word;
+	new_word = NULL;
+	while (*p)
+	{
+		if (*p == SINGLE_QUOTE)
+			remove_single_quote(&p, &new_word);
+		else if (*p == DOUBLE_QUOTE)
+			remove_double_quote(&p, &new_word, list);
+		else if (*p == '$')
+			expand_variable(&p, &new_word, list);
+		else
+			just_append(tok, &p, &new_word);
+	}
+	free(tok->word);
+	tok->word = new_word;
+	quote_removal(tok->next, list);
+}
+
+char	**expand(t_token *tok, t_environ *list)
+{
+	char	**array;
+	int		heredoc_count;
+	int		i;
+	int		heredoc_flag;
+
+	i = 0;
+	quote_removal(tok, list);
+	array = token_list_to_array(tok);
+	heredoc_count = count_heredoc(array);
+	heredoc_flag = 0;
+	while (array[i])
+	{
+		if (ft_strcmp(array[i], "<<") == 0 && heredoc_flag == 0)
+		{
+			if (heredoc_count == 1)
+				write_to_heredoc_one(array, i, list);
+			else
+				write_to_heredoc_not_one(array, i, &heredoc_flag, list);
+		}
+		i++;
+	}
+	return (array);
+}
