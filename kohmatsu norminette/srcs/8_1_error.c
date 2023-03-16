@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   8_1_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:33:36 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 22:00:08 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/16 11:40:54 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void	tokenize_error_2(char *message, char *word)
 	g_signal.other_code = TRUE;
 }
 
-void	export_not_valid_identifier(char *argv)
+void	export_not_valid_identifier(char *argv, char *cmd)
 {
-	my_dprintf(STDERR_FILENO, "minishell: export:\
-			`%s': not a valid identifier\n", argv);
+	my_dprintf(STDERR_FILENO,
+		"minishell: %s: `%s': not a valid identifier\n", cmd, argv);
 	g_signal.status = 1;
 	g_signal.other_code = TRUE;
 }

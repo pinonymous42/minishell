@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/16 09:52:10 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/16 11:41:21 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,13 @@ char	*make_key(char *argv)
 bool	judge_key(char *key, char *argv, t_environ *list)
 {
 	if (not_allowed_variant_character(key))
-	{
-		export_not_valid_identifier(argv);
-		return (false);
-	}
-	else if (ft_strchr(key, '$') != NULL)
+		export_not_valid_identifier(argv, "export");
+	if (ft_strchr(key, '$') != NULL)
 		return (false);
 	else if (search_env(key, list) != NULL)
 		update_env(argv, list);
-	else
+	else if (search_env(key, list) == NULL
+		&& !not_allowed_variant_character(key))
 		add_new_env(argv, list);
 	return (true);
 }
