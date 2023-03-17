@@ -59,7 +59,9 @@ export TEST+=TOKYO: OK
 export $NO: OK
 export $NO $NO: OK
 export $TEST $NO: OK
+export aa -b cc dd: OK
 unset: OK
+unset aa -aa bb: OK
 
 exit -42: OK
 
@@ -165,7 +167,6 @@ minishell$ pwd
 -------------------------------------------------------テストNG----------------------------------------------------------------
 
 [builtinコマンド単体]
-・export aa -b cc dd:NG
 
 ・export エッジケース3:NG
 既存の環境変数のみが入ってきたとき、本家では何も表示せず上書きするが、minishellではcommand not foundと表示される
