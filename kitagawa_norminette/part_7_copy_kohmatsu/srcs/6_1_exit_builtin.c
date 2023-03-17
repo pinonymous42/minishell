@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:53:49 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/13 20:04:51 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/16 16:01:21 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exit_builtin(t_info *info)
 	{
 		while (info->argv[1][i])
 		{
-			if (ft_isdigit(info->argv[1][i]) == 0)
+			if (ft_isdigit(info->argv[1][i]) == 0 && info->argv[1][i] != '-')
 				error_exit(info->argv[1]);
 			i++;
 		}
