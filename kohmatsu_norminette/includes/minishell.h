@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/16 11:27:39 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:51:03 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ void		function_error(char *function_name);
 void		tokenize_error(char *message, char **rest, char *line);
 void		tokenize_error_2(char *message, char *word);
 void		assert_error(const char *msg);
-void		export_not_valid_identifier(char *argv, char *cmd);
+void		export_not_valid_identifier(char *argv);
+void		unset_not_valid_identifier(char *argv);
 void		err_exit(const char *location, const char *msg);
 void		command_not_found(const char *location);
 void		file_not_found(const char *filename);
@@ -197,5 +198,6 @@ void		malloc_error_free(int **pipefd, int i);
 void		check_variable_character(char **var, char **p);
 int			yatto_owari(char **key, int *i);
 int			is_space(char *str);
+void		handle_empty_str(char **p, char **new_word);
 
 #endif	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2_1_tokenize.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:03:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 23:57:38 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/18 01:08:21 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	token_handle(t_token **head, char **rest, char *line)
 t_token	*tokenize(char *line)
 {
 	t_token	*head;
+	t_token	*tmp;
 
 	head = NULL;
 	while (*line != '\0')
@@ -49,5 +50,12 @@ t_token	*tokenize(char *line)
 	}
 	check_and_sort_tokens(&head);
 	append_token(&head, new_token(TOKEN_EOF));
+	tmp = head;
+	while (tmp->kind != TOKEN_EOF)
+	{
+		if (!ft_strcmp(tmp->word, "|") && !ft_strcmp(tmp->next->word, "|"))
+			tokenize_error_2("\0", "|");
+		tmp = tmp->next;
+	}
 	return (head);
 }

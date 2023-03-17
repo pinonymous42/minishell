@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_7_unset_builtin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:28:52 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/16 11:32:42 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:52:08 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	unset_builtin(t_info *info, t_environ *list)
 	while (info->argv[i] != NULL)
 	{
 		if (not_allowed_variant_character(info->argv[i]))
-			export_not_valid_identifier(info->argv[i], "unset");
+			unset_not_valid_identifier(info->argv[i]);
 		else
 			unset_var(list, info->argv[i]);
 		i++;
