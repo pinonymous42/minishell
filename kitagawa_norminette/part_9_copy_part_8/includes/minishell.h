@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/16 11:27:39 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:22:51 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,5 +197,6 @@ void		malloc_error_free(int **pipefd, int i);
 void		check_variable_character(char **var, char **p);
 int			yatto_owari(char **key, int *i);
 int			is_space(char *str);
+void		handle_empty_str(char **p, char **new_word);
 
 #endif	

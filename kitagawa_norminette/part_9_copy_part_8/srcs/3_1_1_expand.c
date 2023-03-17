@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/17 14:10:49 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:27:01 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	quote_removal(t_token *tok, t_environ *list)
 	{
 		if (*p == SINGLE_QUOTE)
 			remove_single_quote(&p, &new_word);
+		else if (*p == DOUBLE_QUOTE && *(p + 1) != '\0' &&  *(p + 1) == DOUBLE_QUOTE)
+			handle_empty_str(&p, &new_word);
 		else if (*p == DOUBLE_QUOTE)
 			remove_double_quote(&p, &new_word, list);
 		else if (*p == '$')
