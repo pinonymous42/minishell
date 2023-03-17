@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:53:49 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/16 16:01:21 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:29:16 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ void	exit_builtin(t_info *info)
 			return ;
 		}
 		status_code = ft_atoi(info->argv[1]);
+		g_signal.status = status_code;
 	}
-	g_signal.status = status_code;
+	//g_signal.status = status_code;
+	else
+		status_code = g_signal.status;
 	exit(status_code);
 }
