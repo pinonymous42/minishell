@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_1_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/16 11:41:21 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:52:17 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*make_key(char *argv)
 bool	judge_key(char *key, char *argv, t_environ *list)
 {
 	if (not_allowed_variant_character(key))
-		export_not_valid_identifier(argv, "export");
+		export_not_valid_identifier(argv);
 	if (ft_strchr(key, '$') != NULL)
 		return (false);
 	else if (search_env(key, list) != NULL)

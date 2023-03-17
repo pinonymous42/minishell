@@ -61,6 +61,8 @@ export $NO $NO: OK
 export $TEST $NO: OK
 unset: OK
 
+exit -42: OK
+
 ・exit エッジケース1:OK
 $exit 42 // status=42になる
 $ exit // status=42を保持したままexit
@@ -163,8 +165,7 @@ minishell$ pwd
 -------------------------------------------------------テストNG----------------------------------------------------------------
 
 [builtinコマンド単体]
-・export エッジケース1:NG
-export $NO $TEST:NG//表示しちゃいけないけど、今は表示してる
+・export aa -b cc dd:NG
 
 ・export エッジケース3:NG
 既存の環境変数のみが入ってきたとき、本家では何も表示せず上書きするが、minishellではcommand not foundと表示される
@@ -181,5 +182,3 @@ TEST=aaaa
 bash-3.2$ echo $? | exit 42 ; echo $?
 42
 
-[リダイレクト]:北川
-echo aaa > $NON_EXIST:NG//function error: openになってるけど、本家はbash: $NON_EXIST: ambiguous redirect
