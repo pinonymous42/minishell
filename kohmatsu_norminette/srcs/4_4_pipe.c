@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:29:48 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/18 13:12:47 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/18 13:28:55 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,7 @@ void	remove_redirect(char **tmp, t_info *info, int i)
 
 	argv_index = 0;
 	tmp_index = 0;
-	if (g_signal.pipe_count != 0 && \
-		(!ft_strcmp(info->argv[0], "<") || !ft_strcmp(info->argv[0], ">")))
-	{
-		tmp = x_double_str_malloc(info->argv_count - 1);
-		tmp[tmp_index++] = x_strdup("cat");
-	}
-	else
-		tmp = x_double_str_malloc(info->argv_count - 2);
+	tmp = x_double_str_malloc(info->argv_count - 2);
 	while (argv_index != i)
 		tmp[tmp_index++] = x_strdup(info->argv[argv_index++]);
 	argv_index += 2;
