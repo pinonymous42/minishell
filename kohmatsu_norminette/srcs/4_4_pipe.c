@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:29:48 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/15 20:49:27 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/18 13:12:47 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,7 @@ int	count_splitable(t_info *info, int start, int end)
 			i = 0;
 			while (info->cmd[start][i] == ' ')
 				i++;
-			while (info->cmd[start][i])
-			{
-				if (info->cmd[start][i] == ' ')
-					count++;
-				i++;
-			}
+			move_space(info, start, &i, &count);
 		}
 		start++;
 	}
@@ -44,7 +39,8 @@ void	remove_redirect(char **tmp, t_info *info, int i)
 
 	argv_index = 0;
 	tmp_index = 0;
-	if (!ft_strcmp(info->argv[0], "<") || !ft_strcmp(info->argv[0], ">"))
+	if (g_signal.pipe_count != 0 && \
+		(!ft_strcmp(info->argv[0], "<") || !ft_strcmp(info->argv[0], ">")))
 	{
 		tmp = x_double_str_malloc(info->argv_count - 1);
 		tmp[tmp_index++] = x_strdup("cat");

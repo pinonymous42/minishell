@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_2_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/14 19:53:53 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/18 11:34:16 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	update_env(char *arg, t_environ *list)
 		value = ft_substr(arg, i + 1, ft_strlen(arg) - i - 1);
 		while (list != NULL)
 		{
-			if (ft_strncmp(list->key, key, ft_strlen(key)) == 0)
+			if (ft_strcmp(list->key, key) == 0)
 			{
 				free(list->value);
 				list->value = value;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_3_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:10:53 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/16 11:40:24 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/18 11:35:28 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	add_env_value(char *arg, t_environ *list)
 	key = ft_strndup(arg, i);
 	while (list != NULL)
 	{
-		if (ft_strncmp(list->key, key, ft_strlen(key)) == 0)
+		if (ft_strcmp(list->key, key) == 0)
 		{
 			list->value = ft_strjoin_with_free(list->value,
 					arg + i + 2, FIRST_PARAM);
