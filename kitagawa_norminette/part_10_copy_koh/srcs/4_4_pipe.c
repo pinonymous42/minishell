@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_4_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:29:48 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/15 20:49:27 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/18 12:22:44 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	remove_redirect(char **tmp, t_info *info, int i)
 
 	argv_index = 0;
 	tmp_index = 0;
-	if (!ft_strcmp(info->argv[0], "<") || !ft_strcmp(info->argv[0], ">"))
+	if (g_signal.pipe_count != 0 && \
+		(!ft_strcmp(info->argv[0], "<") || !ft_strcmp(info->argv[0], ">")))
 	{
 		tmp = x_double_str_malloc(info->argv_count - 1);
 		tmp[tmp_index++] = x_strdup("cat");
