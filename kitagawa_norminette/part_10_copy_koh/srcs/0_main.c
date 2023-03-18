@@ -6,17 +6,11 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 10:44:35 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/18 11:17:09 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// void end(void)__attribute__((destructor));
-// void end(void)
-// {
-//     system("leaks -q minishell");
-// }
 
 int	count_argv(char **argv)
 {

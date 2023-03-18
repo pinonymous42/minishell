@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/13 20:09:20 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/18 11:32:59 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	set_new_pwd(t_environ *list, char *new_pwd_dup)
 {
 	while (list != NULL)
 	{
-		if (ft_strncmp(list->key, "PWD", ft_strlen("PWD")) == 0)
+		if (ft_strcmp(list->key, "PWD") == 0)
 		{
 			free(list->value);
 			list->value = new_pwd_dup;
@@ -40,7 +40,7 @@ void	get_new_pwd(t_info *info)
 	{
 		while (info->list != NULL)
 		{
-			if (ft_strncmp(info->list->key, "PWD", ft_strlen("PWD")) == 0)
+			if (ft_strcmp(info->list->key, "PWD") == 0)
 			{
 				error_pwd = ft_strjoin_with_free(info->list->value, "/.", 1);
 				info->list->value = error_pwd;

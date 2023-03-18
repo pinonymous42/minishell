@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/17 18:51:03 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/18 11:21:10 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int			count_pipe(t_token *token);
 t_token		*tokenize(char *line);
 bool		is_blank(char c);
 bool		is_metacharacter(char c);
-bool		is_control_operator(const char *s);
+bool		is_control_operator(char *s);
 t_token		*new_token(t_token_kind kind);
 void		append_token(t_token **head, t_token *new);
 t_token		*handle_metacharacter(char **rest, char *line);

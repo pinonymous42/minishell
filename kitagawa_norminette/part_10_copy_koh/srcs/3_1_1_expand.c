@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 10:15:35 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/18 11:15:49 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	append_char(char **s, char c)
 
 	size = 2;
 	if (*s)
-		size += strlen(*s);
+		size += ft_strlen(*s);
 	new = x_str_malloc(size);
 	if (*s)
-		strlcpy(new, *s, size);
+		ft_strlcpy(new, *s, size);
 	new[size - 2] = c;
 	new[size - 1] = '\0';
 	if (*s)
@@ -59,7 +59,8 @@ void	quote_removal(t_token *tok, t_environ *list)
 	{
 		if (*p == SINGLE_QUOTE && *(p + 1) != SINGLE_QUOTE)
 			remove_single_quote(&p, &new_word);
-		else if (*(p + 1) != '\0' && ((*p == DOUBLE_QUOTE && *(p + 1) == DOUBLE_QUOTE) || (*p == SINGLE_QUOTE && *(p + 1) == SINGLE_QUOTE)))
+		else if ((*p == DOUBLE_QUOTE && *(p + 1) == DOUBLE_QUOTE) \
+			|| (*p == SINGLE_QUOTE && *(p + 1) == SINGLE_QUOTE))
 			handle_empty_str(&p, &new_word);
 		else if (*p == DOUBLE_QUOTE)
 			remove_double_quote(&p, &new_word, list);
