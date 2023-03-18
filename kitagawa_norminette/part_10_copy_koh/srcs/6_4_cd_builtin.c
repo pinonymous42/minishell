@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/18 11:32:59 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/18 11:37:41 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	get_new_pwd(t_info *info)
 			info->list = info->list->next;
 		}
 		perror("cd: error retrieving current directory: \
-			getcwd: cannot access parent directories");
+getcwd: cannot access parent directories");
 	}
 }
 
