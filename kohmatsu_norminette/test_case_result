@@ -24,6 +24,7 @@ C=c
 [expand]
 echo 'aaa':OK
 echo a b "" c d:OK
+echo a b '' c d:OK
 echo "$TEST":OK
 echo $TEST:OK
 echo $? :OK
@@ -32,9 +33,6 @@ echo '$TEST':OK(TEST="aaa"をexportしておく)
 echo $TEST:OK(TEST="aaa"をexportしておく)
 echo "aaa :OK//Assert Error: Unclosed single quoteでexitしちゃってる。本家はHEREDOCみたいな入力待ち状態になるけど、、、なぜ？？実装しなくて良い？？
 echo 'aaa :OK//同様
-→expandいじる必要性あり
-echo "$TEST":OK(TEST="aaa"をexportしておく):松島氏
-→leakおきる
 
 ・エッジケース1:OK
 export TEST="-n hello"
