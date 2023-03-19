@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:10:53 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 11:35:28 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 00:15:02 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	add_env_value(char *arg, t_environ *list)
 
 int	not_allowed_variant_character(char *key)
 {
+	if (ft_strcmp(key, "") == 0)
+		return (1);
 	while (*key)
 	{
 		if (!(ft_isalnum(*key) || *key == '_' || *key == '$'))

@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:16:13 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/19 20:08:21 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 00:10:41 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ void	expand_variable(char **p, char **new_word, t_environ *list)
 		*p += 1;
 		if (**p == '?')
 			expand_status(p, new_word);
+		else if (**p == DOUBLE_QUOTE && *(*p + 1) == DOUBLE_QUOTE)
+			handle_empty_str(p, new_word);
+		else if  (**p == SINGLE_QUOTE && *(*p + 1) == SINGLE_QUOTE)
+			handle_empty_str(p, new_word);
 		else if (**p == DOUBLE_QUOTE)
 			remove_double_quote(p, new_word, list);
 		else if (**p == SINGLE_QUOTE)
