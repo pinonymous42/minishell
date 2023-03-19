@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_3_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:16:13 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/18 10:34:33 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 01:55:33 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,21 @@ void	expansion(char **p, char **new_word, t_environ *list)
 		var = ft_strndup(*p, ft_strchr(*p, '$') - *p);
 	else
 	{
-		if (not_allowed_variant_character(*p))
+		if (**p == ' ' || **p == '\0')
+		{
+			var = x_strdup("\0");
+			g_signal.not_expand_flag = 1;
+		}
+		else if (ft_isdigit(**p))
+		{
+			while (**p != ' ' && **p != '\0')
+			{
+				append_char(&var, **p);
+				g_signal.not_expand_flag = 1;
+				*p += 1;
+			}
+		}
+		else if (not_allowed_variant_character(*p))
 			check_variable_character(&var, p);
 		else
 			var = ft_strndup(*p, ft_strchr(*p, '\0') - *p);
@@ -62,6 +76,10 @@ void	expand_variable(char **p, char **new_word, t_environ *list)
 		*p += 1;
 		if (**p == '?')
 			expand_status(p, new_word);
+		else if (**p == DOUBLE_QUOTE)
+			remove_double_quote(p, new_word, list);
+		else if (**p == SINGLE_QUOTE)
+			remove_single_quote(p, new_word);
 		else
 		{
 			expansion(p, new_word, list);

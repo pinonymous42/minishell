@@ -11,7 +11,6 @@ echo:OK
 
 [実行コマンド]
 存在しないコマンド。
-"":OK
 A:OK
 A=:OK
 A=a:OK
@@ -23,22 +22,21 @@ C=c
 
 [expand]
 echo 'aaa':OK
-echo a b "" c d:OK
-echo a b '' c d:OK
 echo "$TEST":OK
 echo $TEST:OK
 echo $? :OK
 exit a:OK
 echo '$TEST':OK(TEST="aaa"をexportしておく)
 echo $TEST:OK(TEST="aaa"をexportしておく)
-echo "aaa :OK//Assert Error: Unclosed single quoteでexitしちゃってる。本家はHEREDOCみたいな入力待ち状態になるけど、、、なぜ？？実装しなくて良い？？
-echo 'aaa :OK//同様
+echo "aaa :OK
+echo 'aaa :OK
 
 ・エッジケース1:OK
 export TEST="-n hello"
 env | grep TEST
 echo $TEST   // echo -n hello と同じ
-・エッジケース2:OK
+
+・エッジケース2:NG:セグフォ起きたあああなんでええええ
 環境変数に" "(空白)を入れた場合の挙動
 bash-3.2$ export a=" "
 bash-3.2$ echo$a-a
@@ -57,17 +55,26 @@ export TEST+=TOKYO: OK
 export $NO: OK
 export $NO $NO: OK
 export $TEST $NO: OK
-export aa -b cc dd: OK
+export $NO $TEST: OK
 unset: OK
-unset aa -aa bb: OK
 
-exit -42: OK
+・export エッジケース4:OK
+export TEST="a=b=c=d"
+env | grep TEST
+echo $TEST
 
-・exit エッジケース1:OK
-$exit 42 // status=42になる
-$ exit // status=42を保持したままexit
-$ echo $?
-42
+・export エッジケース5:OK
+export PIPE="|"
+echo $PIPE
+
+・export エッジケース6:OK
+bash-3.2$ export TEST="TEST=aaaa"
+bash-3.2$ env | grep TEST
+TEST=TEST=aaaa
+bash-3.2$ $TEST
+bash: TEST=aaaa: command not found//OKs
+bash-3.2$ env | grep TEST
+TEST=TEST=aaaa
 
 ・export エッジケース1:OK
 export
@@ -80,27 +87,9 @@ env | grep HOGE
 →表示する
 export | grep HOGE
 
-・export エッジケース4:OK
-export TEST="a=b=c=d"
-env | grep TEST
-echo $TEST
-・export エッジケース5:OK
-export PIPE="|"
-echo $PIPE
-・export エッジケース6:OK
-bash-3.2$ export TEST="TEST=aaaa"
-bash-3.2$ env | grep TEST
-TEST=TEST=aaaa
-bash-3.2$ $TEST
-bash: TEST=aaaa: command not found//OKs
-bash-3.2$ env | grep TEST
-TEST=TEST=aaaa
-
 [リダイレクト]
-cat << "":OK
 echo aaa > test.txt: OK
 echo -n aaa >outfile: OK
-echo a > test1 b: OK
 echo a > test1 b: OK
 echo c > test2 "d    ef": OK
 echo > >: OK(syntax error)
@@ -117,6 +106,8 @@ cat < test3 test2: OK
 ・エッジケース2:OK
 f3のみにabcが記述される。
 > f0 echo > f1 > f2 > f3 abc
+・エッジケース3:OK
+echo aaa > $NON_EXIST
 
 
 [パイプ]
@@ -127,7 +118,6 @@ cat | cat | ls :OK
 
 
 [パイプ✖️リダイレクト]
-
 
 
 [シグナル]
@@ -180,4 +170,3 @@ TEST=aaaa
 パイプ内でexit → $?にexitの値が入るはずが、minishellではenvが実行される
 bash-3.2$ echo $? | exit 42 ; echo $?
 42
-

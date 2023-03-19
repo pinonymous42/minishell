@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_3_echo_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/18 11:26:09 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 01:54:52 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,14 @@ void	no_option(t_info *info, int j)
 				ft_putstr_fd(info->argv[i], STDOUT);
 		}
 		else if (g_signal.not_expand_flag == 1)
+		{
 			ft_putstr_fd(info->argv[i], STDOUT);
+		}
 		else
+		{
+			printf("%s, %d\n", __FILE__, __LINE__);
 			write_until_doll(info->argv[i]);
+		}
 		if (info->argv[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;
