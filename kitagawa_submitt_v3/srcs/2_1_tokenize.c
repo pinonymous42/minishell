@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2_1_tokenize.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:03:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 01:08:21 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/19 20:34:40 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_token	*tokenize(char *line)
 		token_handle(&head, &line, line);
 	}
 	check_and_sort_tokens(&head);
+	check_pipe_place(&head);
 	append_token(&head, new_token(TOKEN_EOF));
 	tmp = head;
 	while (tmp->kind != TOKEN_EOF)
