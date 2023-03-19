@@ -6,26 +6,41 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/18 11:37:41 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/19 19:51:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	set_new_pwd(t_environ *list, char *new_pwd_dup)
+void	set_old_and_new_pwd(t_environ *list, char *new_pwd_dup)
 {
-	while (list != NULL)
+	t_environ *tmp;
+
+	tmp = list;
+	while (tmp != NULL)
 	{
-		if (ft_strcmp(list->key, "PWD") == 0)
+		if (ft_strcmp(tmp->key, "OLDPWD") == 0)
 		{
-			free(list->value);
-			list->value = new_pwd_dup;
+			free(tmp->value);
+			tmp->value = ft_strdup(search_env("PWD", list));
+			break ;
 		}
-		list = list->next;
+		tmp = tmp->next;
+	}
+	tmp = list;
+	while (tmp != NULL)
+	{
+		if (ft_strcmp(tmp->key, "PWD") == 0)
+		{
+			free(tmp->value);
+			tmp->value = new_pwd_dup;
+			break ;
+		}
+		tmp = tmp->next;
 	}
 }
 
-void	get_new_pwd(t_info *info)
+void	get_old_and_new_pwd(t_info *info)
 {
 	char	new_pwd[PATH_MAX];
 	char	*dup;
@@ -34,7 +49,7 @@ void	get_new_pwd(t_info *info)
 	if (getcwd(new_pwd, sizeof(new_pwd)) != NULL)
 	{
 		dup = ft_strdup(new_pwd);
-		set_new_pwd(info->list, dup);
+		set_old_and_new_pwd(info->list, dup);
 	}
 	else
 	{
@@ -53,27 +68,55 @@ getcwd: cannot access parent directories");
 	}
 }
 
-void	cd_builtin(t_info *info)
+void do_no_argv(t_info *info)
 {
 	char	*home;
 
-	if (info->argv[1] == NULL)
+	home = ft_strdup(search_env("HOME", info->list));
+	if (home == NULL)
 	{
-		home = ft_strdup(search_env("HOME", info->list));
-		if (home == NULL)
-		{
-			my_dprintf(STDERR_FILENO, "minishell: cd: HOME not set\n");
-			g_signal.status = 1;
-			g_signal.other_code = TRUE;
-		}
-		else if ((chdir(home)) == -1)
-			function_error("chdir");
-		free(home);
+		my_dprintf(STDERR_FILENO, "minishell: cd: HOME not set\n");
+		g_signal.status = 1;
+		g_signal.other_code = TRUE;
+	}
+	else if ((chdir(home)) == -1)
+		function_error("chdir");
+	free(home);
+}
+
+void	cd_minus(t_info *info)
+{
+	if (search_env("OLDPWD", info->list) == NULL)
+	{
+		my_dprintf(STDERR_FILENO, "minishell: cd: OLDPWD not set\n");
+		g_signal.status = 1;
+		g_signal.other_code = TRUE;
 	}
 	else
 	{
-		if (chdir(info->argv[1]) == -1)
+		if (chdir(search_env("OLDPWD", info->list)) == -1)
 			function_error("chdir");
 	}
-	get_new_pwd(info);
+}
+
+void	cd_builtin(t_info *info)
+{
+	if (info->argv[1] == NULL)
+		do_no_argv(info);
+	else
+	{
+		if (info->argv[1][0] == '-')
+		{
+			if (info->argv[1][1] == '\0')
+				cd_minus(info);
+			else if (info->argv[1][1] == '-')
+				do_no_argv(info);
+			else
+				my_dprintf(STDERR_FILENO, "minishell: cd: -%s: invalid option\n",
+					info->argv[1]);
+		}
+		else if (chdir(info->argv[1]) == -1)
+			function_error("chdir");
+	}
+	get_old_and_new_pwd(info);
 }
