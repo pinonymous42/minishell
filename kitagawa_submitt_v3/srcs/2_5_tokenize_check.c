@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:54:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/19 20:48:37 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/19 21:27:09 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	check_pipe_place(t_token **head)
 	t_token	*current;
 
 	current = *head;
+	if (current == NULL)
+		return ;
 	if (ft_strcmp(current->word, "|") == 0)
 	{
 		tokenize_error_2("unexpected token", current->word);
