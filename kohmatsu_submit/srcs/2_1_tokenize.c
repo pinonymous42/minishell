@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 15:03:28 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 01:08:21 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/20 00:45:47 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	token_handle(t_token **head, char **rest, char *line)
 {
 	t_token	*token;
 
+	if (*line == '\0')
+		return ;
 	if (is_metacharacter(*line) == true)
 	{
 		token = handle_metacharacter(rest, line);
@@ -49,6 +51,7 @@ t_token	*tokenize(char *line)
 		token_handle(&head, &line, line);
 	}
 	check_and_sort_tokens(&head);
+	check_pipe_place(&head);
 	append_token(&head, new_token(TOKEN_EOF));
 	tmp = head;
 	while (tmp->kind != TOKEN_EOF)

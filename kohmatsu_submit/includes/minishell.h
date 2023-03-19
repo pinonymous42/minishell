@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 13:11:17 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/19 20:46:21 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void		get_end(char **line);
 t_token		*handle_word(char **rest, char *line);
 bool		check_redirect_token(t_token *token);
 void		check_and_sort_tokens(t_token **head);
+void		check_pipe_place(t_token **head);
 char		**expand(t_token *tok, t_environ *list);
 t_environ	*make_environ(char **envp);
 t_environ	*new_list(char *envp);
