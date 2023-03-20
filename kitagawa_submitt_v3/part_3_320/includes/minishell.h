@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/19 23:23:14 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:22:24 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,8 @@ void		add_new_env(char *arg, t_environ *list);
 bool		check_argv_no_such_env(t_info *info);
 bool		check_add_or_not(char *arg, t_environ *list);
 void		add_env_value(char *arg, t_environ *list);
+void		list_add_back_export(t_environ **list, char *key, char *value);
+t_environ	*new_node(char *key, char *value);
 int			not_allowed_variant_character(char *key);
 void		unset_builtin(t_info *info, t_environ *list);
 char		**x_double_str_malloc(int num);

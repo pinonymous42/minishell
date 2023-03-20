@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/20 17:20:58 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:24:16 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,22 @@
 
 void	set_old_and_new_pwd(t_environ *list, char *new_pwd_dup)
 {
+	char	  *key;
+	char	  *value;
 	t_environ *tmp;
 
 	tmp = list;
+	if (list != NULL && list->key == NULL && list->value == NULL)
+	{
+		list->key = ft_strdup("OLDPWD");
+		list->value = new_pwd_dup;
+		key = ft_strdup("PWD");
+		value = ft_strdup(new_pwd_dup);
+		list->next = new_node(key, value);
+		free(key);
+		free(value);
+		return ;
+	}
 	while (tmp != NULL)
 	{
 		if (ft_strcmp(tmp->key, "OLDPWD") == 0)
