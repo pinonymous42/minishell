@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/17 18:52:17 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 14:46:30 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void	put_env(t_environ *list)
 	{
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(tmp->key, 1);
-		if (tmp->value != NULL)
+		if (ft_strcmp(tmp->value, "\\") != 0)
 		{
 			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(tmp->value, 1);
+			if (tmp->value != NULL)
+				ft_putstr_fd(tmp->value, 1);
 			ft_putstr_fd("\"", 1);
 		}
 		ft_putstr_fd("\n", 1);
