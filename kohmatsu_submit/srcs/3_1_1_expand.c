@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_1_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 11:15:49 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 11:17:18 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	quote_removal(t_token *tok, t_environ *list)
 		return ;
 	p = tok->word;
 	new_word = NULL;
+	if (ft_strcmp(tok->word, "<<") == 0 && ft_strchr(tok->next->word, '$'))
+		g_signal.not_expand_flag = 1;
 	while (*p)
 	{
 		if (*p == SINGLE_QUOTE && *(p + 1) != SINGLE_QUOTE)

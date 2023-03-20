@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 00:25:38 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/20 01:47:24 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/20 11:15:03 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*create_new_word_if_null(char *var, t_environ *list)
 {
 	char	*new_word;
 
-	if (search_env(var, list) != NULL)
+	if (search_env(var, list) != NULL && !g_signal.not_expand_flag)
 		new_word = ft_strdup(search_env(var, list));
 	else if (ft_isdigit(*var))
 		new_word = ft_strdup(var + 1);
@@ -30,7 +30,7 @@ char	*create_new_word_if_null(char *var, t_environ *list)
 
 void	create_new_word_if_not_null(char **new_word, char *var, t_environ *list)
 {
-	if (search_env(var, list) != NULL)
+	if (search_env(var, list) != NULL && !g_signal.not_expand_flag)
 		*new_word = ft_strjoin_with_free(*new_word,
 				search_env(var, list), FIRST_PARAM);
 	else if (ft_isdigit(*var))
