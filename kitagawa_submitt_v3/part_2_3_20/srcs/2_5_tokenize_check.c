@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2_5_tokenize_check.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:54:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/20 00:47:08 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/20 14:01:13 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void	check_pipe_place(t_token **head)
 	}
 	while (current != NULL)
 	{
-		if (ft_strcmp(current->word, "|") == 0 && current->next == NULL)
+		if (ft_strcmp(current->word, "|") == 0 && (current->next == NULL || \
+			ft_strcmp(current->next->word, "|") == 0))
 		{
 			tokenize_error_2("unexpected token", current->word);
 			return ;
