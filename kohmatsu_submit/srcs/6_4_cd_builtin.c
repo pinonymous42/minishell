@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_4_cd_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/20 01:55:19 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/19 19:51:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	set_old_and_new_pwd(t_environ *list, char *new_pwd_dup)
 {
-	t_environ	*tmp;
+	t_environ *tmp;
 
 	tmp = list;
 	while (tmp != NULL)
@@ -68,7 +68,7 @@ getcwd: cannot access parent directories");
 	}
 }
 
-void	do_no_argv(t_info *info)
+void do_no_argv(t_info *info)
 {
 	char	*home;
 
