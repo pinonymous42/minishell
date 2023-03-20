@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/19 19:51:39 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 17:20:58 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,11 @@ void	cd_builtin(t_info *info)
 					info->argv[1]);
 		}
 		else if (chdir(info->argv[1]) == -1)
-			function_error("chdir");
+		{
+			my_dprintf(STDERR_FILENO, "minishell: cd:%s: No such file or directory\n", info->argv[1]);
+			g_signal.status = 1;
+			g_signal.other_code = TRUE;
+		}
 	}
 	get_old_and_new_pwd(info);
 }
