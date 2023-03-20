@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/17 18:52:17 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/19 23:50:08 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*make_key(char *argv)
 
 bool	judge_key(char *key, char *argv, t_environ *list)
 {
-	if (not_allowed_variant_character(key))
+	if (not_allowed_variant_character(key) || ft_isdigit(key[0]) == 1)
 		export_not_valid_identifier(argv);
 	if (ft_strchr(key, '$') != NULL)
 		return (false);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_3_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:28:55 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 19:32:31 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/19 23:30:33 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	do_input(t_info *info, int i)
 	tmp = NULL;
 	info->input_fd = open(info->argv[i + 1], O_RDONLY);
 	if (info->input_fd == -1)
-		err_exit(info->argv[i + 1], "command not found");
+	{
+		printf("minishell: %s:%s\n", info->argv[i + 1], strerror(errno));
+		exit(1);
+	}
 	dup2(info->input_fd, STDIN);
 	remove_redirect(tmp, info, i);
 }
@@ -32,7 +35,10 @@ void	do_output(t_info *info, int i)
 	info->output_fd = open(info->argv[i + 1],
 			(O_WRONLY | O_CREAT | O_TRUNC), 0644);
 	if (info->output_fd == -1)
-		function_error("open");
+	{
+		printf("minishell: %s:%s\n", info->argv[i + 1], strerror(errno));
+		exit(1);
+	}
 	if (info->argv[i + 2] == NULL)
 		dup2(info->output_fd, STDOUT);
 	remove_redirect(tmp, info, i);
