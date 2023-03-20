@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:28:05 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/20 16:13:59 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:15:11 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,14 @@ char	**list_to_array(t_environ *list)
 	ret = x_double_str_malloc(count_list_len(list) + 1);
 	while (list != NULL)
 	{
-		tmp = ft_strjoin(list->key, "=");
-		ret[i] = ft_strjoin(tmp, list->value);
-		free(tmp);
+		if (ft_strcmp(list->value, "\\") != 0)
+		{
+			tmp = ft_strjoin(list->key, "=");
+			ret[i] = ft_strjoin(tmp, list->value);
+			free(tmp);
+			i++;
+		}
 		list = list->next;
-		i++;
 	}
 	ret[i] = NULL;
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 11:34:16 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:16:45 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,10 @@ void	add_new_env(char *arg, t_environ *list)
 		key = ft_strdup(arg);
 		if (key == NULL)
 			function_error("strdup");
-		value = NULL;
+		value = ft_strdup("\\");
 		list_add_back_export(&list, key, value);
 		free(key);
+		free(value);
 	}
 	else
 	{
