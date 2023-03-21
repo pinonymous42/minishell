@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/20 16:40:58 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:20:59 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	option(t_info *info, int j)
 bool	compare_option(char *str)
 {
 	int	i;
-	
+
 	if (ft_strcmp(str, "-n") == 0)
 		return (true);
 	else if (ft_strncmp(str, "-n", 2) == 0)

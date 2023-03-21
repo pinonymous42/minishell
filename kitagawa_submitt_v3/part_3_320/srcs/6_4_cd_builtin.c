@@ -6,21 +6,36 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/20 19:24:16 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/21 13:44:04 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// void	tokurei(t_environ *list, char *new_pwd_dup);
+// {
+// 	char	*key;
+// 	char	*value;
+
+// 	list->key = ft_strdup("OLDPWD");
+// 	list->value = new_pwd_dup;
+// 	key = ft_strdup("PWD");
+// 	value = ft_strdup(new_pwd_dup);
+// 	list->next = new_node(key, value);
+// 	free(key);
+// 	free(value);
+// }
+
 void	set_old_and_new_pwd(t_environ *list, char *new_pwd_dup)
 {
-	char	  *key;
-	char	  *value;
-	t_environ *tmp;
+	char	*key;
+	char	*value;
+	t_environ	*tmp;
 
 	tmp = list;
 	if (list != NULL && list->key == NULL && list->value == NULL)
 	{
+		//tokurei(list, new_pwd_dup);
 		list->key = ft_strdup("OLDPWD");
 		list->value = new_pwd_dup;
 		key = ft_strdup("PWD");
@@ -28,28 +43,30 @@ void	set_old_and_new_pwd(t_environ *list, char *new_pwd_dup)
 		list->next = new_node(key, value);
 		free(key);
 		free(value);
-		return ;
 	}
-	while (tmp != NULL)
+	else
 	{
-		if (ft_strcmp(tmp->key, "OLDPWD") == 0)
+		while (tmp != NULL)
 		{
-			free(tmp->value);
-			tmp->value = ft_strdup(search_env("PWD", list));
-			break ;
+			if (ft_strcmp(tmp->key, "OLDPWD") == 0)
+			{
+				free(tmp->value);
+				tmp->value = ft_strdup(search_env("PWD", list));
+				break ;
+			}
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
-	}
-	tmp = list;
-	while (tmp != NULL)
-	{
-		if (ft_strcmp(tmp->key, "PWD") == 0)
+		tmp = list;
+		while (tmp != NULL)
 		{
-			free(tmp->value);
-			tmp->value = new_pwd_dup;
-			break ;
+			if (ft_strcmp(tmp->key, "PWD") == 0)
+			{
+				free(tmp->value);
+				tmp->value = new_pwd_dup;
+				break ;
+			}
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
 	}
 }
 
@@ -81,7 +98,7 @@ getcwd: cannot access parent directories");
 	}
 }
 
-void do_no_argv(t_info *info)
+void	do_no_argv(t_info *info)
 {
 	char	*home;
 
@@ -130,7 +147,8 @@ void	cd_builtin(t_info *info)
 		}
 		else if (chdir(info->argv[1]) == -1)
 		{
-			my_dprintf(STDERR_FILENO, "minishell: cd:%s: No such file or directory\n", info->argv[1]);
+			my_dprintf(STDERR_FILENO, "minishell: cd:%s:\
+No such file or directory\n", info->argv[1]);
 			g_signal.status = 1;
 			g_signal.other_code = TRUE;
 		}
