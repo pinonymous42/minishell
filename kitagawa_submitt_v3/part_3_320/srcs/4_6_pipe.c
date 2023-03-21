@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_6_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:42 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/15 21:14:14 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:03:39 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,16 @@ char	*create_path(t_info *info, int j)
 	index = 0;
 	if (access(exe_path, X_OK) == 0 && ft_strcmp(exe_path, "./"))
 		err_exit(info->argv[j], "command not found");
+	if (info->path == NULL)
+	{
+		if (ft_strchr(info->argv[j], '/') == NULL)
+		{
+			file_not_found(info->argv[j]);
+			exit(127);
+		}
+		else
+			return (info->argv[j]);
+	}
 	while ((info->path)[index] != NULL && access(exe_path, X_OK))
 	{
 		if (ft_strchr(info->argv[j], '/') == NULL)
