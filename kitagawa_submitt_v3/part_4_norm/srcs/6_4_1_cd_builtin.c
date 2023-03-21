@@ -1,74 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   6_4_cd_builtin.c                                   :+:      :+:    :+:   */
+/*   6_4_1_cd_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/21 13:44:04 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/21 16:30:11 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// void	tokurei(t_environ *list, char *new_pwd_dup);
-// {
-// 	char	*key;
-// 	char	*value;
-
-// 	list->key = ft_strdup("OLDPWD");
-// 	list->value = new_pwd_dup;
-// 	key = ft_strdup("PWD");
-// 	value = ft_strdup(new_pwd_dup);
-// 	list->next = new_node(key, value);
-// 	free(key);
-// 	free(value);
-// }
-
-void	set_old_and_new_pwd(t_environ *list, char *new_pwd_dup)
-{
-	char	*key;
-	char	*value;
-	t_environ	*tmp;
-
-	tmp = list;
-	if (list != NULL && list->key == NULL && list->value == NULL)
-	{
-		//tokurei(list, new_pwd_dup);
-		list->key = ft_strdup("OLDPWD");
-		list->value = new_pwd_dup;
-		key = ft_strdup("PWD");
-		value = ft_strdup(new_pwd_dup);
-		list->next = new_node(key, value);
-		free(key);
-		free(value);
-	}
-	else
-	{
-		while (tmp != NULL)
-		{
-			if (ft_strcmp(tmp->key, "OLDPWD") == 0)
-			{
-				free(tmp->value);
-				tmp->value = ft_strdup(search_env("PWD", list));
-				break ;
-			}
-			tmp = tmp->next;
-		}
-		tmp = list;
-		while (tmp != NULL)
-		{
-			if (ft_strcmp(tmp->key, "PWD") == 0)
-			{
-				free(tmp->value);
-				tmp->value = new_pwd_dup;
-				break ;
-			}
-			tmp = tmp->next;
-		}
-	}
-}
 
 void	get_old_and_new_pwd(t_info *info)
 {

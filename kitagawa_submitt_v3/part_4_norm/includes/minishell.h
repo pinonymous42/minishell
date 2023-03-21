@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/20 19:22:24 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/21 16:44:50 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 
 # define SINGLE_QUOTE '\''
 # define DOUBLE_QUOTE '"'
-// # define NO_SUCH_ENV  "No_such_environment_variable"
 
 # define RIGHT 1
 # define MID 0
@@ -140,6 +139,7 @@ int			heredoc_signal(void);
 char		*search_env(char *key, t_environ *list);
 int			ft_strcmp(char *str1, char *str2);
 void		cd_builtin(t_info *info);
+void		set_old_and_new_pwd(t_environ *list, char *new_pwd_dup);
 void		echo_builtin(t_info *info, int j);
 void		env_builtin(t_info *info);
 void		exit_builtin(t_info *info);
@@ -168,6 +168,9 @@ void		write_to_heredoc_not_one(char **array, int i, \
 					int *heredoc_flag, t_environ *list);
 void		just_append(t_token *tok, char **p, char **new_word);
 void		expand_variable(char **p, char **new_word, t_environ *list);
+bool		handle_after_doll(char **p, char **new_word, t_environ *list);
+void		expansion(char **p, char **new_word, t_environ *list);
+void		quote_removal(t_token *tok, t_environ *list);
 void		remove_double_quote(char **p, char **new_word, t_environ *list);
 void		remove_single_quote(char **p, char **new_word);
 void		remove_double_quote(char **p, char **new_word, t_environ *list);
@@ -198,6 +201,7 @@ void		execute_check_equal(t_info *info, int j);
 void		check_equal(t_info *info, int *j);
 void		do_mix_builtin(t_info *info, t_environ *list, int i);
 char		*create_path(t_info *info, int j);
+bool		path_null(char *path);
 void		malloc_error_free(int **pipefd, int i);
 void		check_variable_character(char **var, char **p);
 int			yatto_owari(char **key, int *i);
