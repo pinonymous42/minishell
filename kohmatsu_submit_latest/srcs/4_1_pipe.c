@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_1_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/19 19:52:49 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/23 11:41:11 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	finish(t_info *info)
 	if (info->argv)
 		safty_free(info->argv);
 	dup2(g_signal.input_fd, 0);
-	dup2(g_signal.output_fd, 1);
 }
 
 void	pipex(int argc, char **argv, t_environ *list)

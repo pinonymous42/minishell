@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_8_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:32:05 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/14 19:32:15 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/21 16:45:01 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,15 @@ int	*place_pipe(t_info *info)
 	}
 	open_pipefd(info);
 	return (ret);
+}
+
+bool	path_null(char *path)
+{
+	if (ft_strchr(path, '/') == NULL)
+	{
+		file_not_found(path);
+		exit(127);
+	}
+	else
+		return (true);
 }

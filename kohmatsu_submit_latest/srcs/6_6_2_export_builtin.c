@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 11:34:16 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:32:13 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,33 +77,4 @@ void	update_env(char *arg, t_environ *list)
 		}
 	}
 	free(key);
-}
-
-void	add_new_env(char *arg, t_environ *list)
-{
-	char	*key;
-	char	*value;
-
-	if (ft_strchr_index(arg, '=') == -1)
-	{
-		key = ft_strdup(arg);
-		if (key == NULL)
-			function_error("strdup");
-		value = NULL;
-		list_add_back_export(&list, key, value);
-		free(key);
-	}
-	else
-	{
-		key = ft_strndup(arg, ft_strchr_index(arg, '='));
-		if (key == NULL)
-			function_error("strndup");
-		value = ft_substr(arg, ft_strchr_index(arg, '=') + 1,
-				ft_strlen(arg) - ft_strchr_index(arg, '=') - 1);
-		if (value == NULL)
-			function_error("substr");
-		list_add_back_export(&list, key, value);
-		free(key);
-		free(value);
-	}
 }

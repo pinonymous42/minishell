@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_1_1_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/20 15:26:29 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/21 15:33:30 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,21 @@ int	is_variable_character(char c)
 	return (ft_isalnum(c) || c == '_');
 }
 
+void	judge_variable(t_token *tok, char **p, char **new_word, t_environ *list)
+{
+	if (**p == SINGLE_QUOTE && *(*p + 1) != SINGLE_QUOTE)
+		remove_single_quote(p, new_word);
+	else if ((**p == DOUBLE_QUOTE && *(*p + 1) == DOUBLE_QUOTE) \
+		|| (**p == SINGLE_QUOTE && *(*p + 1) == SINGLE_QUOTE))
+		handle_empty_str(p, new_word);
+	else if (**p == DOUBLE_QUOTE)
+		remove_double_quote(p, new_word, list);
+	else if (**p == '$')
+		expand_variable(p, new_word, list);
+	else
+		just_append(tok, p, new_word);
+}
+
 void	quote_removal(t_token *tok, t_environ *list)
 {
 	char	*new_word;
@@ -59,45 +74,9 @@ void	quote_removal(t_token *tok, t_environ *list)
 		g_signal.not_expand_flag = 1;
 	while (*p)
 	{
-		if (*p == SINGLE_QUOTE && *(p + 1) != SINGLE_QUOTE)
-			remove_single_quote(&p, &new_word);
-		else if ((*p == DOUBLE_QUOTE && *(p + 1) == DOUBLE_QUOTE) \
-			|| (*p == SINGLE_QUOTE && *(p + 1) == SINGLE_QUOTE))
-			handle_empty_str(&p, &new_word);
-		else if (*p == DOUBLE_QUOTE)
-			remove_double_quote(&p, &new_word, list);
-		else if (*p == '$')
-			expand_variable(&p, &new_word, list);
-		else
-			just_append(tok, &p, &new_word);
+		judge_variable(tok, &p, &new_word, list);
 	}
 	free(tok->word);
 	tok->word = new_word;
 	quote_removal(tok->next, list);
-}
-
-char	**expand(t_token *tok, t_environ *list)
-{
-	char	**array;
-	int		heredoc_count;
-	int		i;
-	int		heredoc_flag;
-
-	i = 0;
-	quote_removal(tok, list);
-	array = token_list_to_array(tok);
-	heredoc_count = count_heredoc(array);
-	heredoc_flag = 0;
-	while (array[i])
-	{
-		if (ft_strcmp(array[i], "<<") == 0 && heredoc_flag == 0)
-		{
-			if (heredoc_count == 1)
-				write_to_heredoc_one(array, i, list);
-			else
-				write_to_heredoc_not_one(array, i, &heredoc_flag, list);
-		}
-		i++;
-	}
-	return (array);
 }
