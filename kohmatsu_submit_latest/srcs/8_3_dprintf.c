@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:40:17 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/19 23:21:20 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:07:43 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	count(int fd, va_list ap, const char *fmt)
 		}
 		else if (fmt[i] == '%')
 		{
-			count += ft_count_and_output(fd, ap, fmt[i + 1]);
 			i++;
+			count += ft_count_and_output(fd, ap, fmt[i]);
 		}
 		i++;
 	}

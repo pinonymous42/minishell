@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/19 21:23:58 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/23 11:40:46 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	init_g_signal(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	g_signal.input_fd = dup(0);
-	g_signal.output_fd = dup(1);
 	g_signal.do_split = 0;
 	g_signal.pipe_count = 0;
 	g_signal.not_expand_flag = 0;

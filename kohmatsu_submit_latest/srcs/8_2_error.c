@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:42:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/13 18:43:45 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:04:38 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	command_not_found(const char *location)
 
 void	file_not_found(const char *filename)
 {
-	my_dprintf(STDERR_FILENO, "minishell: %s: \
-		No such file or directory\n", filename);
+	my_dprintf(STDERR_FILENO, "minishell: %s:\
+No such file or directory\n", filename);
 }
 
 void	ambiguous_redirect(char *filename)
