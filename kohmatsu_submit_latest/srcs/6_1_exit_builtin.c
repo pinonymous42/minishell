@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:53:49 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/18 01:14:48 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/26 12:21:23 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	exit_tmp(t_info *info)
 	}
 	if (info->argv[2] != NULL)
 	{
+		ft_putendl_fd("exit", STDERR_FILENO);
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 		g_signal.status = 1;
 		g_signal.other_code = TRUE;
@@ -50,10 +51,13 @@ void	exit_builtin(t_info *info)
 	if (info->argv[1] != NULL)
 	{
 		exit_tmp(info);
+		if (info->argv[2] != NULL)
+			return ;
 		status_code = ft_atoi(info->argv[1]);
 		g_signal.status = status_code;
 	}
 	else
 		status_code = g_signal.status;
+	ft_putendl_fd("exit", STDERR_FILENO);
 	exit(status_code);
 }

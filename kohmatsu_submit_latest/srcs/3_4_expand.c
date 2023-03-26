@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   3_1_3_expand.c                                     :+:      :+:    :+:   */
+/*   3_4_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:16:13 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/21 16:01:47 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/26 14:22:14 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	remove_double_quote(char **p, char **new_word, t_environ *list)
 		*p += 1;
 	}
 	*p += 1;
-	while (ft_strchr(*new_word, '$'))
+	while (ft_strchr(*new_word, '$') && g_signal.not_expand_flag == 0)
 		*new_word = double_variable_expand(*new_word, list);
 }
 
@@ -60,13 +60,19 @@ void	expansion(char **p, char **new_word, t_environ *list)
 	char	*var;
 
 	var = NULL;
-	if (ft_strchr(*p, '$'))
-		var = ft_strndup(*p, ft_strchr(*p, '$') - *p);
+	if (ft_strchr(*p, '$') || ft_strchr(*p, '\"') || ft_strchr(*p, '\''))
+	{
+		while (!(**p == '$' || **p == '\"' || **p == '\''))
+		{
+			append_char(&var, **p);
+			*p += 1;
+		}
+	}
 	else
 		norm_expansion(p, &var);
-	if (*new_word == NULL)
+	if (*new_word == NULL && ft_isdigit(*var))
 		*new_word = create_new_word_if_null(var, list);
-	else
+	else if (*new_word != NULL && ft_isdigit(*var))
 		create_new_word_if_not_null(new_word, var, list);
 	free(var);
 }

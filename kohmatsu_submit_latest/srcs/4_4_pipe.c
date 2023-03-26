@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:29:48 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/18 13:28:55 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/26 12:19:25 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	remove_redirect(char **tmp, t_info *info, int i)
 	argv_index += 2;
 	while (info->argv[argv_index])
 		tmp[tmp_index++] = x_strdup(info->argv[argv_index++]);
+	tmp[tmp_index] = NULL;
 	safty_free(info->argv);
 	info->argv = tmp;
 }

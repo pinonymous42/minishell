@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_3_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:10:53 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/20 00:15:02 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/26 13:46:01 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,15 @@ bool	check_argv_no_such_env(t_info *info)
 	return (true);
 }
 
-bool	check_add_or_not(char *arg, t_environ *list)
+bool	check_add_or_not(char *arg)
 {
 	int		i;
-	char	*key;
 
 	i = 0;
 	while (arg[i] != '\0')
 	{
 		if (arg[i] == '+' && arg[i + 1] == '=')
-		{
-			key = ft_strndup(arg, i);
-			if (search_env(key, list) != NULL)
-			{
-				free(key);
-				return (true);
-			}
-			else
-			{
-				free(key);
-				return (false);
-			}
-		}
+			return (true);
 		i++;
 	}
 	return (false);
@@ -67,11 +54,13 @@ bool	check_add_or_not(char *arg, t_environ *list)
 
 void	add_env_value(char *arg, t_environ *list)
 {
-	int		i;
-	char	*key;
+	int			i;
+	char		*key;
+	t_environ	*head;
 
 	i = ft_strchr_index(arg, '+');
 	key = ft_strndup(arg, i);
+	head = list;
 	while (list != NULL)
 	{
 		if (ft_strcmp(list->key, key) == 0)
@@ -82,6 +71,8 @@ void	add_env_value(char *arg, t_environ *list)
 		}
 		list = list->next;
 	}
+	if (list == NULL)
+		list_add_back_export(&head, key, &arg[i + 2]);
 	free(key);
 }
 
@@ -91,7 +82,7 @@ int	not_allowed_variant_character(char *key)
 		return (1);
 	while (*key)
 	{
-		if (!(ft_isalnum(*key) || *key == '_' || *key == '$'))
+		if (!(ft_isalnum(*key) || *key == '_'))
 			return (1);
 		key++;
 	}

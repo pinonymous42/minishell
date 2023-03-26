@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_2_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/21 12:32:13 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/26 12:38:23 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
