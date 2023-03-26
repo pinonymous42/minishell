@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/23 11:40:18 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/26 12:51:57 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,15 @@ typedef struct s_info{
 }t_info;
 
 typedef struct s_signal {
-	int	status;
-	int	heredoc_fd;
-	int	input_fd;
-	int	other_code;
-	int	do_split;
-	int	pipe_count;
-	int	not_expand_flag;
+	int		status;
+	int		heredoc_fd;
+	int		input_fd;
+	int		output_fd;
+	int		other_code;
+	int		do_split;
+	int		pipe_count;
+	int		not_expand_flag;
+	bool	expand_in_heredoc;
 }t_signal;
 
 t_signal				g_signal;
@@ -148,7 +150,7 @@ int			ft_strchr_index(const char *str, char c);
 void		update_env(char *arg, t_environ *list);
 void		add_new_env(char *arg, t_environ *list);
 bool		check_argv_no_such_env(t_info *info);
-bool		check_add_or_not(char *arg, t_environ *list);
+bool		check_add_or_not(char *arg);
 void		add_env_value(char *arg, t_environ *list);
 void		list_add_back_export(t_environ **list, char *key, char *value);
 t_environ	*new_node(char *key, char *value);
@@ -172,7 +174,6 @@ void		expansion(char **p, char **new_word, t_environ *list);
 void		quote_removal(t_token *tok, t_environ *list);
 void		remove_double_quote(char **p, char **new_word, t_environ *list);
 void		remove_single_quote(char **p, char **new_word);
-void		remove_double_quote(char **p, char **new_word, t_environ *list);
 char		*double_variable_expand(char *new_word, t_environ *list);
 void		append_char(char **s, char c);
 int			is_variable_character(char c);

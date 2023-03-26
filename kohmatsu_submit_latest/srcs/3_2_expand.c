@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   3_1_1_expand.c                                     :+:      :+:    :+:   */
+/*   3_2_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:40:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/21 15:33:30 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/26 14:02:03 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ int	is_variable_character(char c)
 
 void	judge_variable(t_token *tok, char **p, char **new_word, t_environ *list)
 {
-	if (**p == SINGLE_QUOTE && *(*p + 1) != SINGLE_QUOTE)
-		remove_single_quote(p, new_word);
-	else if ((**p == DOUBLE_QUOTE && *(*p + 1) == DOUBLE_QUOTE) \
+	if ((**p == DOUBLE_QUOTE && *(*p + 1) == DOUBLE_QUOTE) \
 		|| (**p == SINGLE_QUOTE && *(*p + 1) == SINGLE_QUOTE))
 		handle_empty_str(p, new_word);
+	else if (**p == SINGLE_QUOTE && *(*p + 1) != SINGLE_QUOTE)
+		remove_single_quote(p, new_word);
 	else if (**p == DOUBLE_QUOTE)
 		remove_double_quote(p, new_word, list);
 	else if (**p == '$')
@@ -72,10 +72,12 @@ void	quote_removal(t_token *tok, t_environ *list)
 	new_word = NULL;
 	if (ft_strcmp(tok->word, "<<") == 0 && ft_strchr(tok->next->word, '$'))
 		g_signal.not_expand_flag = 1;
+	if (ft_strcmp(tok->word, "<<") == 0 && \
+		ft_strchr(tok->next->word, '\"') == NULL && \
+			ft_strchr(tok->next->word, '\'') == NULL)
+		g_signal.expand_in_heredoc = TRUE;
 	while (*p)
-	{
 		judge_variable(tok, &p, &new_word, list);
-	}
 	free(tok->word);
 	tok->word = new_word;
 	quote_removal(tok->next, list);

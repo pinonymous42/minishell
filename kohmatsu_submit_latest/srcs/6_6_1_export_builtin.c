@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_1_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/20 16:16:11 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/26 12:46:15 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	handle_argv(t_info *info, t_environ *list)
 	i = 1;
 	while (info->argv[i] != NULL)
 	{
-		if (check_add_or_not(info->argv[i], list) == true)
+		if (check_add_or_not(info->argv[i]) == true)
 			add_env_value(info->argv[i], list);
 		else
 		{
