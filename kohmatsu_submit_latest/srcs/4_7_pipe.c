@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_7_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:31:21 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/21 11:37:39 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/29 15:43:38 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,27 +78,20 @@ void	waiting(void)
 {
 	int	i;
 	int	wstatus;
+	int	error;
 
 	i = 0;
+	error = 0;
 	while (i < g_signal.pipe_count + 1)
 	{
 		wait(&wstatus);
+		if (wstatus > 255)
+			error = wstatus;
 		i++;
 	}
-	if (wstatus == SIGINT)
-		write(1, "\n", 1);
-	else if (wstatus == SIGQUIT)
-		write(1, "QUIT: 3\n", 8);
-	if (wstatus == SIGINT || wstatus == SIGQUIT)
-	{
-		g_signal.status = 128 + wstatus;
-		g_signal.other_code = TRUE;
-	}
-	else
-	{
-		g_signal.status = WEXITSTATUS(wstatus);
-		g_signal.other_code = TRUE;
-	}
+	if (wstatus != 0 && !(wstatus == SIGINT || wstatus == SIGQUIT))
+		wstatus = error;
+	cut_wstatus(wstatus);
 }
 
 void	multiple_pipes(t_info *info, t_environ *list)

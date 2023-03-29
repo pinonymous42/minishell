@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/26 12:51:57 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/29 15:42:40 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,5 +208,6 @@ int			yatto_owari(char **key, int *i);
 int			is_space(char *str);
 void		handle_empty_str(char **p, char **new_word);
 void		move_space(t_info *info, int start, int *i, int *count);
+void		cut_wstatus(int wstatus);
 
 #endif	
