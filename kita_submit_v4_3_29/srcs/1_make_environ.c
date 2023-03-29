@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 11:08:05 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/30 00:01:31 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/30 02:13:18 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,33 @@ void	list_add_back(t_environ **list, t_environ *new)
 	head->next = new;
 }
 
-t_environ	*make_environ(char **envp)
+t_environ	*create_list(void)
 {
 	t_environ	*list;
 	t_environ	*new;
 	char		new_pwd[PATH_MAX];
 
 	list = NULL;
+	list = malloc(sizeof(t_environ));
+	if (!list)
+		function_error("malloc");
+	list->key = ft_strdup("OLDPWD");
+	list->value = ft_strdup("\\");
+	new = malloc(sizeof(t_environ));
+	new->key = ft_strdup("PWD");
+	new->value = ft_strdup(getcwd(new_pwd, sizeof(new_pwd)));
+	new->next = NULL;
+	list->next = new;
+	return (list);
+}
+
+t_environ	*make_environ(char **envp)
+{
+	t_environ	*list;
+
+	list = NULL;
 	if (ft_search_pwd(envp) == false)
-	{
-		list = malloc(sizeof(t_environ));
-		if (!list)
-			function_error("malloc");
-		list->key = ft_strdup("OLDPWD");
-		list->value = ft_strdup("\\");
-		new = malloc(sizeof(t_environ));
-		new->key = ft_strdup("PWD");
-		new->value = ft_strdup(getcwd(new_pwd, sizeof(new_pwd)));
-		new->next = NULL;
-		list->next = new;
-	}
+		list = create_list();
 	if (list == NULL)
 		list = new_list(*envp++);
 	while (*envp)
