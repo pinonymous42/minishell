@@ -29,11 +29,11 @@ $(NAME):		$(OBJS)
 				ar rcs $@ $^
 
 clean:
-				$(RM) $(OBJS) $(BONUS_OBJS)
+				$(RM) -rf $(OBJDIR)
 
-fclean:			clean
+fclean:			
 				$(RM) $(NAME)
-				rm -r $(OBJDIR)
+				rm -rf $(OBJDIR)
 
 re:				fclean $(NAME)
 

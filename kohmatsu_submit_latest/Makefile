@@ -35,12 +35,13 @@ $(NAME): $(OBJS)
 
 clean	:
 	$(RM) $(OBJDIR)
-	make -C $(LIBDIR) clean;
-	make -C $(GNLDIR) clean;
+	make -C $(LIBDIR) clean
+	make -C $(GNLDIR) clean
 
-fclean	:	clean
-	make -C $(LIBDIR) fclean;
-	make -C $(GNLDIR) fclean;
+fclean	:	
+	make -C $(LIBDIR) fclean
+	make -C $(GNLDIR) fclean
+	$(RM) $(OBJDIR)
 	$(RM) $(NAME)
 
 re:	fclean all
