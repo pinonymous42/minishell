@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:15 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/18 13:04:03 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:31:48 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ void	make_info_argv(t_info *info, int end, int start)
 	info->argv_count = end - start + count_splitable(info, pipe_index, end);
 	info->argv = x_double_str_malloc(info->argv_count);
 	while (pipe_index < end)
+	{
 		do_insert(info, &pipe_index, &argv_index, end);
+	}
 	info->argv[argv_index] = NULL;
 }
