@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 00:25:38 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/26 14:26:06 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:29:10 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*create_new_word_if_null(char *var, t_environ *list)
 		new_word = ft_strdup(var + 1);
 	else
 	{
-		printf("%s, %d\n", __FILE__, __LINE__);
 		new_word = ft_strdup("$");
 		new_word = ft_strjoin_with_free(new_word, var, FIRST_PARAM);
 	}

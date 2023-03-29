@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 00:03:28 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/18 13:12:20 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:26:53 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,16 @@ int	is_space(char *str)
 
 void	move_space(t_info *info, int start, int *i, int *count)
 {
+	int	j;
 	while (info->cmd[start][*i])
 	{
 		if (info->cmd[start][*i] == ' ')
 		{
-			*count += 1;
+			j = 0;
+			while (info->cmd[start][*i + j] == ' ')
+				j++;
+			if (info->cmd[start][*i + j])
+				*count += 1;
 			while (info->cmd[start][*i] == ' ')
 				*i += 1;
 		}
