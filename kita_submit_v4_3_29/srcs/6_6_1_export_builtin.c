@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_1_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/26 12:46:15 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/29 22:07:23 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	put_env(t_environ *list)
 	tmp = list;
 	while (tmp != NULL)
 	{
+		if (tmp->key == NULL && tmp->value == NULL)
+		{
+			tmp = tmp->next;
+			continue ;
+		}
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(tmp->key, 1);
 		if (ft_strcmp(tmp->value, "\\") != 0)
