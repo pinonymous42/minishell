@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:33:20 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/26 14:21:21 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:08:46 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	expand_variable(char **p, char **new_word, t_environ *list)
 {
 	g_signal.do_split = 1;
 	*p += 1;
-	handle_after_doll(p, new_word, list);
-	expansion(p, new_word, list);
+	if (handle_after_doll(p, new_word, list) == false)
+		expansion(p, new_word, list);
 	if (not_allowed_variant_character(*p))
 	{
 		while (is_variable_character(**p))

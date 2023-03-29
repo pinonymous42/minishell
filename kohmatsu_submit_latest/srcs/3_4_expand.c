@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:16:13 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/29 13:28:52 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:09:25 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void	expansion(char **p, char **new_word, t_environ *list)
 	}
 	else
 		norm_expansion(p, &var);
-	if (*new_word == NULL && ft_isdigit(*var))
+	if (*new_word == NULL)
 		*new_word = create_new_word_if_null(var, list);
-	else if (*new_word != NULL && ft_isdigit(*var))
+	else if (*new_word != NULL)
 		create_new_word_if_not_null(new_word, var, list);
 	free(var);
 }
