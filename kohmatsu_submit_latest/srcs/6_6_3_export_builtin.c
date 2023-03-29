@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:10:53 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/26 13:46:01 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/29 15:44:35 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	not_allowed_variant_character(char *key)
 {
 	if (ft_strcmp(key, "") == 0)
 		return (1);
+	if (key[0] == '$')
+		return (0);
 	while (*key)
 	{
 		if (!(ft_isalnum(*key) || *key == '_'))
