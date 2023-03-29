@@ -23,8 +23,9 @@ $(NAME):	$(OBJS)
 clean :
 	rm -rf $(OBJDIR)
 
-fclean : clean
+fclean : 
 	rm -f $(NAME)
+	rm -rf $(OBJDIR)
 
 re : fclean all
 

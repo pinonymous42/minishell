@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_5_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:18:27 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/29 13:29:05 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:57:35 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	norm_double_expansion(char **ret, t_environ *list, char *var)
 	else if (ft_isdigit(*var))
 	{
 		*ret = ft_strjoin_with_free(*ret, (var + 1), FIRST_PARAM);
+		g_signal.not_expand_flag = 1;
+	}
+	else if (*var == '\0')
+	{
+		*ret = ft_strjoin_with_free(*ret, "$", FIRST_PARAM);
 		g_signal.not_expand_flag = 1;
 	}
 }
