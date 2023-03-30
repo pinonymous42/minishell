@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:53:49 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/26 12:21:23 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 00:07:37 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ void	error_exit(char *str)
 	exit(255);
 }
 
+int	checking(t_info *info)
+{
+	if ((ft_atoi(info->argv[1]) == -1 && ft_strcmp(info->argv[1], "-1")
+			&& ft_strcmp(info->argv[1], "9223372036854775807")))
+		return (1);
+	if ((ft_atoi(info->argv[1]) == 0 && ft_strcmp(info->argv[1], "0")
+			&& ft_strcmp(info->argv[1], "-9223372036854775808")))
+		return (1);
+	return (0);
+}
+
 void	exit_tmp(t_info *info)
 {
 	int	i;
@@ -33,6 +44,8 @@ void	exit_tmp(t_info *info)
 			error_exit(info->argv[1]);
 		i++;
 	}
+	if (checking(info))
+		error_exit(info->argv[1]);
 	if (info->argv[2] != NULL)
 	{
 		ft_putendl_fd("exit", STDERR_FILENO);

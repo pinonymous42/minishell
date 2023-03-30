@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_6_3_export_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:10:53 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/30 14:49:12 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 15:31:38 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,18 @@ void	add_env_value(char *arg, t_environ **list)
 	i = ft_strchr_index(arg, '+');
 	key = ft_strndup(arg, i);
 	head = *list;
-	while (*list != NULL)
+	while (head != NULL)
 	{
-		if (ft_strcmp((*list)->key, key) == 0)
+		if (ft_strcmp(head->key, key) == 0)
 		{
-			(*list)->value = ft_strjoin_with_free((*list)->value,
+			head->value = ft_strjoin_with_free(head->value,
 					arg + i + 2, FIRST_PARAM);
 			break ;
 		}
-		*list = (*list)->next;
+		head = head->next;
 	}
-	if (*list == NULL)
-		list_add_back_export(&head, key, &arg[i + 2]);
+	if (head == NULL)
+		list_add_back_export(list, key, &arg[i + 2]);
 	free(key);
 }
 

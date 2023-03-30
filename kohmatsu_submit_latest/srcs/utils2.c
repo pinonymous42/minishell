@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 00:03:28 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/29 15:43:49 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 00:10:43 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,14 @@ void	cut_wstatus(int wstatus)
 		g_signal.status = WEXITSTATUS(wstatus);
 		g_signal.other_code = TRUE;
 	}
+}
+
+char	*x_strndup(char *str, int i)
+{
+	char	*tmp;
+
+	tmp = ft_strndup(str, i);
+	if (tmp == NULL)
+		function_error("ft_strndup");
+	return (tmp);
 }
