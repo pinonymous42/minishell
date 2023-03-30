@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:31:21 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/30 14:08:13 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:51:35 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	child_do(char *exe_path, t_info *info, int i, t_environ **list)
 		if (i > g_signal.pipe_count - 1)
 			do_builtin(info->cmd[info->pipe_place[i] + 1], list, info);
 		else
-			do_mix_builtin(info, *list, i);
+			do_mix_builtin(info, list, i);
 		exit(0);
 	}
 	else

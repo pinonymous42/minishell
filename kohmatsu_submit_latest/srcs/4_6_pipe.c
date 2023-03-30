@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:42 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/30 14:25:08 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:50:57 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ void	do_builtin(char *argv, t_environ **list, t_info *info)
 	else if (ft_strcmp(argv, "env") == 0)
 		env_builtin(info);
 	else if (ft_strcmp(argv, "export") == 0)
-		export_builtin(info, *list);
+		export_builtin(info, list);
 	else if (ft_strcmp(argv, "pwd") == 0)
 		pwd_builtin(info);
 }
 
-void	do_mix_builtin(t_info *info, t_environ *list, int i)
+void	do_mix_builtin(t_info *info, t_environ **list, int i)
 {
 	if (ft_strcmp(info->cmd[info->pipe_place[i] + 1], "env") == 0)
 		env_builtin(info);

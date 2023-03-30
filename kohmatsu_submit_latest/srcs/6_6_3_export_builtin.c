@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:10:53 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/29 15:44:35 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:49:12 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool	check_add_or_not(char *arg)
 	return (false);
 }
 
-void	add_env_value(char *arg, t_environ *list)
+void	add_env_value(char *arg, t_environ **list)
 {
 	int			i;
 	char		*key;
@@ -60,18 +60,18 @@ void	add_env_value(char *arg, t_environ *list)
 
 	i = ft_strchr_index(arg, '+');
 	key = ft_strndup(arg, i);
-	head = list;
-	while (list != NULL)
+	head = *list;
+	while (*list != NULL)
 	{
-		if (ft_strcmp(list->key, key) == 0)
+		if (ft_strcmp((*list)->key, key) == 0)
 		{
-			list->value = ft_strjoin_with_free(list->value,
+			(*list)->value = ft_strjoin_with_free((*list)->value,
 					arg + i + 2, FIRST_PARAM);
 			break ;
 		}
-		list = list->next;
+		*list = (*list)->next;
 	}
-	if (list == NULL)
+	if (*list == NULL)
 		list_add_back_export(&head, key, &arg[i + 2]);
 	free(key);
 }
