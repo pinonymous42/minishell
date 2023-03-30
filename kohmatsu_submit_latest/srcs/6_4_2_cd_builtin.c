@@ -6,36 +6,16 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:29:30 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/21 16:31:29 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/30 02:04:55 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	tokurei(t_environ *list, char *new_pwd_dup, char *key, char *value)
+void	norm_set_old_and_new_pwd(char *new_pwd_dup, t_environ *list)
 {
-	key = ft_strdup("PWD");
-	value = ft_strdup(new_pwd_dup);
-	list->key = ft_strdup("OLDPWD");
-	list->value = new_pwd_dup;
-	list->next = new_node(key, value);
-	free(key);
-	free(value);
-}
+	t_environ	*tmp;
 
-void	norm_set_old_and_new_pwd(t_environ *tmp, \
-	char *new_pwd_dup, t_environ *list)
-{
-	while (tmp != NULL)
-	{
-		if (ft_strcmp(tmp->key, "OLDPWD") == 0)
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(search_env("PWD", list));
-			break ;
-		}
-		tmp = tmp->next;
-	}
 	tmp = list;
 	while (tmp != NULL)
 	{
@@ -47,19 +27,35 @@ void	norm_set_old_and_new_pwd(t_environ *tmp, \
 		}
 		tmp = tmp->next;
 	}
+	if (tmp == NULL)
+		free(new_pwd_dup);
 }
 
 void	set_old_and_new_pwd(t_environ *list, char *new_pwd_dup)
 {
-	char		*key;
-	char		*value;
 	t_environ	*tmp;
 
 	tmp = list;
-	key = NULL;
-	value = NULL;
-	if (list != NULL && list->key == NULL && list->value == NULL)
-		tokurei(list, new_pwd_dup, key, value);
-	else
-		norm_set_old_and_new_pwd(tmp, new_pwd_dup, list);
+	while (tmp != NULL)
+	{
+		if (ft_strcmp(tmp->key, "OLDPWD") == 0)
+		{
+			if (ft_strcmp(tmp->value, "") == 0 && \
+				search_env("PWD", list) == NULL)
+			{
+				free(tmp->value);
+				tmp->value = new_pwd_dup;
+				return ;
+			}
+			else
+				free(tmp->value);
+			if (search_env("PWD", list) == NULL)
+				tmp->value = ft_strdup("");
+			else
+				tmp->value = ft_strdup(search_env("PWD", list));
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	norm_set_old_and_new_pwd(new_pwd_dup, list);
 }

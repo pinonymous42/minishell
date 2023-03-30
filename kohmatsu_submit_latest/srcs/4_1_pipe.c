@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/29 13:29:15 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:24:48 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,16 @@ void	finish(t_info *info)
 	}
 	if (info->argv)
 		safty_free(info->argv);
+	close(info->input_fd);
+	close(0);
 	dup2(g_signal.input_fd, 0);
-	dup2(g_signal.output_fd, 1);
 }
 
-void	pipex(int argc, char **argv, t_environ *list)
+void	pipex(int argc, char **argv, t_environ **list)
 {
 	t_info	info;
 
-	info_init(&info, argc, argv, list);
+	info_init(&info, argc, argv, *list);
 	if (argv[0] == NULL)
 	{
 		finish(&info);

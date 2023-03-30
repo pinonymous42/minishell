@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/21 16:30:11 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/30 01:59:04 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,21 @@ void	do_no_argv(t_info *info)
 		g_signal.other_code = TRUE;
 	}
 	else if ((chdir(home)) == -1)
-		function_error("chdir");
+	{
+		if (ft_strcmp(search_env("HOME", info->list), "") != 0)
+		{
+			my_dprintf(STDERR_FILENO, "minishell: cd: %s:\
+	No such file or directory\n", search_env("HOME", info->list));
+			g_signal.status = 1;
+			g_signal.other_code = TRUE;
+		}
+	}
 	free(home);
 }
 
 void	cd_minus(t_info *info)
 {
-	if (search_env("OLDPWD", info->list) == NULL)
+	if (ft_strcmp(search_env("OLDPWD", info->list), "\\") == 0)
 	{
 		my_dprintf(STDERR_FILENO, "minishell: cd: OLDPWD not set\n");
 		g_signal.status = 1;
@@ -67,7 +75,12 @@ void	cd_minus(t_info *info)
 	else
 	{
 		if (chdir(search_env("OLDPWD", info->list)) == -1)
-			function_error("chdir");
+		{
+			my_dprintf(STDERR_FILENO, "minishell: cd: %s:\
+No such file or directory\n", search_env("OLDPWD", info->list));
+			g_signal.status = 1;
+			g_signal.other_code = TRUE;
+		}
 	}
 }
 

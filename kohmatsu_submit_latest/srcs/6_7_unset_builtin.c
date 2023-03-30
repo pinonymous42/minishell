@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   6_7_unset_builtin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:28:52 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/17 18:52:08 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:25:35 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	unset_var(t_environ *list, char *key)
+void	unset_var(t_environ **list, char *key)
 {
 	t_environ	*prev;
 	t_environ	*curr;
 
 	prev = NULL;
-	curr = list;
+	curr = *list;
 	while (curr != NULL)
 	{
 		if (ft_strcmp(curr->key, key) == 0)
@@ -26,7 +26,7 @@ void	unset_var(t_environ *list, char *key)
 			if (prev != NULL)
 				prev->next = curr->next;
 			else
-				list = curr->next;
+				*list = curr->next;
 			free(curr->key);
 			free(curr->value);
 			free(curr);
@@ -37,7 +37,7 @@ void	unset_var(t_environ *list, char *key)
 	}
 }
 
-void	unset_builtin(t_info *info, t_environ *list)
+void	unset_builtin(t_info *info, t_environ **list)
 {
 	int	i;
 

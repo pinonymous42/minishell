@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:15 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/29 13:31:48 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 12:43:02 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,20 @@ void	do_insert(t_info *info, int *pipe_index, int *argv_index, int end)
 
 void	make_info_argv(t_info *info, int end, int start)
 {
-	int		pipe_index;
-	int		argv_index;
+	int			pipe_index;
+	int			argv_index;
+	int			tmp_value;
+	t_environ	*tmp;
 
+	if (ft_strcmp(info->cmd[0], "./minishell") == 0)
+	{
+		tmp = info->list;
+		while (ft_strcmp(tmp->key, "SHLVL") != 0)
+			tmp = tmp->next;
+		tmp_value = ft_atoi(tmp->value);
+		free(tmp->value);
+		tmp->value = ft_itoa(tmp_value + 1);
+	}
 	argv_index = 0;
 	if (info->argv)
 		safty_free(info->argv);

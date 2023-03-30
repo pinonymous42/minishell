@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/29 13:28:40 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:25:50 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	count_argv(char **argv)
 	return (len);
 }
 
-void	process_line(char *line, t_environ *list)
+void	process_line(char *line, t_environ **list)
 {
 	t_token	*token;
 	char	**array;
@@ -42,7 +42,7 @@ void	process_line(char *line, t_environ *list)
 		;
 	else
 	{
-		array = expand(token, list);
+		array = expand(token, *list);
 		argc = count_argv(array);
 		pipex(argc, array, list);
 	}
@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 			g_signal.other_code = FALSE;
 		if (*line != '\0')
 			add_history(line);
-		process_line(line, list);
+		process_line(line, &list);
 		free(line);
 	}
 	write(1, "exit\n", 5);
