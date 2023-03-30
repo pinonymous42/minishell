@@ -1,0 +1,3 @@
+aaa
+minishell$                                                                         minishell$                                                                         minishell$                                                                         minishell$                                                                         minishell$ 
+minishell$ exit
