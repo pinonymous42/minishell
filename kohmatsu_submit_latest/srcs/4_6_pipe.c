@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_6_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:42 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/21 16:44:56 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:25:08 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	check_equal(t_info *info, int *j)
 	}
 }
 
-void	do_builtin(char *argv, t_environ *list, t_info *info)
+void	do_builtin(char *argv, t_environ **list, t_info *info)
 {
 	if (ft_strcmp(argv, "cd") == 0)
 		cd_builtin(info);
@@ -74,7 +74,7 @@ void	do_builtin(char *argv, t_environ *list, t_info *info)
 	else if (ft_strcmp(argv, "env") == 0)
 		env_builtin(info);
 	else if (ft_strcmp(argv, "export") == 0)
-		export_builtin(info, list);
+		export_builtin(info, *list);
 	else if (ft_strcmp(argv, "pwd") == 0)
 		pwd_builtin(info);
 }

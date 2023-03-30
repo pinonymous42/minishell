@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/26 12:46:15 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:24:34 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	put_env(t_environ *list)
 	tmp = list;
 	while (tmp != NULL)
 	{
+		if (tmp->key == NULL && tmp->value == NULL)
+		{
+			tmp = tmp->next;
+			continue ;
+		}
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(tmp->key, 1);
 		if (ft_strcmp(tmp->value, "\\") != 0)
@@ -85,8 +90,7 @@ void	handle_argv(t_info *info, t_environ *list)
 
 void	export_builtin(t_info *info, t_environ *list)
 {
-	if ((info->argv[1] == NULL && info->argv_count == 2)
-		|| check_argv_no_such_env(info) == true)
+	if (info->argv[1] == NULL || check_argv_no_such_env(info) == true)
 		put_env(list);
 	else
 		handle_argv(info, list);

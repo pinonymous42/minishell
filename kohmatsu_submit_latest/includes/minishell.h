@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/29 15:42:40 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:15:27 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void		command_not_found(const char *location);
 void		file_not_found(const char *filename);
 void		ambiguous_redirect(char *filename);
 int			my_dprintf(int fd, const char *fmt, ...);
-void		pipex(int argc, char *argv[], t_environ *list);
+void		pipex(int argc, char *argv[], t_environ **list);
 int			count_heredoc(char **argv);
 char		**list_to_array(t_environ *list);
 int			count_pipe(t_token *token);
@@ -155,7 +155,7 @@ void		add_env_value(char *arg, t_environ *list);
 void		list_add_back_export(t_environ **list, char *key, char *value);
 t_environ	*new_node(char *key, char *value);
 int			not_allowed_variant_character(char *key);
-void		unset_builtin(t_info *info, t_environ *list);
+void		unset_builtin(t_info *info, t_environ **list);
 char		**x_double_str_malloc(int num);
 char		*x_str_malloc(int num);
 char		*x_strdup(char *str);
@@ -183,8 +183,8 @@ void		safty_free(char **str);
 int			check_builtin(char *argv);
 void		make_info_argv(t_info *info, int end, int start);
 int			check_redirect(t_info *info);
-void		do_builtin(char *argv, t_environ *list, t_info *info);
-void		multiple_pipes(t_info *info, t_environ *list);
+void		do_builtin(char *argv, t_environ **list, t_info *info);
+void		multiple_pipes(t_info *info, t_environ **list);
 void		remove_redirect(char **tmp, t_info *info, int i);
 int			branch_do_v2(t_info *info, int i, int heredoc_count);
 int			branch_do_v1(t_info *info, int i, int heredoc_count);
