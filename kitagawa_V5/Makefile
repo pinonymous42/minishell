@@ -8,7 +8,7 @@ SRCS = 0_main.c 1_make_environ.c 2_1_tokenize.c  2_2_tokenize_utils.c 2_3_tokeni
 		 7_destructer.c 8_1_error.c 8_2_error.c 8_3_dprintf.c utils1.c utils2.c
 
 
-CC = gcc
+CC = cc
 CFLAGS = -I $(shell brew --prefix readline)/include -Wall -Wextra -Werror
 LDFLAGS = -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 RM = rm -rf
