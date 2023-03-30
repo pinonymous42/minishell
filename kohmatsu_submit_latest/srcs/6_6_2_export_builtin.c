@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:34:51 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/30 14:58:18 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 00:10:26 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,28 +57,28 @@ void	list_add_back_export(t_environ **list, char *key, char *value)
 
 void	update_env(char *arg, t_environ **list)
 {
-	char	*key;
-	char	*value;
-	int		i;
+	char		*key;
+	char		*value;
+	int			i;
+	t_environ	*tmp;
 
+	tmp = *list;
 	i = ft_strchr_index(arg, '=');
 	if (i == -1)
 		return ;
 	else
 	{
-		key = ft_strndup(arg, i);
-		if (key == NULL)
-			function_error("strndup");
+		key = x_strndup(arg, i);
 		value = ft_substr(arg, i + 1, ft_strlen(arg) - i - 1);
-		while (*list != NULL)
+		while (tmp != NULL)
 		{
-			if (ft_strcmp((*list)->key, key) == 0)
+			if (ft_strcmp(tmp->key, key) == 0)
 			{
-				free((*list)->value);
-				(*list)->value = value;
+				free(tmp->value);
+				tmp->value = value;
 				break ;
 			}
-			*list = (*list)->next;
+			tmp = tmp->next;
 		}
 	}
 	free(key);

@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/30 14:52:04 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 00:10:48 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,5 +209,6 @@ int			is_space(char *str);
 void		handle_empty_str(char **p, char **new_word);
 void		move_space(t_info *info, int start, int *i, int *count);
 void		cut_wstatus(int wstatus);
+char		*x_strndup(char *str, int i);
 
 #endif	

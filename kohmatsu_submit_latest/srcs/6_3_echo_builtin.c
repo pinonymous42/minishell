@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_3_echo_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/21 12:20:59 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/31 00:23:36 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ void	no_option(t_info *info, int j)
 	int	i;
 
 	i = j + 1;
-	while (info->argv[i])
+	while (info->cmd[i])
 	{
-		if (ft_strchr(info->argv[i], '$') == NULL)
+		if (ft_strchr(info->cmd[i], '$') == NULL)
 		{
-			if (info->argv[i] != NULL)
-				ft_putstr_fd(info->argv[i], STDOUT);
+			if (info->cmd[i] != NULL)
+				ft_putstr_fd(info->cmd[i], STDOUT);
 		}
 		else if (g_signal.not_expand_flag == 1)
-			ft_putstr_fd(info->argv[i], STDOUT);
+			ft_putstr_fd(info->cmd[i], STDOUT);
 		else
-			write_until_doll(info->argv[i]);
-		if (info->argv[i + 1] != NULL)
+			write_until_doll(info->cmd[i]);
+		if (info->cmd[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;
 	}
@@ -52,20 +52,20 @@ void	option(t_info *info, int j)
 	int	i;
 
 	i = j + 2;
-	while (info->argv[i] != NULL && ft_strcmp(info->argv[i], "-n") == 0)
+	while (info->cmd[i] != NULL && ft_strcmp(info->cmd[i], "-n") == 0)
 		i++;
-	while (info->argv[i])
+	while (info->cmd[i])
 	{
-		if (ft_strchr(info->argv[i], '$') == NULL)
+		if (ft_strchr(info->cmd[i], '$') == NULL)
 		{
-			if (info->argv[i] != NULL)
-				ft_putstr_fd(info->argv[i], STDOUT);
+			if (info->cmd[i] != NULL)
+				ft_putstr_fd(info->cmd[i], STDOUT);
 		}
 		else if (g_signal.not_expand_flag == 1)
-			ft_putstr_fd(info->argv[i], STDOUT);
+			ft_putstr_fd(info->cmd[i], STDOUT);
 		else
-			write_until_doll(info->argv[i]);
-		if (info->argv[i + 1] != NULL)
+			write_until_doll(info->cmd[i]);
+		if (info->cmd[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;
 	}
@@ -97,7 +97,7 @@ void	echo_builtin(t_info *info, int j)
 	int	option_flag;
 
 	option_flag = 0;
-	if (compare_option(info->argv[1]) == true)
+	if (compare_option(info->cmd[1]) == true)
 		option_flag = 1;
 	if (option_flag == 0)
 		no_option(info, j);

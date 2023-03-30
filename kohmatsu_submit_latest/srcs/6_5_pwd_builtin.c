@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 11:55:33 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/18 11:33:50 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:59:09 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	pwd_builtin(t_info *info)
 		{
 			if (ft_strcmp(info->list->key, "PWD") == 0)
 			{
-				printf("%s\n", info->list->value);
+				write(1, info->list->value, ft_strlen(info->list->value));
 				break ;
 			}
 			info->list = info->list->next;
