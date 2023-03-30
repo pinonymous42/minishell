@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/30 14:24:34 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:47:24 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,21 @@ char	*make_key(char *argv)
 	return (key);
 }
 
-bool	judge_key(char *key, char *argv, t_environ *list)
+bool	judge_key(char *key, char *argv, t_environ **list)
 {
 	if (not_allowed_variant_character(key) || ft_isdigit(key[0]) == 1)
 		export_not_valid_identifier(argv);
 	if (ft_strchr(key, '$') != NULL)
 		return (false);
-	else if (search_env(key, list) != NULL)
+	else if (search_env(key, *list) != NULL)
 		update_env(argv, list);
-	else if (search_env(key, list) == NULL
+	else if (search_env(key, *list) == NULL
 		&& !not_allowed_variant_character(key))
 		add_new_env(argv, list);
 	return (true);
 }
 
-void	handle_argv(t_info *info, t_environ *list)
+void	handle_argv(t_info *info, t_environ **list)
 {
 	int		i;
 	char	*key;
@@ -88,10 +88,10 @@ void	handle_argv(t_info *info, t_environ *list)
 	}
 }
 
-void	export_builtin(t_info *info, t_environ *list)
+void	export_builtin(t_info *info, t_environ **list)
 {
 	if (info->argv[1] == NULL || check_argv_no_such_env(info) == true)
-		put_env(list);
+		put_env(*list);
 	else
 		handle_argv(info, list);
 	return ;

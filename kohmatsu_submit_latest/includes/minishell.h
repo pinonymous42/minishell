@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/30 14:15:27 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:52:04 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,13 @@ void		echo_builtin(t_info *info, int j);
 void		env_builtin(t_info *info);
 void		exit_builtin(t_info *info);
 void		pwd_builtin(t_info *info);
-void		export_builtin(t_info *info, t_environ *list);
+void		export_builtin(t_info *info, t_environ **list);
 int			ft_strchr_index(const char *str, char c);
-void		update_env(char *arg, t_environ *list);
-void		add_new_env(char *arg, t_environ *list);
+void		update_env(char *arg, t_environ **list);
+void		add_new_env(char *arg, t_environ **list);
 bool		check_argv_no_such_env(t_info *info);
 bool		check_add_or_not(char *arg);
-void		add_env_value(char *arg, t_environ *list);
+void		add_env_value(char *arg, t_environ **list);
 void		list_add_back_export(t_environ **list, char *key, char *value);
 t_environ	*new_node(char *key, char *value);
 int			not_allowed_variant_character(char *key);
@@ -199,7 +199,7 @@ char		*make_exepath(char *path, char *command);
 void		do_fd(t_info *info, int i);
 void		execute_check_equal(t_info *info, int j);
 void		check_equal(t_info *info, int *j);
-void		do_mix_builtin(t_info *info, t_environ *list, int i);
+void		do_mix_builtin(t_info *info, t_environ **list, int i);
 char		*create_path(t_info *info, int j);
 bool		path_null(char *path);
 void		malloc_error_free(int **pipefd, int i);
