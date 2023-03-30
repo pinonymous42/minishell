@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/29 13:29:15 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:29:27 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	pipex(int argc, char **argv, t_environ *list)
 	}
 	if (g_signal.pipe_count == 0 && check_builtin(info.cmd[0]))
 	{
-		make_info_argv(&info, info.pipe_place[1], info.pipe_place[0]);
+		make_info_argv(&info, info.pipe_place[1], info.pipe_place[0]);zz
 		if (check_redirect(&info) == 1)
 		{
 			g_signal.other_code = TRUE;
