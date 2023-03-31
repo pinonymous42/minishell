@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:42 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/31 10:11:20 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:37:32 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,7 @@ char	*create_path(t_info *info, int j)
 	exe_path = NULL;
 	index = 0;
 	if (access(exe_path, X_OK) == 0 && ft_strcmp(exe_path, "./"))
-	{
-		dprintf(2, "%s, %d\n", __FILE__, __LINE__);
 		err_exit(info->argv[j], "command not found");
-	}
 	if (info->path == NULL && path_null(info->argv[j]) == true)
 		return (info->argv[j]);
 	while ((info->path)[index] != NULL && access(exe_path, X_OK))

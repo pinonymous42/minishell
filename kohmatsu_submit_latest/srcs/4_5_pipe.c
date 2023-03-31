@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:15 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/30 12:43:02 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:08:42 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	do_insert(t_info *info, int *pipe_index, int *argv_index, int end)
 	char	**tmp;
 	int		split_count;
 
-	if (ft_strchr(info->cmd[*pipe_index], ' ') && g_signal.do_split)
+	if (ft_strchr(info->cmd[*pipe_index], ' ') && g_signal.do_split == 1)
 	{
 		split_count = 0;
 		tmp = ft_split(info->cmd[*pipe_index], ' ');
