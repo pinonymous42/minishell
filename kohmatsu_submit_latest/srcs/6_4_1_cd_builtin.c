@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/31 13:01:07 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 18:44:01 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,10 @@
 void	get_old_and_new_pwd(t_info *info)
 {
 	char	new_pwd[PATH_MAX];
-	char	*dup;
 	char	*error_pwd;
 
 	if (getcwd(new_pwd, sizeof(new_pwd)) != NULL)
-	{
-		if (ft_strncmp(new_pwd, "/private", 8) == 0)
-			dup = ft_strdup(new_pwd + 8);
-		else
-			dup = ft_strdup(new_pwd);
-		set_old_and_new_pwd(info->list, dup);
-	}
+		check_private(new_pwd, info);
 	else
 	{
 		while (info->list != NULL)

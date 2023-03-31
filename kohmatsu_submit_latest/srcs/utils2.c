@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 00:03:28 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/31 00:10:43 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 18:43:55 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,15 @@ char	*x_strndup(char *str, int i)
 	if (tmp == NULL)
 		function_error("ft_strndup");
 	return (tmp);
+}
+
+void	check_private(char *new_pwd, t_info *info)
+{
+	char	*dup;
+
+	if (ft_strncmp(new_pwd, "/private", 8) == 0)
+			dup = ft_strdup(new_pwd + 8);
+	else
+		dup = ft_strdup(new_pwd);
+	set_old_and_new_pwd(info->list, dup);
 }

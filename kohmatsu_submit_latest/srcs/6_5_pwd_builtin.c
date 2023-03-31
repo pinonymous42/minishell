@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 11:55:33 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/31 13:11:35 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 18:43:14 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	pwd_builtin(t_info *info)
 
 	cwd = x_str_malloc(PATH_MAX);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
-			my_dprintf(1, "%s\n", cwd);
+		my_dprintf(1, "%s\n", cwd);
 	else
 	{
 		while (info->list != NULL)
