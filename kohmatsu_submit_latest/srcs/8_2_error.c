@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   8_2_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:42:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/21 12:04:38 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/31 09:56:34 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	assert_error(const char *msg)
 void	err_exit(const char *location, const char *msg)
 {
 	my_dprintf(STDERR_FILENO, "minishell: %s: %s\n", location, msg);
-	exit(127);
+	if (ft_strcmp((char *)msg, "command not found") == 0)
+		exit(127);
+	if (ft_strcmp((char *)msg, "is a directory") == 0)
+		exit(126);
 }
 
 void	command_not_found(const char *location)
