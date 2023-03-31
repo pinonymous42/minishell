@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:18:27 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/31 00:16:00 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:07:52 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ char	*double_variable_expand(char *new_word, t_environ *list)
 	char	*ret;
 
 	g_signal.do_split = 1;
+	if (ft_strchr(new_word, ' '))
+		g_signal.do_split = 0;
 	tmp = new_word;
 	while (*new_word != '$')
 		new_word++;

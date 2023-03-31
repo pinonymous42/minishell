@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/31 09:41:00 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:36:59 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	init_g_signal(int argc, char **argv)
 	(void)argv;
 	g_signal.input_fd = dup(0);
 	g_signal.output_fd = dup(1);
-	g_signal.do_split = 0;
+	g_signal.do_split = 2;
 	g_signal.pipe_count = 0;
 	g_signal.not_expand_flag = 0;
 	g_signal.expand_in_heredoc = FALSE;

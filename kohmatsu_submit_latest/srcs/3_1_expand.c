@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:33:20 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/29 14:08:46 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:36:06 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	expand_variable(char **p, char **new_word, t_environ *list)
 		while (is_variable_character(**p))
 			*p += 1;
 	}
+	else if (ft_strchr(*p, '$'))
+		*p = ft_strchr(*p, '$');
 	else
 		*p = ft_strchr(*p, '\0');
 }
