@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:07:12 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/31 10:42:09 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 18:31:38 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	no_option(t_info *info, int j)
 			ft_putstr_fd(info->argv[i], STDOUT);
 		else
 			write_until_doll(info->argv[i]);
-		if (info->cmd[i + 1] != NULL)
+		if (info->argv[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;
 	}
@@ -65,7 +65,7 @@ void	option(t_info *info, int j)
 			ft_putstr_fd(info->argv[i], STDOUT);
 		else
 			write_until_doll(info->argv[i]);
-		if (info->cmd[i + 1] != NULL)
+		if (info->argv[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;
 	}

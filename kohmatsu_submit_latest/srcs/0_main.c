@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/31 12:36:59 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 18:33:57 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_environ	*list;
 
-	rl_outstream = stderr;
 	list = make_environ(envp);
 	g_signal.other_code = FALSE;
 	while (1)
