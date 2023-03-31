@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/31 00:17:02 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/03/31 09:41:00 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ void	process_line(char *line, t_environ **list)
 	else
 	{
 		array = expand(token, *list);
-		// int x = 0;
-		// while (array[x])
-		// 	printf("|%s|\n", array[x++]);
 		argc = count_argv(array);
 		pipex(argc, array, list);
 	}
@@ -70,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_environ	*list;
 
+	rl_outstream = stderr;
 	list = make_environ(envp);
 	g_signal.other_code = FALSE;
 	while (1)
@@ -88,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		process_line(line, &list);
 		free(line);
 	}
-	write(1, "exit\n", 5);
+	write(2, "exit\n", 5);
 	free_list(list);
 	return (g_signal.status);
 }

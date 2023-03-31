@@ -4,7 +4,7 @@ SRCDIR = ./
 SRCS = get_next_line.c get_next_line_utils.c
 
 CFLAGS = -Wall -Wextra -Werror
-CC = gcc
+CC = cc
 
 OBJDIR = ./obj/
 OBJS = $(SRCS:%.c=$(OBJDIR)%.o)
