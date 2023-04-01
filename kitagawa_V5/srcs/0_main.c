@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/30 18:03:52 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/04/01 10:04:37 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	init_g_signal(int argc, char **argv)
 	(void)argv;
 	g_signal.input_fd = dup(0);
 	g_signal.output_fd = dup(1);
-	g_signal.do_split = 0;
+	g_signal.do_split = 2;
 	g_signal.pipe_count = 0;
 	g_signal.not_expand_flag = 0;
 	g_signal.expand_in_heredoc = FALSE;
@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_environ	*list;
 
+	rl_outstream = stderr;
 	list = make_environ(envp);
 	g_signal.other_code = FALSE;
 	while (1)
@@ -85,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		process_line(line, &list);
 		free(line);
 	}
-	write(1, "exit\n", 5);
+	write(2, "exit\n", 5);
 	free_list(list);
 	return (g_signal.status);
 }

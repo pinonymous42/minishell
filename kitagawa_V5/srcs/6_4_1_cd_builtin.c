@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6_4_1_cd_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:23:51 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/30 01:59:04 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/03/31 18:44:01 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,10 @@
 void	get_old_and_new_pwd(t_info *info)
 {
 	char	new_pwd[PATH_MAX];
-	char	*dup;
 	char	*error_pwd;
 
 	if (getcwd(new_pwd, sizeof(new_pwd)) != NULL)
-	{
-		dup = ft_strdup(new_pwd);
-		set_old_and_new_pwd(info->list, dup);
-	}
+		check_private(new_pwd, info);
 	else
 	{
 		while (info->list != NULL)
@@ -74,6 +70,7 @@ void	cd_minus(t_info *info)
 	}
 	else
 	{
+		my_dprintf(STDOUT_FILENO, "%s\n", search_env("OLDPWD", info->list));
 		if (chdir(search_env("OLDPWD", info->list)) == -1)
 		{
 			my_dprintf(STDERR_FILENO, "minishell: cd: %s:\
