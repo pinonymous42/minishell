@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:28:47 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/04/01 12:20:18 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/04/01 15:48:32 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	put_env(t_environ *list)
 	tmp = list;
 	while (tmp != NULL)
 	{
-		if ((tmp->key == NULL && tmp->value == NULL) || ft_strcmp(tmp->key, "COPYPWD") == 0)
+		if ((tmp->key == NULL && tmp->value == NULL) || \
+			ft_strcmp(tmp->key, "COPYPWD") == 0)
 		{
 			tmp = tmp->next;
 			continue ;

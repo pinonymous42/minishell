@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/04/01 10:04:37 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:37:21 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_environ	*list;
 
-	rl_outstream = stderr;
 	list = make_environ(envp);
 	g_signal.other_code = FALSE;
+	g_signal.unset_pwd_flag = FALSE;
 	while (1)
 	{
 		if (g_signal.other_code == FALSE)
