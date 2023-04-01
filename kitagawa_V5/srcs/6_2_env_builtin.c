@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 14:26:14 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/20 16:15:30 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/04/01 15:35:00 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,19 @@ void	env_builtin(t_info *info)
 	tmp = info->list;
 	while (tmp)
 	{
+		if (ft_strcmp(tmp->key, "COPYPWD") == 0)
+		{
+			tmp = tmp->next;
+			continue ;
+		}
+		else if (ft_strcmp(tmp->key, "OLDPWD") == 0)
+		{
+			if (ft_strcmp(tmp->value, "") == 0)
+			{
+				tmp = tmp->next;
+				continue ;
+			}
+		}
 		if (ft_strcmp(tmp->value, "\\") != 0)
 		{
 			ft_putstr_fd(tmp->key, STDOUT);
