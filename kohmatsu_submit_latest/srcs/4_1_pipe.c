@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 23:07:46 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/31 18:30:54 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/02 17:07:59 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	finish(t_info *info)
 	}
 	if (info->argv)
 		safty_free(info->argv);
-	close(info->input_fd);
-	close(0);
 	dup2(g_signal.input_fd, 0);
 	dup2(g_signal.output_fd, 1);
 }
