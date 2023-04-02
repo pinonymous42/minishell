@@ -356,5 +356,16 @@ assert 'unset PWD\ncd\necho $OLDPWD\ncd /tmp\necho $OLDPWD'
 assert 'unset PWD\ncd\nexport|grep PWD\ncd /tmp\nexport|grep PWD'
 assert 'unset PWD\ncd\nenv|grep PWD\ncd /tmp\nenv|grep PWD'
 
+assert '""'
+assert "''"
+assert '"'
+assert "'"
+assert 'A'
+assert 'A='
+assert 'A=a'
+
+assert 'A=a echo a'
+assert 'echo a b "" c d'
+assert 'A=a echo a'
 
 cleanup
