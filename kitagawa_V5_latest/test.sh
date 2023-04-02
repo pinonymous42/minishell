@@ -366,6 +366,7 @@ assert 'A=a'
 
 assert 'A=a echo a'
 assert 'echo a b "" c d'
-assert 'A=a echo a'
+assert 'echo $"aaaa"'
+assert "echo $'aaaa'"
 
 cleanup
