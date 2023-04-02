@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   3_1_2_expand.c                                     :+:      :+:    :+:   */
+/*   3_3_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:12:35 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/15 20:59:12 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/02 17:07:45 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	writing_for_one(int num, char **array, t_environ *list, char *line)
 		write(g_signal.heredoc_fd, "\n", 1);
 		free(line);
 	}
-	dup2(g_signal.input_fd, 0);
-	close(g_signal.input_fd);
-	close(g_signal.heredoc_fd);
+	// dup2(g_signal.input_fd, 0);
+	// close(g_signal.input_fd);
+	// close(g_signal.heredoc_fd);
 }
 
 void	writing_for_not_one_v1(char *line, char **array, int num)
@@ -92,6 +92,8 @@ void	write_to_heredoc_one(char **array, int i, t_environ *list)
 		function_error("open");
 	heredoc_signal();
 	writing_for_one(i + 1, array, list, line);
+	dup2(g_signal.input_fd, 0);
+	close(g_signal.heredoc_fd);
 }
 
 void	write_to_heredoc_not_one(char **array, int i,
@@ -112,6 +114,5 @@ void	write_to_heredoc_not_one(char **array, int i,
 	if (g_signal.other_code == FALSE)
 		writing_for_not_one_v2(i + 3, array, list, line);
 	dup2(g_signal.input_fd, 0);
-	close(g_signal.input_fd);
 	close(g_signal.heredoc_fd);
 }
