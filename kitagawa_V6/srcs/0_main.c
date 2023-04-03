@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/04/02 18:33:35 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/04/03 22:57:08 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_environ	*list;
 
+	rl_outstream = stderr;
 	list = make_environ(envp);
 	g_signal.other_code = FALSE;
 	g_signal.unset_pwd_flag = FALSE;
