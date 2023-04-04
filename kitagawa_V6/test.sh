@@ -212,8 +212,11 @@ assert 'env'
 assert 'env | grep hoge | sort'
 
 echo "################# export #################"
-print_desc "Output of 'export' differs, but it's ok."
 assert 'export'
+print_desc "Output of 'export' differs, but it's ok."
+assert 'export  tests\n export | grep tests\nenv | grep tests'
+assert 'export  tests=\n export | grep tests\nenv | grep tests'
+assert 'export  tests=a\n export | grep tests\nenv | grep tests'
 assert 'export | grep nosuch | sort'
 assert 'export nosuch\n export | grep nosuch | sort'
 assert 'export nosuch=fuga\n export | grep nosuch | sort'
@@ -225,6 +228,12 @@ assert 'export [invalid] nosuch hoge=nosuch\n export | grep nosuch | sort'
 assert 'export nosuch [invalid] hoge=nosuch\n export | grep nosuch | sort'
 assert 'export nosuch hoge=nosuch [invalid]\n export | grep nosuch | sort'
 assert 'export nosuch="nosuch2=hoge"\nexport $nosuch\n export | grep nosuch | sort'
+echo ↓hoge not exist↓
+assert 'export hoge+=hoge\n export | grep hoge'
+export hoge=hoge
+echo ↓hoge exist↓
+assert 'export hoge+=hoge\n export | grep hoge'
+unset hoge
 
 echo "################# unset #################"
 export hoge fuga=fuga
@@ -295,6 +304,7 @@ assert 'echo c > test2 "d   ef"' 'test2'
 assert 'cat test1 > test3 test2' 'test3'
 assert 'cat test1'
 assert 'cat test2'
+assert 'cat < test3 test2'
 assert 'cat test1 > test3 > test2' 'test3'
 assert 'cat test1'
 assert 'cat test2'
@@ -360,6 +370,21 @@ assert 'echo $1USER'
 assert 'echo $12USER'
 assert 'echo $USER$PATH$TERM'
 assert 'echo "$USER  $PATH   $TERM"'
-assert 'echo aaa >  $NO_EXIST'
+assert 'echo aaa > $NO_EXIST'
+assert 'export TEST="-n hello"\necho $TEST'
+assert 'export TEST="a=b=c=d"\necho $TEST'
+assert 'export $NO_EXIST'
+print_desc "Output of 'export \$NO_EIXT' differs, but it's ok."
+assert 'export $NO_EXIST $NO_EXIST2'
+print_desc "Output of 'export \$NO_EXIST \$NO_EXIST2' differs, but it's ok."
+assert 'export $NO_EXIST $NO_EXIST2 $NO_EXIST3'
+print_desc "Output of 'export \$NO_EXIST \$NO_EXIST2 \$NO_EXIST3' differs, but it's ok."
+export TEST="test"
+assert 'export $TEST $NO_EXIST $NO_EXIST2'
+assert 'export $NO_EXIST $TEST $NO_EXIST2'
+assert 'export $NO_EXIST $NO_EXIST2 $TEST'
+unset TEST
+assert 'export a=" "\necho$a-a'
+
 
 cleanup

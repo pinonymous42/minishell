@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_6_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:30:42 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/31 12:37:32 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/04 02:07:02 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ void	do_mix_builtin(t_info *info, t_environ **list, int i)
 	else if (ft_strcmp(info->cmd[info->pipe_place[i] + 1],
 			"pwd") == 0)
 		pwd_builtin(info);
+	else if (ft_strcmp(info->cmd[info->pipe_place[i] + 1],
+			"echo") == 0)
+		echo_builtin(info, 0);
 }
 
 char	*create_path(t_info *info, int j)
