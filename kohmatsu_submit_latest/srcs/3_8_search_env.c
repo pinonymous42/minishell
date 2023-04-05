@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   3_3_search_env.c                                   :+:      :+:    :+:   */
+/*   3_8_search_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:27:36 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/15 20:58:21 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:39:01 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	ft_strcmp(char *str1, char *str2)
 
 char	*search_env(char *key, t_environ *list)
 {
+	if (key == NULL)
+		return ("");
 	while (list != NULL)
 	{
 		if (ft_strcmp(list->key, key) == 0)

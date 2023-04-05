@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:29:48 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/29 13:27:59 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:33:09 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	check_redirect(t_info *info)
 
 	i = 0;
 	heredoc_count = count_heredoc(info->argv);
-	while ((info->argv)[i] != NULL)
+	while ((info->argv)[i] != NULL && g_signal.not_parse_flag == 0)
 	{
 		tmp = branch_do_v1(info, i, heredoc_count);
 		if (tmp == 1)

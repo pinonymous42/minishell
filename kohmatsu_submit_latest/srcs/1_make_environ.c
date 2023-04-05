@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1_make_environ.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 11:08:05 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/30 12:50:35 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/01 12:22:21 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ t_environ	*create_list(void)
 t_environ	*make_environ(char **envp)
 {
 	t_environ	*list;
+	t_environ	*copy_pwd;
+	t_environ	*current;
 
 	list = NULL;
 	if (ft_search_pwd(envp) == false)
@@ -96,5 +98,14 @@ t_environ	*make_environ(char **envp)
 		list_add_back(&list, new_list(*envp));
 		envp++;
 	}
+	copy_pwd = malloc(sizeof(t_environ));
+	if (!copy_pwd)
+		function_error("malloc");
+	copy_pwd->key = x_strdup("COPYPWD");
+	current = list;
+	while (ft_strcmp(current->key, "PWD") != 0)
+		current = current->next;
+	copy_pwd->value = x_strdup(current->value);
+	list_add_back(&list, copy_pwd);
 	return (list);
 }

@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/31 18:44:08 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:28:22 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,10 @@ typedef struct s_signal {
 	int		other_code;
 	int		do_split;
 	int		pipe_count;
+	int		not_parse_flag;
 	int		not_expand_flag;
 	bool	expand_in_heredoc;
+	bool	unset_pwd_flag;
 }t_signal;
 
 t_signal				g_signal;

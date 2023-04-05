@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:19:10 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/04/02 17:03:20 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:36:10 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	init_g_signal(int argc, char **argv)
 	g_signal.output_fd = dup(1);
 	g_signal.do_split = 2;
 	g_signal.pipe_count = 0;
+	g_signal.not_parse_flag = 0;
 	g_signal.not_expand_flag = 0;
 	g_signal.expand_in_heredoc = FALSE;
 }
@@ -67,9 +68,9 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_environ	*list;
 
-	rl_outstream = stderr;
 	list = make_environ(envp);
 	g_signal.other_code = FALSE;
+	g_signal.unset_pwd_flag = FALSE;
 	while (1)
 	{
 		if (g_signal.other_code == FALSE)

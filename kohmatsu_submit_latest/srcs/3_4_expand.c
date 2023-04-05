@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:16:13 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/31 12:36:38 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:33:58 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	remove_double_quote(char **p, char **new_word, t_environ *list)
 	*p += 1;
 	while (**p != DOUBLE_QUOTE)
 	{
+		if (**p == '<' || **p == '>')
+			g_signal.not_parse_flag = 1;
 		if (**p == '\0')
 			assert_error("Unclosed single quote");
 		append_char(new_word, **p);

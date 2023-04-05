@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:54:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/03/20 15:29:20 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:36:21 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ int	check_sort_or_not(t_token **head, t_token *tmp,
 		{
 			while (tmp->kind == TOKEN_WORD)
 			{
-				if (tmp->next == NULL)
-					break ;
-				else if (tmp->next->kind != TOKEN_WORD)
+				if (tmp->next == NULL || tmp->next->kind != TOKEN_WORD)
 					break ;
 				tmp = tmp->next;
 			}

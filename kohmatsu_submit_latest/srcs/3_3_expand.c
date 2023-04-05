@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:12:35 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/04/02 17:07:45 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:23:55 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ void	writing_for_one(int num, char **array, t_environ *list, char *line)
 		write(g_signal.heredoc_fd, "\n", 1);
 		free(line);
 	}
-	// dup2(g_signal.input_fd, 0);
-	// close(g_signal.input_fd);
-	// close(g_signal.heredoc_fd);
 }
 
 void	writing_for_not_one_v1(char *line, char **array, int num)
