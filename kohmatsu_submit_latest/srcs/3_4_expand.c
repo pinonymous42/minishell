@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:16:13 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/04/05 11:33:58 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/05 12:03:50 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	remove_double_quote(char **p, char **new_word, t_environ *list)
 void	expand_status(char **p, char **new_word)
 {
 	*p += 1;
-	*new_word = ft_itoa(g_signal.status);
+	*new_word = ft_strjoin_with_free(*new_word, ft_itoa(g_signal.status), 2);
 }
 
 void	norm_expansion(char **p, char **var)

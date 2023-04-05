@@ -6,7 +6,7 @@
 /*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:31:21 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/03/31 10:11:33 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/05 12:17:11 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ void	execute_check_equal(t_info *info, int j)
 
 	if (ft_strchr_index(info->argv[0], '=') == -1)
 	{
-		if (ft_strchr(info->argv[0], '/'))
+		if (info->argv[0][0] == '/')
 			err_exit(info->argv[0], "is a directory");
+		else if (ft_strchr(info->argv[0], '/'))
+		{
+			file_not_found(info->argv[0]);
+			exit(127);
+		}
 		command_not_found(info->argv[0]);
 	}
 	else
