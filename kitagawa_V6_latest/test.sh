@@ -310,6 +310,8 @@ assert 'cat test1'
 assert 'cat test2'
 assert 'echo > >'
 assert 'echo aa > > test1'
+assert 'echo aa > 1 > 2 > 3 b c d e f' '1' '2' '3'
+assert 'echo aa > 1 > 2 > 3 b c d e f > 4' '1' '2' '3' '4'
 rm -f hello.txt f1 f2 f3 test1 test2 test3 outfile
 
 echo "################# Redirecting input#################"
@@ -326,6 +328,8 @@ echo "############### Appending Redirected output #################"
 assert 'pwd >>pwd.txt' 'pwd.txt'
 assert 'pwd >>pwd.txt \n pwd >>pwd.txt' 'pwd.txt'
 assert 'echo hello >>hello1.txt>>hello2.txt>>hello3.txt' 'hello1.txt' 'hello2.txt' 'hello3.txt'
+assert 'echo hello >>hello1.txt>>hello2.txt>>hello3.txt aa bb cc' 'hello1.txt' 'hello2.txt' 'hello3.txt'
+assert 'echo hello >>hello1.txt>>hello2.txt>>hello3.txt aa bb cc >> hello4.txt' 'hello1.txt' 'hello2.txt' 'hello3.txt' 'hello4.txt'
 
 assert 'echo aa >> >> test1'
 rm -f hello1.txt hello2.txt hello3.txt pwd.txt test1
@@ -343,6 +347,7 @@ assert 'cat <<EO"F" \n$USER\n$NO_SUCH_VAR\n$FOO$BAR\nEOF'
 export EOF="eof"
 assert 'cat <<$EOF         \neof\n$EOF\nEOF'
 assert 'cat <<"$EOF"       \neof\n$EOF\nEOF'
+assert '<< 1 << 2 << 3 cat  \n1\n2\n3\n'
 
 echo "################# Redirect combination #################"
 assert 'cat < Makefile > out.txt'

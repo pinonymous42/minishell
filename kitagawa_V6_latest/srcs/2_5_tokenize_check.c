@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2_5_tokenize_check.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:54:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/04/05 11:36:21 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:08:30 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,31 +25,58 @@ bool	check_redirect_token(t_token *token)
 	return (false);
 }
 
-void	sort(t_token **head, t_token *tmp, t_token *current, t_token *prev)
+void	sort(t_token **head, t_token *tmp, t_token *current, t_token *prev, t_token *tail_redirect)
 {
-	if (prev == NULL)
+	if (tail_redirect == NULL)
 	{
-		*head = current->next->next;
-		if (tmp->next == NULL)
-			current->next->next = NULL;
+		if (prev == NULL)
+		{
+			*head = current->next->next;
+			if (tmp->next == NULL)
+				current->next->next = NULL;
+			else
+				current->next->next = tmp->next;
+			tmp->next = current;
+		}
 		else
-			current->next->next = tmp->next;
-		tmp->next = current;
+		{
+			prev->next = current->next->next;
+			if (tmp->next == NULL)
+				current->next->next = NULL;
+			else
+				current->next->next = tmp->next;
+			tmp->next = current;
+		}
 	}
 	else
 	{
-		prev->next = current->next->next;
-		if (tmp->next == NULL)
-			current->next->next = NULL;
+		if (prev == NULL)
+		{
+			*head = tail_redirect->next->next;
+			if (tmp->next == NULL)
+				tail_redirect->next->next = NULL;
+			else
+				tail_redirect->next->next = tmp->next;
+			tmp->next = current;
+		}
 		else
-			current->next->next = tmp->next;
-		tmp->next = current;
+		{
+			prev->next = tail_redirect->next->next;
+			if (tmp->next == NULL)
+				tail_redirect->next->next = NULL;
+			else
+				tail_redirect->next->next = tmp->next;
+			tmp->next = current;
+		}
 	}
 }
 
 int	check_sort_or_not(t_token **head, t_token *tmp,
 	t_token *current, t_token *prev)
 {
+	t_token	*tail_redirect;
+
+	tail_redirect = NULL;
 	if (current->next == NULL || current->next->kind != TOKEN_WORD)
 	{
 		tokenize_error_2("unexpected token", current->word);
@@ -58,17 +85,43 @@ int	check_sort_or_not(t_token **head, t_token *tmp,
 	else
 	{
 		tmp = current->next->next;
-		if (tmp == NULL || tmp->kind != TOKEN_WORD)
+		if (tmp == NULL || (tmp->kind != TOKEN_WORD && tmp->kind != TOKEN_METACHAR))
 			;
 		else
 		{
-			while (tmp->kind == TOKEN_WORD)
+			if (check_redirect_token(tmp) == true)
 			{
-				if (tmp->next == NULL || tmp->next->kind != TOKEN_WORD)
-					break ;
-				tmp = tmp->next;
+				tail_redirect = current;
+				while (tmp != NULL && tmp->next != NULL)
+				{
+					if (tmp->next->next == NULL)
+						return (0);
+					if (check_redirect_token(tmp->next->next) == true)
+					{
+						tmp = tmp->next->next;
+						tail_redirect = tmp;
+					}
+					else
+					{
+						tmp = tmp->next->next;
+						break;
+					}
+				}
+				if (tmp == NULL)
+					return (0);
 			}
-			sort(head, tmp, current, prev);
+			if (tmp->kind == TOKEN_WORD)
+			{
+				while (tmp->kind == TOKEN_WORD)
+				{
+					if (tmp->next == NULL)
+						break ;
+					else if (tmp->next->kind != TOKEN_WORD)
+						break ;
+					tmp = tmp->next;
+				}
+			}
+			sort(head, tmp, current, prev, tail_redirect);
 		}
 	}
 	return (0);
@@ -80,6 +133,13 @@ void	check_and_sort_tokens(t_token **head)
 	t_token	*prev;
 	t_token	*tmp;
 
+	// current = *head;
+	// while (current != NULL)
+	// {
+	// 	printf("word: %s\n", current->word);
+	// 	current = current->next;
+	// }
+	
 	current = *head;
 	prev = NULL;
 	tmp = NULL;
@@ -93,6 +153,12 @@ void	check_and_sort_tokens(t_token **head)
 		prev = current;
 		current = current->next;
 	}
+	// current = *head;
+	// while (current != NULL)
+	// {
+	// 	printf("word: %s\n", current->word);
+	// 	current = current->next;
+	// }
 }
 
 void	check_pipe_place(t_token **head)
