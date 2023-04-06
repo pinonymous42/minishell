@@ -3,46 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   4_7_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 19:31:21 by kohmatsu          #+#    #+#             */
-/*   Updated: 2023/04/05 12:17:11 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:37:05 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	execute_check_equal(t_info *info, int j)
-{
-	char	*key;
-
-	if (ft_strchr_index(info->argv[0], '=') == -1)
-	{
-		if (info->argv[0][0] == '/')
-			err_exit(info->argv[0], "is a directory");
-		else if (ft_strchr(info->argv[0], '/'))
-		{
-			file_not_found(info->argv[0]);
-			exit(127);
-		}
-		command_not_found(info->argv[0]);
-	}
-	else
-	{
-		key = ft_strndup(info->argv[j],
-				ft_strchr_index(info->argv[0], '='));
-		if (search_env(key, info->list) != NULL)
-		{
-			free(key);
-			command_not_found(info->argv[0]);
-		}
-		else
-		{
-			free(key);
-			exit(0);
-		}
-	}
-}
 
 void	child_do(char *exe_path, t_info *info, int i, t_environ **list)
 {

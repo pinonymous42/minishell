@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 22:43:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/04/05 11:28:22 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:38:00 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,16 @@ void		get_end(char **line);
 t_token		*handle_word(char **rest, char *line);
 bool		check_redirect_token(t_token *token);
 void		check_and_sort_tokens(t_token **head);
+void		sort_no_tail_redirect(t_token **head, t_token *tmp, \
+	t_token *current, t_token *prev);
+void		norm_sort_with_tail_redirect(t_token **head, t_token *tmp, \
+	t_token *current, t_token *tail_redirect);
+void		sort_with_tail_redirect(t_token **head, t_token *tmp, \
+	t_token *current, t_token *prev);
+int			norm_tmp_susumeru_1(t_token **tmp);
+void		norm_tmp_susumeru_2(t_token **tmp);
+int			check_sort_or_not(t_token **head, t_token *tmp, \
+	t_token	*current, t_token	*prev);
 void		check_pipe_place(t_token **head);
 char		**expand(t_token *tok, t_environ *list);
 t_environ	*make_environ(char **envp);
@@ -213,5 +223,6 @@ void		move_space(t_info *info, int start, int *i, int *count);
 void		cut_wstatus(int wstatus);
 char		*x_strndup(char *str, int i);
 void		check_private(char *new_pwd, t_info *info);
+void		execute_check_equal(t_info *info, int j);
 
 #endif	
