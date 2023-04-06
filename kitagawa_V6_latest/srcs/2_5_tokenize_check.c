@@ -6,7 +6,7 @@
 /*   By: yokitaga <yokitaga@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:54:55 by yokitaga          #+#    #+#             */
-/*   Updated: 2023/04/06 18:08:30 by yokitaga         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:39:40 by yokitaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ bool	check_redirect_token(t_token *token)
 	return (false);
 }
 
-void	sort(t_token **head, t_token *tmp, t_token *current, t_token *prev, t_token *tail_redirect)
+void	sort(t_token **head, t_token *tmp, t_token *current, \
+	t_token *prev, t_token *tail_redirect)
 {
 	if (tail_redirect == NULL)
 	{
@@ -85,7 +86,8 @@ int	check_sort_or_not(t_token **head, t_token *tmp,
 	else
 	{
 		tmp = current->next->next;
-		if (tmp == NULL || (tmp->kind != TOKEN_WORD && tmp->kind != TOKEN_METACHAR))
+		if (tmp == NULL || (tmp->kind != TOKEN_WORD \
+			&& tmp->kind != TOKEN_METACHAR))
 			;
 		else
 		{
@@ -104,7 +106,7 @@ int	check_sort_or_not(t_token **head, t_token *tmp,
 					else
 					{
 						tmp = tmp->next->next;
-						break;
+						break ;
 					}
 				}
 				if (tmp == NULL)
@@ -133,13 +135,6 @@ void	check_and_sort_tokens(t_token **head)
 	t_token	*prev;
 	t_token	*tmp;
 
-	// current = *head;
-	// while (current != NULL)
-	// {
-	// 	printf("word: %s\n", current->word);
-	// 	current = current->next;
-	// }
-	
 	current = *head;
 	prev = NULL;
 	tmp = NULL;
@@ -153,12 +148,6 @@ void	check_and_sort_tokens(t_token **head)
 		prev = current;
 		current = current->next;
 	}
-	// current = *head;
-	// while (current != NULL)
-	// {
-	// 	printf("word: %s\n", current->word);
-	// 	current = current->next;
-	// }
 }
 
 void	check_pipe_place(t_token **head)
