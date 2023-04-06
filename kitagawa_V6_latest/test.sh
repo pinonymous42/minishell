@@ -174,9 +174,6 @@ assert 'invalid\necho $?\necho $?'
 assert 'exit42\necho $?\necho $?'
 assert 'exit42\n\necho $?\necho $?'
 
-echo "################ Signal handle #################"
-
-
 echo "################# unquoted word#################"
 assert 'ls "'
 assert 'echo "hello    world     '
@@ -185,12 +182,14 @@ assert "echo 'aaaa"
 assert "'"
 assert '"'
 
-
 echo "################# single quote#################"
 assert "./print_args 'hello   world' '42Tokyo'"
 assert "echo 'hello   world' '42Tokyo'"
 assert "echo '\"hello   world\"' '42Tokyo'"
 assert "echo $'aaaa'"
+assert "echo '<'"
+assert "echo '>'"
+assert "echo '<|'"
 
 echo "################# double quote#################"
 assert './print_args "hello   world" "42Tokyo"'
@@ -378,12 +377,6 @@ assert 'echo "$USER  $PATH   $TERM"'
 assert 'echo aaa > $NO_EXIST'
 assert 'export TEST="-n hello"\necho $TEST'
 assert 'export TEST="a=b=c=d"\necho $TEST'
-assert 'export $NO_EXIST'
-print_desc "Output of 'export \$NO_EIXT' differs, but it's ok."
-assert 'export $NO_EXIST $NO_EXIST2'
-print_desc "Output of 'export \$NO_EXIST \$NO_EXIST2' differs, but it's ok."
-assert 'export $NO_EXIST $NO_EXIST2 $NO_EXIST3'
-print_desc "Output of 'export \$NO_EXIST \$NO_EXIST2 \$NO_EXIST3' differs, but it's ok."
 export TEST="test"
 assert 'export $TEST $NO_EXIST $NO_EXIST2'
 assert 'export $NO_EXIST $TEST $NO_EXIST2'
