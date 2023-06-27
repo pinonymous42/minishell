@@ -5,6 +5,6 @@ please install readline <br> <br>
 curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh <br>
 brew update && brew upgrade && brew install readline <br>
 
-[usage]
+[usage]<br>
 1, execute make command<br>
 2, execute ./minishell
